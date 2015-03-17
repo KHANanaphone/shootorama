@@ -7,27 +7,34 @@ function Player(){
     
     this.Container_constructor();
         
+    setupVars.bind(this)();
     setupComponents.bind(this)();
-    makeHitbox.bind(this)();
+    setupEvents.bind(this)();
     
-    this.on('tick', this.tick);
-    
-    function setupComponents(){
-        
+    function setupVars(){
+
+        this.x = 100;
+        this.y = 100;
         this.controls = new Controls(this);
         this.movement = new Movement(this);
     };
     
-    function makeHitbox(){
+    function setupComponents(){
         
-        var circle = new createjs.Shape();
-        circle.graphics.beginStroke("DeepSkyBlue").drawCircle(0, 0, 10);
-        circle.x = 100;
-        circle.y = 100;
+        var hitbox = new createjs.Shape();
+        hitbox.graphics.beginStroke("DeepSkyBlue").drawCircle(0, 0, 10);
+        this.hitbox = hitbox;
+        this.addChild(hitbox);
         
-        this.hitbox = circle;
-        this.addChild(circle);
+        var front = new createjs.Shape();
+        front.graphics.beginStroke("DeepSkyBlue").moveTo(5,0).lineTo(15, 0);
+        this.addChild(front);        
     };
+    
+    function setupEvents(){
+        
+        this.on('tick', this.tick);
+    }
 };
 
 Player.init = function(){
@@ -36,16 +43,17 @@ Player.init = function(){
     
     prototype.setControl = Player.setControl;    
     prototype.tick = Player.tick; 
+    prototype.dash = Player.dash;
     
     Player = createjs.promote(Player, 'Container');
     Player.initialized = true;
 };
 
-Player.SPEED = 4;
+Player.SPEED = 3.6;
 Player.DASH_COOLDOWN_TICKS = 90;
 Player.DASH_THRESHOLD = 170;
-Player.DASH_SPEED_MUL = 3;
-Player.DASH_DURATION_TICKS = 10;
+Player.DASH_SPEED_MUL = 2.8;
+Player.DASH_DURATION_TICKS = 11;
 
 Player.setControl = function(type, isDown){
     
@@ -55,4 +63,10 @@ Player.setControl = function(type, isDown){
 Player.tick = function(){
         
     this.movement.tick(this.controls.controlState);
-}
+};
+
+Player.dash = function(){
+  
+    var ghost = new Ghost(this);
+    this.stage.addChild(ghost);
+};

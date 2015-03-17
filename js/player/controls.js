@@ -83,52 +83,9 @@ Controls.prototype.setControl = function(type, isDown){
         if(this.lastInputs.length > 20)
             this.lastInputs.shift();
 
-        //this.checkForDashes();
+        if(type == 'dash')
+            this.dispatchEvent('dash', {controlState: this.controlState});
     };
-}
-
-Controls.prototype.checkForDashes = function(){
-    
-    var inputs = this.lastInputs;
-    
-    if(inputs.length < 2)
-        return;
-    
-    var last = inputs[inputs.length - 1];
-    
-    if(last.type == 'shoot' || last.type == 'strafe')
-        return;
-        
-    if(hasInputWithinRange(
-        inputs.slice(0, inputs.length - 1), last, Player.DASH_THRESHOLD)){
-        
-        console.log('dash ' + last.type);        
-        this.dispatchEvent('dash', {direction: last.type});
-    };
-    
-    function hasInputWithinRange(inputs, last, range){
-        
-        for(var i = inputs.length - 1; i >= 0; i--){
-            
-            var input = inputs[i];
-            
-            if((last.time - input.time) > range)
-                return false
-            
-            if(last.type == input.type)
-                return true;
-                            
-            if(
-                (last.type == 'up' && input.type == 'down') ||
-                (last.type == 'down' && input.type == 'up') ||
-                (last.type == 'left' && input.type == 'right') ||
-                (last.type == 'right' && input.type == 'left') 
-            )
-                return false;
-        }
-        
-        return false;
-    }
 }
 
 Controls.prototype.addEventListener = function(name, callback){

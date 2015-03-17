@@ -2,20 +2,36 @@ function Movement(player){
     
     var self = this;
     this.player = player;
+    this.dashCooldown = 0;
     
     player.controls.addEventListener('dash', function(e){
         
-        var direction = e.direction;
+        var controlState = e.controlState;
         
-        if(self.dashCooldown > 0 && (Player.DASH_COOLDOWN_TICKS - self.dashCooldown) > 3)
+        if(self.dashCooldown > 0)
             return;
         
-        if(direction == 'left' || direction == 'right')
-            self.xDash = {duration: Player.DASH_DURATION_TICKS, direction: direction};
-        else 
-            self.yDash = {duration: Player.DASH_DURATION_TICKS, direction: direction};
+        if(controlState.left.isDown && controlState.right.isDown)
+            return;
+        if(controlState.up.isDown && controlState.down.isDown)
+            return;
+        if(!controlState.left.isDown &&
+           !controlState.right.isDown &&
+           !controlState.up.isDown &&
+           !controlState.down.isDown)
+            return;
+        
+        if(controlState.left.isDown)
+            self.xDash = {duration: Player.DASH_DURATION_TICKS, direction: 'left'};
+        if(controlState.right.isDown)
+            self.xDash = {duration: Player.DASH_DURATION_TICKS, direction: 'right'};
+        if(controlState.up.isDown)
+            self.yDash = {duration: Player.DASH_DURATION_TICKS, direction: 'up'};
+        if(controlState.down.isDown)
+            self.yDash = {duration: Player.DASH_DURATION_TICKS, direction: 'down'};
         
         self.dashCooldown = Player.DASH_COOLDOWN_TICKS;
+        self.player.dash();
     });
 }
 
@@ -40,10 +56,29 @@ Movement.prototype.tick = function(controlState){
         if(controlState['right'].isDown == 1)
             x++;
     }
+    
+    if(x != 0 || y != 0)
+        setSpeed(x, y);
+    
+    function setSpeed(x, y){
+        
+        var nX = 0;
+        var nY = 0;
 
-    self.player.x += x * Player.SPEED;
-    self.player.y += y * Player.SPEED;
-
+        var length = Math.sqrt(x*x + y*y);
+        nX = Math.abs(x) * x / length;
+        nY = Math.abs(y) * y / length;
+        
+        self.player.x += nX * Player.SPEED;
+        self.player.y += nY * Player.SPEED;
+        
+        
+        if(controlState.strafe.isDown == 1)
+            return;
+        
+        self.player.rotation = Math.atan2(nY, nX) * 180 / Math.PI;
+    };
+    
     if(self.dashCooldown > 0) self.dashCooldown--;
     else self.dashCooldown = 0;
 
