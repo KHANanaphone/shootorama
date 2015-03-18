@@ -1,10 +1,10 @@
-function Movement(player){
+function MovementManager(player){
     
     var self = this;
     this.player = player;
     this.dashCooldown = 0;
     
-    player.controls.addEventListener('dash', function(e){
+    player.controlsManager.addEventListener('dash', function(e){
         
         var controlState = e.controlState;
         
@@ -35,7 +35,7 @@ function Movement(player){
     });
 }
 
-Movement.prototype.tick = function(controlState){
+MovementManager.prototype.tick = function(controlState){
     
     var self = this;
     var y = 0;

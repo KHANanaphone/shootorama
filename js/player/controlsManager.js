@@ -1,7 +1,6 @@
-function Controls(player){
+function ControlsManager(player){
     
     this.player = player;
-    player.controls = this;
     
     var self = this;
     
@@ -68,7 +67,7 @@ function Controls(player){
     }  
 };
 
-Controls.prototype.setControl = function(type, isDown){
+ControlsManager.prototype.setControl = function(type, isDown){
     
     //filter out auto-repeats
     if(this.controlState[type].isDown == isDown)
@@ -88,7 +87,7 @@ Controls.prototype.setControl = function(type, isDown){
     };
 }
 
-Controls.prototype.addEventListener = function(name, callback){
+ControlsManager.prototype.addEventListener = function(name, callback){
     
     if(!this.events[name])
         this.events[name] = [];
@@ -96,7 +95,7 @@ Controls.prototype.addEventListener = function(name, callback){
     this.events[name].push(callback);
 }
 
-Controls.prototype.dispatchEvent = function(name, data){
+ControlsManager.prototype.dispatchEvent = function(name, data){
     
     if(!this.events[name])
         return;

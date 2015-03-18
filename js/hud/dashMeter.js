@@ -55,7 +55,7 @@ DashMeter.init = function(){
 DashMeter.tick = function(){
         
     var scale = 
-        (Player.DASH_COOLDOWN_TICKS - this.player.movement.dashCooldown) / Player.DASH_COOLDOWN_TICKS;
+        (Player.DASH_COOLDOWN_TICKS - this.player.movementManager.dashCooldown) / Player.DASH_COOLDOWN_TICKS;
     
     if(scale < 1){  
         this.ready = false;

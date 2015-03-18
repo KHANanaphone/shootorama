@@ -8,7 +8,10 @@ Main.init = function(){
     createjs.Ticker.timingMode = createjs.Ticker.RAF;
     createjs.Ticker.addEventListener('tick', tick);
     
-    var area = new PlayingArea(stage);
+    var playingArea = PlayingArea.init(stage);
+    
+    this.dashMeter = new DashMeter(playingArea.player);
+    stage.addChild(this.dashMeter);
     
     function tick(){
         

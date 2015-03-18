@@ -15,15 +15,17 @@ function Player(){
 
         this.x = 100;
         this.y = 100;
-        this.controls = new Controls(this);
-        this.movement = new Movement(this);
+        this.size = Player.HITBOX_RADIUS;
+        
+        this.controlsManager = new ControlsManager(this);
+        this.movementManager = new MovementManager(this);
+        this.weaponManager = new WeaponManager(this);
     };
     
     function setupComponents(){
         
         var hitbox = new createjs.Shape();
-        hitbox.graphics.beginStroke("DeepSkyBlue").drawCircle(0, 0, 10);
-        this.hitbox = hitbox;
+        hitbox.graphics.beginStroke("DeepSkyBlue").drawCircle(0, 0, Player.HITBOX_RADIUS);
         this.addChild(hitbox);
         
         var front = new createjs.Shape();
@@ -42,8 +44,10 @@ Player.init = function(){
     var prototype = createjs.extend(Player, createjs.Container);
     
     prototype.setControl = Player.setControl;    
+    
     prototype.tick = Player.tick; 
     prototype.dash = Player.dash;
+    prototype.hitTest = Player.hitTest;
     
     Player = createjs.promote(Player, 'Container');
     Player.initialized = true;
@@ -54,19 +58,32 @@ Player.DASH_COOLDOWN_TICKS = 90;
 Player.DASH_THRESHOLD = 170;
 Player.DASH_SPEED_MUL = 2.8;
 Player.DASH_DURATION_TICKS = 11;
+Player.HITBOX_RADIUS = 10;
 
 Player.setControl = function(type, isDown){
     
-    this.controls.setControl(type, isDown);
+    this.controlsManager.setControl(type, isDown);
 };
 
 Player.tick = function(){
         
-    this.movement.tick(this.controls.controlState);
+    this.movementManager.tick(this.controlsManager.controlState);
+    this.weaponManager.tick(this.controlsManager.controlState);
 };
 
 Player.dash = function(){
   
     var ghost = new Ghost(this);
     this.stage.addChild(ghost);
+};
+
+Player.hitTest = function(x, y){
+
+    var xDiff = this.x - x;
+    var yDiff = this.y - y;
+    
+    if(Math.sqrt(xDiff * xDiff + yDiff * yDiff) < this.hitboxRadius)
+        return true;
+    
+    return false;
 };
