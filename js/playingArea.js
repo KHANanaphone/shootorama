@@ -1,45 +1,84 @@
-var PlayingArea = {};
-
-PlayingArea.init = function(stage){
+function PlayingArea(){
     
-    this.stage = stage;
-    this.collisionObjects = [];
+    if(!PlayingArea.initialized){
+        PlayingArea.init();
+        return new PlayingArea();
+    }
     
-    this.player = new Player();    
-    this.addCollisionObject(this.player);
+    this.Container_constructor();
     
-    this.enemy = new Enemy({x: 300, y: 300});
-    this.addCollisionObject(this.enemy);
+    setupVars.bind(this)();
+    setupComponents.bind(this)();
+    setupEvents.bind(this)();    
     
-    return this;
-};
-
-PlayingArea.addCollisionObject = function(obj){
+    function setupVars(){
+    };
     
-    this.collisionObjects.push(obj);
-    this.stage.addChild(obj);
-}
-
-PlayingArea.removeCollisionObject = function(obj){
+    function setupComponents(){
         
-    this.collisionObjects.splice(this.collisionObjects.indexOf(obj), 1);
-    this.stage.removeChild(obj);
+        var boundary = new createjs.Shape();
+        boundary.graphics.beginStroke('Black').drawRect(0, 0, 1024, 480); 
+        this.addChild(boundary);
+        this.boundary = boundary;
+    };
+    
+    function setupEvents(){
+    };
 }
 
-PlayingArea.findTargets = function(point){
+PlayingArea.init = function(){
+    
+    var prototype = createjs.extend(PlayingArea, createjs.Container);
+    
+    prototype.getTargets = PlayingArea.getTargets;
+    
+    PlayingArea = createjs.promote(PlayingArea, 'Container');
+    PlayingArea.initialized = true;
+}
+
+PlayingArea.getTargets = function(point){
     
     var targets = [];
     
-    for(var i = 0; i < this.collisionObjects.length; i++){
+    for(var i = 0; i < this.children.length; i++){
         
-        var obj = this.collisionObjects[i];
-        if(obj.hitTest(point.x, point.y))
-            targets.push({
-                x: point.x,
-                y: point.y
-                //obj: obj
-            });
+        var obj = this.children[i];
+        var hitbox = obj.hitbox;
+        
+        if(!hitbox)
+            return;
+        
+        if(hitbox.shape == 'circle'){
+            
+            var circle = {
+                center: {x: obj.x, y: obj.y},
+                radius: hitbox.radius
+            };
+            
+            if(inCircle(circle, point))
+                targets.push({x: point.x, y: point.y, obj: obj});
+        }
+        else if(hitbox.shape == 'rect'){
+            
+            var rect = {
+                x: obj.x,
+                y: obj.y,
+                w: hitbox.width,
+                height: hitbox.height;
+            };
+            
+            if(inRect(rect, point))
+                targets.push({x: point.x, y: point.y, obj: obj});
+        }
     }    
     
     return targets;
+    
+    function inCircle(circle, point){
+        
+    }
+    
+    function inRect(rect, point){
+        
+    }
 }

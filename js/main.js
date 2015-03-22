@@ -8,13 +8,11 @@ Main.init = function(){
     createjs.Ticker.timingMode = createjs.Ticker.RAF;
     createjs.Ticker.addEventListener('tick', tick);
     
-    var playingArea = PlayingArea.init(stage);
-    
-    this.dashMeter = new DashMeter(playingArea.player);
-    stage.addChild(this.dashMeter);
+    Game.init(stage);
     
     function tick(){
         
+        Game.tick();
         stage.update();
     }
 }

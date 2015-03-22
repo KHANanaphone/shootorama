@@ -48,5 +48,5 @@ Ghost.tick = function(){
     this.alpha -= 0.04;
     
     if(this.alpha <= 0)
-        this.stage.removeChild(this);
+        Game.playingArea.removeChild(this);
 }

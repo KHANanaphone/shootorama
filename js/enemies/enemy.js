@@ -16,7 +16,12 @@ function Enemy(vars){
         this.x = vars.x;
         this.y = vars.y;
         
-        this.size = vars.size ? vars.size : 10;
+        this.size = vars.size ? vars.size : 10;        
+        
+        this.hitbox = {
+            shape: 'circle',
+            radius: this.size
+        };
     };
     
     function setupComponents(){
@@ -48,14 +53,3 @@ Enemy.init = function(){
 Enemy.tick = function(){
     
 }
-
-Enemy.hitTest = function(x, y){
-
-    var xDiff = this.x - x;
-    var yDiff = this.y - y;
-    
-    if(Math.sqrt(xDiff * xDiff + yDiff * yDiff) < this.size)
-        return true;
-    
-    return false;
-};

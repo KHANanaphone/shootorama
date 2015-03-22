@@ -58,7 +58,6 @@ Line.tick = function(){
         this.target = Line.getTarget(this);
         var localPt = this.globalToLocal(this.target.x, this.target.y);
         
-        
         this.beam = new createjs.Shape();
         this.beam.graphics.beginStroke('#AAA').moveTo(startPt.x, startPt.y).lineTo(
             localPt.x, localPt.y);
@@ -90,7 +89,8 @@ Line.getTarget = function(line){
         
         aboutToBreak++;
         
-        var targets = PlayingArea.findTargets(line.localToGlobal(point.x, point.y));
+        var l2g = line.localToGlobal(point.x, point.y);
+        var targets = Game.playingArea.getTargets(l2g);
         
         for(var i = 0; i < targets.length; i++){
             

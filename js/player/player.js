@@ -20,13 +20,18 @@ function Player(){
         this.controlsManager = new ControlsManager(this);
         this.movementManager = new MovementManager(this);
         this.weaponManager = new WeaponManager(this);
+        
+        this.hitbox = {
+            shape: 'circle',
+            radius: Player.HITBOX_RADIUS
+        };
     };
     
     function setupComponents(){
         
-        var hitbox = new createjs.Shape();
-        hitbox.graphics.beginStroke("DeepSkyBlue").drawCircle(0, 0, Player.HITBOX_RADIUS);
-        this.addChild(hitbox);
+        var circle = new createjs.Shape();
+        circle.graphics.beginStroke("DeepSkyBlue").drawCircle(0, 0, Player.HITBOX_RADIUS);
+        this.addChild(circle);
         
         var front = new createjs.Shape();
         front.graphics.beginStroke("DeepSkyBlue").moveTo(5,0).lineTo(15, 0);
@@ -74,16 +79,5 @@ Player.tick = function(){
 Player.dash = function(){
   
     var ghost = new Ghost(this);
-    this.stage.addChild(ghost);
-};
-
-Player.hitTest = function(x, y){
-
-    var xDiff = this.x - x;
-    var yDiff = this.y - y;
-    
-    if(Math.sqrt(xDiff * xDiff + yDiff * yDiff) < this.hitboxRadius)
-        return true;
-    
-    return false;
+    Game.playingArea.addChild(ghost);
 };

@@ -13,6 +13,6 @@ WeaponManager.prototype.tick = function(controlState){
         source: this.player
     });
     
-    this.player.stage.addChild(line);
+    Game.playingArea.addChild(line);
     this.lastShot = new Date();
 };
