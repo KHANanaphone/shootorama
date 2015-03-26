@@ -16,15 +16,19 @@ function Ghost(player){
         this.player = player;
         this.x = player.x;
         this.y = player.y;
+        this.rotation = player.rotation;
     };
     
     function setupComponents(){
                
-        var hitbox = new createjs.Shape();
-        hitbox.graphics.beginStroke("SeaGreen").drawCircle(0, 0, 10);
-        
-        this.hitbox = hitbox;
-        this.addChild(hitbox);
+        var rect = new createjs.Shape();
+        rect.graphics.beginStroke("SeaGreen").drawRect(
+            player.size / -2, 
+            player.size / -2,
+            player.size, 
+            player.size);
+
+        this.addChild(rect);
     };
     
     function setupEvents(){

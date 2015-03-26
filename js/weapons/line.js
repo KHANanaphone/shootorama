@@ -16,8 +16,15 @@ function Line(vars){
         this.source = vars.source;
         
         this.trajectory = vars.trajectory ? vars.trajectory : this.source.rotation;
+        this.trajectory *= Math.PI / 180; //radian conversion
+        
+        this.startPt = {
+            x: Math.cos(this.trajectory) * this.source.size,
+            y: Math.sin(this.trajectory) * this.source.size
+        };
+        
         this.damage = vars.damage ? vars.damage : 0;
-        this.duration = vars.duration ? vars.duration : 2;
+        this.duration = vars.duration ? vars.duration : 20;
         
         this.x = vars.x ? vars.x : this.source.x;
         this.y = vars.y ? vars.x : this.source.y;
@@ -25,8 +32,9 @@ function Line(vars){
     };
     
     function setupComponents(){
-        
-        this.beam = null;
+
+        this.beam = new createjs.Shape();
+        this.addChild(this.beam);  
     };
     
     function setupEvents(){
@@ -47,42 +55,62 @@ Line.init = function(){
 
 Line.tick = function(){
     
-    if(!this.beam){
-
-        var radTraj = this.trajectory * Math.PI / 180;
-        var startPt = {
-            x: Math.cos(radTraj) * this.source.size,
-            y: Math.sin(radTraj) * this.source.size
-        }
+    if(!this.targetPt){
             
-        this.target = Line.getTarget(this);
-        var localPt = this.globalToLocal(this.target.x, this.target.y);
+        var target = Line.getTarget(this);
+        this.targetPt = this.globalToLocal(target.x, target.y);
         
-        this.beam = new createjs.Shape();
-        this.beam.graphics.beginStroke('#AAA').moveTo(startPt.x, startPt.y).lineTo(
-            localPt.x, localPt.y);
-        
-        this.addChild(this.beam);
-    };
+//        if(target.obj)
+//            target.obj.hit(this);      
+    };   
     
-    if(this.alpha <= 0){
-        this.parent.removeChild(this);
-        return;
+    drawBeam.bind(this)();    
+    fadeOut.bind(this)(); 
+    this.ticks++;
+    
+    function drawBeam(){
+        
+        var point = {
+            x: this.startPt.x + Math.cos(this.trajectory) * 30 * this.ticks,
+            y: this.startPt.y + Math.sin(this.trajectory) * 30 * this.ticks
+        };
+        
+        point.x = Math.round(point.x);
+        point.y = Math.round(point.y);
+        
+        //if the 'trail' that moves forward has reached the target
+        if((point.x > this.targetPt.x && point.x > this.startPt.x) ||
+           (point.x < this.targetPt.x && point.x < this.startPt.x) ||
+           (point.y > this.targetPt.y && point.y > this.startPt.y) ||
+           (point.y < this.targetPt.y && point.y < this.startPt.y)) {
+            this.parent.removeChild(this);
+            return;
+        }
+        
+        
+        this.beam.graphics.clear()
+            .beginStroke("DeepSkyBlue")
+            .moveTo(point.x, point.y)
+            .lineTo(this.targetPt.x, this.targetPt.y);
     }
     
-    if(this.ticks >= this.duration) //fade out   
-        this.alpha -= 0.10;
+    function fadeOut(){
     
-    if(this.target.obj)
-        this.target.obj.hit(this);
-    
-    this.ticks++;
+        if(!this.parent)
+            return;
+        
+        if(this.ticks > this.duration){
+            this.parent.removeChild(this);
+            return;
+        }
+
+        this.alpha -= 0.04;
+    }
 };
 
 Line.getTarget = function(line){
     
     var point = {x: 0, y: 0};
-    var radTraj = line.trajectory * Math.PI / 180;
     var aboutToBreak = 0;
     
     while(aboutToBreak < 500){
@@ -90,16 +118,15 @@ Line.getTarget = function(line){
         aboutToBreak++;
         
         var l2g = line.localToGlobal(point.x, point.y);
-        var targets = Game.playingArea.getTargets(l2g);
+        var targets = Game.playingArea.getTargets(
+            l2g, ['enemy', 'wall']
+        );
         
-        for(var i = 0; i < targets.length; i++){
-            
-            if(targets[i] != this.source)
-                return targets[i];
-        }
+        if(targets.length > 0)
+            return targets[0];
         
-        point.x += Math.cos(radTraj) * 2;
-        point.y += Math.sin(radTraj) * 2;
+        point.x += Math.cos(line.trajectory) * 2;
+        point.y += Math.sin(line.trajectory) * 2;
     };
     
     return line.localToGlobal(point.x, point.y);

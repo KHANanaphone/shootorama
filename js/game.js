@@ -1,10 +1,13 @@
 var Game = {
     playingArea: null,
     hudArea: null,
-    player: null
+    player: null,
+    stage: null
 };
 
 Game.init = function(stage){
+    
+    Game.stage = stage;
     
     //Player
     Game.player = new Player();
@@ -31,4 +34,13 @@ Game.tick = function(){
 Game.handleCollisions = function(){
     
     
+}
+
+Game.debugPixel = function(x, y){
+    
+    var ctx = Game.stage.canvas.getContext('2d');
+    
+    ctx.beginPath();
+    ctx.fillStyle = '#FF0000';
+    ctx.fillRect(x, y, 2, 2);
 }
