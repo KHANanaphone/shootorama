@@ -9,6 +9,11 @@ Dash: P or C
 Changelog
 ---------
 
+3/26/2015
+- Remembered existence of changelog
+- Collision detection between player/enemy
+- Circles -> rectangles
+
 3/17/2015
 - Made changelog
 - Shooting, collision detection

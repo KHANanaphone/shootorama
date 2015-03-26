@@ -75,14 +75,14 @@ Line.tick = function(){
             y: this.startPt.y + Math.sin(this.trajectory) * 30 * this.ticks
         };
         
-        point.x = Math.round(point.x);
-        point.y = Math.round(point.y);
+        var t = 0.2; //threshold
         
         //if the 'trail' that moves forward has reached the target
-        if((point.x > this.targetPt.x && point.x > this.startPt.x) ||
-           (point.x < this.targetPt.x && point.x < this.startPt.x) ||
-           (point.y > this.targetPt.y && point.y > this.startPt.y) ||
-           (point.y < this.targetPt.y && point.y < this.startPt.y)) {
+        if((point.x > this.targetPt.x + t && point.x > this.startPt.x + t) ||
+           (point.x < this.targetPt.x - t && point.x < this.startPt.x - t ) ||
+           (point.y > this.targetPt.y + t && point.y > this.startPt.y + t) ||
+           (point.y < this.targetPt.y - t && point.y < this.startPt.y - t )) {
+            
             this.parent.removeChild(this);
             return;
         }
