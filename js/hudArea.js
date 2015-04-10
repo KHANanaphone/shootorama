@@ -17,7 +17,7 @@ function HudArea(){
     function setupComponents(){
         
         var boundary = new createjs.Shape();
-        boundary.graphics.beginStroke('Black').drawRect(0, 480, 1024, 240); 
+        boundary.graphics.beginStroke('Black').drawRect(0, 610, 1024, 110); 
         this.addChild(boundary);
     };
     

@@ -1,9 +1,9 @@
-function DashMeter(player){
+function DashMeter(vars){
 
     if(!DashMeter.initialized){
         
         DashMeter.init();
-        return new DashMeter(player);
+        return new DashMeter(vars);
     };
     
     this.Container_constructor();
@@ -14,9 +14,9 @@ function DashMeter(player){
     
     function setupVars(){
         
-        this.player = player;
-        this.x = 20;
-        this.y = 550;
+        this.player = vars.player;
+        this.x = vars.x;
+        this.y = vars.y;
     }
     
     function setupComponents(){

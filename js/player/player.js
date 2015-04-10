@@ -16,6 +16,8 @@ function Player(){
         this.x = 100;
         this.y = 100;
         this.size = Player.HITBOX_SIZE;
+        this.health = 50;
+        this.maxHealth = 50;
         
         this.controlsManager = new ControlsManager(this);
         this.movementManager = new MovementManager(this);
@@ -63,6 +65,7 @@ Player.init = function(){
     prototype.tick = Player.tick; 
     prototype.dash = Player.dash;
     prototype.handleCollision = Player.handleCollision;
+    prototype.takeDamage = Player.takeDamage;
     
     Player = createjs.promote(Player, 'Container');
     Player.initialized = true;
@@ -73,7 +76,7 @@ Player.DASH_COOLDOWN_TICKS = 90;
 Player.DASH_THRESHOLD = 170;
 Player.DASH_SPEED_MUL = 2.8;
 Player.DASH_DURATION_TICKS = 11;
-Player.HITBOX_SIZE = 20;
+Player.HITBOX_SIZE = 35;
 
 Player.setControl = function(type, isDown){
     
@@ -81,7 +84,7 @@ Player.setControl = function(type, isDown){
 };
 
 Player.tick = function(){
-        
+    
     this.movementManager.tick(this.controlsManager.controlState);
     this.weaponManager.tick(this.controlsManager.controlState);
 };
@@ -92,27 +95,45 @@ Player.dash = function(){
     Game.playingArea.addChild(ghost);
 };
 
+Player.takeDamage = function(source){
+
+    this.health -= source.playerDamage;
+    
+    if(this.health < 0)
+        this.health = 0;
+    
+    this.dispatchEvent('healthChanged');
+}
+
 Player.handleCollision = function(obj){
     
+    if(obj.playerDamage)
+        this.takeDamage(obj);        
+    
+    //center of this object to the center of the colliding object
     var xDist = obj.x - this.x;
     var yDist = obj.y - this.y;
-    var xBuffer = Math.abs(obj.hitbox.width + this.hitbox.width) / 2;
-    var yBuffer = Math.abs(obj.hitbox.height + this.hitbox.height) / 2;
     
-    if(Math.abs(xDist) > Math.abs(yDist)){
-        
-        //xPush
-        if(xDist > 0)
-            this.x = obj.x - xBuffer;
-        else
-            this.x = obj.x + xBuffer;
-    }
-    else{
-        
-        //yPush
-        if(yDist > 0)
-            this.y = obj.y - yBuffer;
-        else
-            this.y = obj.y + yBuffer;
-    }
+    //how far away the objects have to be in this direction for them to be not touching
+    var xBuffer = Math.abs(obj.hitbox.width + this.hitbox.width) / 2;
+    var yBuffer = Math.abs(obj.hitbox.height + this.hitbox.height) / 2;    
+
+    //how far this object would have to be moved to fix the collision
+    var xPush, yPush;
+    
+    if(xDist > 0)
+        xPush = obj.x - xBuffer - this.x;
+    else
+        xPush = obj.x + xBuffer - this.x;
+    
+    if(yDist > 0)
+        yPush = obj.y - yBuffer - this.y;
+    else
+        yPush = obj.y + yBuffer - this.y;
+    
+    //push the least distance
+    if(Math.abs(xPush) < Math.abs(yPush))
+        this.x += xPush;
+    else
+        this.y += yPush;
 };

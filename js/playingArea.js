@@ -17,7 +17,7 @@ function PlayingArea(){
     function setupComponents(){
         
         var boundary = new createjs.Shape();
-        boundary.graphics.beginStroke('Black').drawRect(0, 0, 1024, 480); 
+        boundary.graphics.beginStroke('Black').drawRect(0, 0, 1024, 610); 
         this.addChild(boundary);
         this.boundary = boundary;
     };

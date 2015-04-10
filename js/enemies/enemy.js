@@ -16,7 +16,8 @@ function Enemy(vars){
         this.x = vars.x;
         this.y = vars.y;
         
-        this.size = vars.size ? vars.size : 20;        
+        this.size = vars.size ? vars.size : 20;     
+        this.playerDamage = 1;
         
         this.hitbox = {
             type: 'enemy',
@@ -28,12 +29,12 @@ function Enemy(vars){
     
     function setupComponents(){
                        
-        var circle = new createjs.Shape();
-        circle.graphics.beginStroke("Red")
+        var rect = new createjs.Shape();
+        rect.graphics.beginStroke("Red")
             .drawRect(this.size / -2, this.size / -2, this.size, this.size);
         
-        this.circle = circle;
-        this.addChild(circle);
+        this.rect = rect;
+        this.addChild(rect);
     };
     
     function setupEvents(){
@@ -46,8 +47,7 @@ Enemy.init = function(){
         
     var prototype = createjs.extend(Enemy, createjs.Container);
       
-    prototype.tick = Enemy.tick; 
-    prototype.hitTest = Enemy.hitTest;
+    prototype.tick = Enemy.tick;
     prototype.handleCollision = Enemy.handleCollision;
     
     Enemy = createjs.promote(Enemy, 'Container');
