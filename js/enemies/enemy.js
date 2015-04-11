@@ -17,7 +17,12 @@ function Enemy(vars){
         this.y = vars.y;
         
         this.size = vars.size ? vars.size : 20;     
-        this.playerDamage = 1;
+        this.playerDamage = vars.playerDamage ? vars.playerDamage : 10;
+        this.knockback = vars.knockback ? vars.knockback : {
+            
+            ticks: 9,
+            velocity: 2
+        };
         
         this.hitbox = {
             type: 'enemy',

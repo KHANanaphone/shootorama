@@ -58,10 +58,10 @@ Game.debugPixel = function(x, y){
 
 Game.MakeWalls = function(){
     
-    var leftWall = new Wall({x: 5, y: 305, width: 10, height: 610}); 
-    var rightWall = new Wall({x: 1019, y: 305, width: 10, height: 610});
-    var topWall = new Wall({x: 512, y: 5, width: 1024, height: 10}); 
-    var botWall = new Wall({x: 512, y: 605, width: 1024, height: 10});
+    var leftWall = new Wall({x: 5, y: 300, width: 10, height: 600}); 
+    var rightWall = new Wall({x: 995, y: 300, width: 10, height: 600});
+    var topWall = new Wall({x: 500, y: 5, width: 1000, height: 10}); 
+    var botWall = new Wall({x: 500, y: 595, width: 1000, height: 10});
     
     Game.playingArea.addChild(leftWall);
     Game.playingArea.addChild(rightWall);

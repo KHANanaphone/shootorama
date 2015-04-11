@@ -22,11 +22,11 @@ function DashMeter(vars){
     function setupComponents(){
         
         var bgRect = new createjs.Shape();
-        bgRect.graphics.beginFill('#000').drawRect(0, 0, 150, 30);
+        bgRect.graphics.beginFill('#FFF').beginStroke('#000').drawRect(0, 0, 150, 30);
         this.addChild(bgRect);  
         
         var meter = new createjs.Shape();
-        meter.graphics.beginFill('#FFF').drawRect(5, 5, 140, 20);
+        meter.graphics.beginFill('#AAA').drawRect(5, 5, 140, 20);
         this.addChild(meter);
         this.meter = meter;
         
@@ -65,6 +65,6 @@ DashMeter.tick = function(){
     else if(!this.ready){
         this.ready = true;
         this.meter.graphics.clear();
-        this.meter.graphics.beginFill('#FFF').drawRect(5, 5, 140, 20);
+        this.meter.graphics.beginFill('#AAA').drawRect(5, 5, 140, 20);
     }
 }

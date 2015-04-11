@@ -22,7 +22,7 @@ function HealthMeter(vars){
     function setupComponents(){
         
         var bgRect = new createjs.Shape();
-        bgRect.graphics.beginFill('#000').drawRect(0, 0, 150, 30);
+        bgRect.graphics.beginFill('#FFF').beginStroke('#000').drawRect(0, 0, 150, 30);
         this.addChild(bgRect);  
         
         var meter = new createjs.Shape();

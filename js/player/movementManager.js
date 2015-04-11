@@ -33,7 +33,20 @@ function MovementManager(player){
         self.dashCooldown = Player.DASH_COOLDOWN_TICKS;
         self.player.dash();
     });
-}
+};
+
+MovementManager.prototype.setKnockback = function(source){
+    
+    //cancel dashes
+    this.xDash = null;
+    this.yDash = null;
+    
+     this.knockback = {
+        ticks: source.knockback.ticks,
+        vector: CollisionManager.getKnockbackVector(
+            this.player, source, source.knockback.velocity)
+    };    
+};
 
 MovementManager.prototype.tick = function(controlState){
     
@@ -45,6 +58,7 @@ MovementManager.prototype.tick = function(controlState){
 
     checkXDash();
     checkYDash();
+    checkKnockback();
 
     if(control){
         if(controlState['up'].isDown == 1)
@@ -115,6 +129,22 @@ MovementManager.prototype.tick = function(controlState){
         if(self.yDash.duration <= 0)
             self.yDash = null;
 
+        control = false;
+    }
+    
+    function checkKnockback(){
+        
+        if(!self.knockback)
+            return;
+        
+        x += self.knockback.vector.x;
+        y += self.knockback.vector.y;
+        
+        self.knockback.ticks--;
+        
+        if(self.knockback.ticks <= 0)
+            self.knockback = null;
+        
         control = false;
     }
 }   
