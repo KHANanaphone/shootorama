@@ -47,65 +47,66 @@ Line.init = function(){
         
     var prototype = createjs.extend(Line, createjs.Container);
       
-    prototype.tick = Line.tick;
+    prototype.tick = function(){
+    
+        if(!this.targetPt)
+            getTarget.bind(this)();
+
+        drawBeam.bind(this)();    
+        fadeOut.bind(this)(); 
+        this.ticks++;
+
+        function getTarget(){
+            
+            var target = Line.getTarget(this);
+            this.targetPt = this.globalToLocal(target.x, target.y);
+
+            if(target.obj && target.obj.takeDamage)
+                target.obj.takeDamage(this);
+        }
+        
+        function drawBeam(){
+
+            var point = {
+                x: this.startPt.x + Math.cos(this.trajectory) * 30 * this.ticks,
+                y: this.startPt.y + Math.sin(this.trajectory) * 30 * this.ticks
+            };
+
+            var t = 0.2; //threshold
+
+            //if the 'trail' that moves forward has reached the target
+            if((point.x > this.targetPt.x + t && point.x > this.startPt.x + t) ||
+               (point.x < this.targetPt.x - t && point.x < this.startPt.x - t ) ||
+               (point.y > this.targetPt.y + t && point.y > this.startPt.y + t) ||
+               (point.y < this.targetPt.y - t && point.y < this.startPt.y - t )) {
+
+                this.parent.removeChild(this);
+                return;
+            }
+
+
+            this.beam.graphics.clear()
+                .beginStroke("DeepSkyBlue")
+                .moveTo(point.x, point.y)
+                .lineTo(this.targetPt.x, this.targetPt.y);
+        }
+
+        function fadeOut(){
+
+            if(!this.parent)
+                return;
+
+            if(this.ticks > this.duration){
+                this.parent.removeChild(this);
+                return;
+            }
+
+            this.alpha -= 0.04;
+        }
+    };
     
     Line = createjs.promote(Line, 'Container');
     Line.initialized = true;
-};
-
-Line.tick = function(){
-    
-    if(!this.targetPt){
-            
-        var target = Line.getTarget(this);
-        this.targetPt = this.globalToLocal(target.x, target.y);
-        
-        if(target.obj)
-            target.obj.takeDamage(this);
-    };   
-    
-    drawBeam.bind(this)();    
-    fadeOut.bind(this)(); 
-    this.ticks++;
-    
-    function drawBeam(){
-        
-        var point = {
-            x: this.startPt.x + Math.cos(this.trajectory) * 30 * this.ticks,
-            y: this.startPt.y + Math.sin(this.trajectory) * 30 * this.ticks
-        };
-        
-        var t = 0.2; //threshold
-        
-        //if the 'trail' that moves forward has reached the target
-        if((point.x > this.targetPt.x + t && point.x > this.startPt.x + t) ||
-           (point.x < this.targetPt.x - t && point.x < this.startPt.x - t ) ||
-           (point.y > this.targetPt.y + t && point.y > this.startPt.y + t) ||
-           (point.y < this.targetPt.y - t && point.y < this.startPt.y - t )) {
-            
-            this.parent.removeChild(this);
-            return;
-        }
-        
-        
-        this.beam.graphics.clear()
-            .beginStroke("DeepSkyBlue")
-            .moveTo(point.x, point.y)
-            .lineTo(this.targetPt.x, this.targetPt.y);
-    }
-    
-    function fadeOut(){
-    
-        if(!this.parent)
-            return;
-        
-        if(this.ticks > this.duration){
-            this.parent.removeChild(this);
-            return;
-        }
-
-        this.alpha -= 0.04;
-    }
 };
 
 Line.getTarget = function(line){

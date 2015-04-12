@@ -47,18 +47,14 @@ Wall.init = function(){
         
     var prototype = createjs.extend(Wall, createjs.Container);
       
-    prototype.tick = Wall.tick; 
-    prototype.handleCollision = Wall.handleCollision;
+    prototype.tick= function(){
+    
+    };
+    
+    prototype.handleCollision = function(obj){
+        
+    };
     
     Wall = createjs.promote(Wall, 'Container');
     Wall.initialized = true;
-}
-
-Wall.handleCollision = function(obj){
-    
-    
-}
-
-Wall.tick = function(){
-    
 }

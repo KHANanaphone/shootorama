@@ -34,7 +34,7 @@ function Enemy(vars){
             height: this.size
         };
         
-        this.comboManager = new ComboManager(vars.combo);
+        this.comboManager = new ComboManager(this, vars.combo);
     };
     
     function setupComponents(){
@@ -64,59 +64,51 @@ Enemy.init = function(){
         
     var prototype = createjs.extend(Enemy, createjs.Container);
       
-    prototype.tick = Enemy.tick;
-    prototype.handleCollision = Enemy.handleCollision;
-    prototype.takeDamage = Enemy.takeDamage;
-    prototype.die = Enemy.die;
+    prototype.refreshCache = function(){
+    
+        this.rect.cache(
+            -this.size / 2 - 3, 
+            -this.size / 2 - 3, 
+            this.size + 6, 
+            this.size + 6);
+    };
+    
+    prototype.tick = function(){    
+        
+        this.comboManager.tick(this.comboRingInner, this.comboRingOuter);
+
+    };
+    
+    prototype.handleCollision = function(obj){
+    
+    };
+    
+    prototype.takeDamage = function(source){
+    
+        if (this.dead)
+            return;
+
+        var damage = source.damage;
+        damage *= this.comboManager.hit();
+
+        this.health -= damage;
+        this.dispatchEvent('healthChanged');
+
+        if (this.health <= 0 ) {
+
+            this.health = 0;
+            this.die();
+        }
+        
+    };
+    
+    prototype.die = function(){
+    
+        this.dead = true;
+        this.parent.removeChild(this);
+        
+    }
     
     Enemy = createjs.promote(Enemy, 'Container');
     Enemy.initialized = true;
 };
-
-Enemy.handleCollision = function(obj){
-    
-};
-
-Enemy.tick = function(){
-    
-    this.comboManager.tick(this.comboRingInner, this.comboRingOuter);
-    
-    if(this.comboManager.currentTicks == 0){
-        
-        //clear graphics, combo/cooldown is over
-        this.comboManager.currentTicks = -1;
-        this.comboRingInner.graphics.clear();
-        this.comboRingOuter.graphics.clear();
-    }
-    else{
-        
-        
-        
-        this.comboManager.currentTicks--;
-    }
-    
-};
-
-Enemy.takeDamage = function(source){
-    
-    if (this.dead)
-        return;
-    
-    var damage = source.damage;
-    damage *= this.comboManager.hit();
-    
-    this.health -= damage;
-    this.dispatchEvent('healthChanged');
-    
-    if (this.health <= 0 ) {
-        
-        this.health = 0;
-        this.die();
-    }
-};
-
-Enemy.die = function(){
-    
-    this.dead = true;
-    this.parent.removeChild(this);
-}

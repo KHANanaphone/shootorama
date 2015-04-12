@@ -46,25 +46,24 @@ DashMeter.init = function(){
     
     var prototype = createjs.extend(DashMeter, createjs.Container);
     
-    prototype.tick = DashMeter.tick;
+    prototype.tick = function(){
+        
+        var scale = 
+            (Player.DASH_COOLDOWN_TICKS - this.player.movementManager.dashCooldown) 
+        / Player.DASH_COOLDOWN_TICKS;
+
+        if(scale < 1){  
+            this.ready = false;
+            this.meter.graphics.clear();
+            this.meter.graphics.beginFill('#AAA').drawRect(5, 5, 140 * scale, 20);
+        }
+        else if(!this.ready){
+            this.ready = true;
+            this.meter.graphics.clear();
+            this.meter.graphics.beginFill('#AAA').drawRect(5, 5, 140, 20);
+        }
+    }
     
     DashMeter = createjs.promote(DashMeter, 'Container');
     DashMeter.initialized = true;
-}
-
-DashMeter.tick = function(){
-        
-    var scale = 
-        (Player.DASH_COOLDOWN_TICKS - this.player.movementManager.dashCooldown) / Player.DASH_COOLDOWN_TICKS;
-    
-    if(scale < 1){  
-        this.ready = false;
-        this.meter.graphics.clear();
-        this.meter.graphics.beginFill('#AAA').drawRect(5, 5, 140 * scale, 20);
-    }
-    else if(!this.ready){
-        this.ready = true;
-        this.meter.graphics.clear();
-        this.meter.graphics.beginFill('#AAA').drawRect(5, 5, 140, 20);
-    }
 }

@@ -28,9 +28,9 @@ function HudArea(){
 HudArea.init = function(){
     
     var prototype = createjs.extend(HudArea, createjs.Container);
-    
+
     //prototypez
-    
+
     HudArea = createjs.promote(HudArea, 'Container');
     HudArea.initialized = true;
 }

@@ -41,16 +41,14 @@ Ghost.init = function(){
     
     var prototype = createjs.extend(Ghost, createjs.Container);
       
-    prototype.tick = Ghost.tick; 
+    prototype.tick = function(){
+
+        this.alpha -= 0.04;
+
+        if(this.alpha <= 0)
+            Game.playingArea.removeChild(this);
+    }
     
     Ghost = createjs.promote(Ghost, 'Container');
     Ghost.initialized = true;
 };
-
-Ghost.tick = function(){
-    
-    this.alpha -= 0.04;
-    
-    if(this.alpha <= 0)
-        Game.playingArea.removeChild(this);
-}

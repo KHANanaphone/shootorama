@@ -51,16 +51,14 @@ HealthMeter.init = function(){
     
     var prototype = createjs.extend(HealthMeter, createjs.Container);
     
-    prototype.update = HealthMeter.update;
+    prototype.update = function(){
+    
+        var scale = this.player.health / this.player.maxHealth;
+
+        this.meter.graphics.clear();
+        this.meter.graphics.beginFill('#F88').drawRect(5, 5, 140 * scale, 20);
+    }
     
     HealthMeter = createjs.promote(HealthMeter, 'Container');
     HealthMeter.initialized = true;
-}
-
-HealthMeter.update = function(){
-    
-    var scale = this.player.health / this.player.maxHealth;
-    
-    this.meter.graphics.clear();
-    this.meter.graphics.beginFill('#F88').drawRect(5, 5, 140 * scale, 20);
 }

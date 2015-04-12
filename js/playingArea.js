@@ -32,15 +32,13 @@ function PlayingArea(){
 
 PlayingArea.init = function(){
     
-    var prototype = createjs.extend(PlayingArea, createjs.Container);
-    
-    prototype.tick = PlayingArea.tick;
-    
-    PlayingArea = createjs.promote(PlayingArea, 'Container');
-    PlayingArea.initialized = true;
-}
+var prototype = createjs.extend(PlayingArea, createjs.Container);
 
-PlayingArea.tick = function(){
+    prototype.tick = function(){
+        
+        this.collisionManager.detectCollisions();
+    }
     
-    this.collisionManager.detectCollisions();
+PlayingArea = createjs.promote(PlayingArea, 'Container');
+PlayingArea.initialized = true;
 }
