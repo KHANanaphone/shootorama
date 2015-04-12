@@ -23,7 +23,7 @@ function Line(vars){
             y: Math.sin(this.trajectory) * this.source.size
         };
         
-        this.damage = vars.damage ? vars.damage : 0;
+        this.damage = vars.damage ? vars.damage : 5;
         this.duration = vars.duration ? vars.duration : 20;
         
         this.x = vars.x ? vars.x : this.source.x;
@@ -60,8 +60,8 @@ Line.tick = function(){
         var target = Line.getTarget(this);
         this.targetPt = this.globalToLocal(target.x, target.y);
         
-//        if(target.obj)
-//            target.obj.hit(this);      
+        if(target.obj)
+            target.obj.takeDamage(this);
     };   
     
     drawBeam.bind(this)();    

@@ -117,6 +117,7 @@ Player.takeDamage = function(source) {
         this.health = 0;
         this.die();
     } else {
+        
         this.invincibilityTicks = Player.INVINCIBILITY_TICKS;
         
         if(source.knockback)
