@@ -9,8 +9,8 @@ function ControlsManager(player){
     this.moveDown = [40, 83];
     this.moveRight = [39, 68];
     this.shoot = [73, 90];
-    this.strafe = [79, 88];
-    this.dash = [67, 80];
+    this.strafe = [67, 80];
+    this.dash = [79, 88];
     
     this.controlState = {
         'up': {type: 'up', isDown: 0, time: new Date()},

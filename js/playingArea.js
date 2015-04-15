@@ -22,6 +22,15 @@ function PlayingArea(){
         boundary.graphics.beginStroke('Black').drawRect(0, 0, 1000, 600); 
         this.addChild(boundary);
         this.boundary = boundary;
+    
+        var leftWall = new Wall({x: 5, y: 300, width: 10, height: 600}); 
+        var rightWall = new Wall({x: 995, y: 300, width: 10, height: 600});
+        var topWall = new Wall({x: 500, y: 5, width: 1000, height: 10}); 
+        var botWall = new Wall({x: 500, y: 595, width: 1000, height: 10});
+        this.addChild(leftWall);
+        this.addChild(rightWall);
+        this.addChild(topWall);
+        this.addChild(botWall);
     };
     
     function setupEvents(){
@@ -39,6 +48,7 @@ var prototype = createjs.extend(PlayingArea, createjs.Container);
         this.collisionManager.detectCollisions();
     }
     
-PlayingArea = createjs.promote(PlayingArea, 'Container');
-PlayingArea.initialized = true;
+    PlayingArea = createjs.promote(PlayingArea, 'Container');
+    PlayingArea.initialized = true;
 }
+

@@ -5,7 +5,7 @@ function ComboManager(enemy, vars){
     
     this.enemy = enemy;
     
-    this.start = vars.start ? vars.start : 30;
+    this.start = vars.start ? vars.start : 38;
     this.window = vars.window ? vars.window : 15;
     this.visualEffectMaxTicks = 15;
     this.visualEffectTicks = -1;
@@ -43,12 +43,12 @@ ComboManager.prototype.updateVisual = function(){
     
     var scale = this.visualEffectTicks / this.visualEffectMaxTicks;
     var mult = 1 - scale;
-    var add = 255 * scale;
+    var add = 200 * scale;
     
-    this.enemy.rect.filters = [
+    this.enemy.sprite.filters = [
         new createjs.ColorFilter(
             mult, mult, mult, 1,
-            0,  0,  add,  0)
+            add / 2,  add,  add / 2,  0)
     ];
 
     this.enemy.refreshCache();
@@ -56,7 +56,7 @@ ComboManager.prototype.updateVisual = function(){
 
 ComboManager.prototype.clearVisual = function(){
     
-    this.enemy.rect.filters = [];    
+    this.enemy.sprite.filters = [];    
     this.enemy.refreshCache();
 };
 
@@ -83,7 +83,7 @@ ComboManager.prototype.tick = function(inner, outer){
     else if(this.currentTicks > 0 && this.currentTicks <= this.window){
         
         inner.graphics.clear();
-        inner.graphics.beginStroke('#0F0').drawCircle(0, 0, this.enemy.size);
+        inner.graphics.beginStroke('#0F0').drawCircle(0, 0, this.enemy.size * 0.5);
         inner.alpha = 0.8 * this.currentTicks / this.window;
         
         if(this.currentTicks == this.window)
@@ -94,12 +94,12 @@ ComboManager.prototype.tick = function(inner, outer){
         var scale = 1 + (this.currentTicks - this.window) / (this.start - this.window);        
         
         outer.graphics.clear();
-        outer.graphics.beginStroke('#AAA').drawCircle(0, 0, this.enemy.size * scale);
+        outer.graphics.beginStroke('#AAA').drawCircle(0, 0, this.enemy.size * 0.5 * scale);
         
         if(this.currentTicks == this.start){
             inner.alpha = 0.8;
             inner.graphics.clear();
-            inner.graphics.beginStroke('#AAA').drawCircle(0, 0, this.enemy.size);
+            inner.graphics.beginStroke('#AAA').drawCircle(0, 0, this.enemy.size * 0.5);
         }
     }        
         

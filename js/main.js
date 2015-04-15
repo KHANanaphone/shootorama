@@ -1,19 +1,28 @@
 var Main = {};
+var Resources = {};
 
 Main.init = function(){
     
-    var stage = new createjs.Stage("gameCanvas");
+    Resources = new createjs.LoadQueue();
+    Resources.on('complete', loadComplete);
+    Resources.loadManifest(Main.manifest);
     
-    createjs.Ticker.setFPS(60);
-    createjs.Ticker.timingMode = createjs.Ticker.RAF;
-    createjs.Ticker.addEventListener('tick', tick);
-    
-    Game.init(stage);
-    
-    function tick(){
+    function loadComplete(e){
         
-        Game.tick();
-        stage.update();
-    }
+        var stage = new createjs.Stage("gameCanvas");
+        createjs.Ticker.setFPS(60);
+        createjs.Ticker.timingMode = createjs.Ticker.RAF;
+        
+        createjs.Ticker.addEventListener('tick', function(){
+            
+            Game.tick();
+            stage.update();
+        });
+
+        Game.init(stage);
+    };
 }
 
+Main.manifest = [
+    {id: 'ghost', src: 'img/ghost.png'}
+];

@@ -31,7 +31,6 @@ function MovementManager(player){
             self.yDash = {duration: Player.DASH_DURATION_TICKS, direction: 'down'};
         
         self.dashCooldown = Player.DASH_COOLDOWN_TICKS;
-        self.player.dash();
     });
 };
 

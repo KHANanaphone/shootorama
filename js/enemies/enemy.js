@@ -19,7 +19,7 @@ function Enemy(vars){
         this.health = vars.health ? vars.health : 50;
         this.maxHealth = vars.maxHealth ? vars.maxHealth : this.health;
         
-        this.size = vars.size ? vars.size : 20;     
+        this.size = vars.size ? vars.size : 40;     
         this.playerDamage = vars.playerDamage ? vars.playerDamage : 10;
         this.knockback = vars.knockback ? vars.knockback : {
             
@@ -30,19 +30,39 @@ function Enemy(vars){
         this.hitbox = {
             type: 'enemy',
             collidesWith: ['player','enemy','wall'],
-            width: this.size,
-            height: this.size
+            width: this.size * 0.75,
+            height: this.size * 0.75
         };
         
         this.comboManager = new ComboManager(this, vars.combo);
     };
     
     function setupComponents(){
-                       
-        this.rect = new createjs.Shape();
-        this.rect.graphics.beginStroke("Red")
-            .drawRect(this.size / -2, this.size / -2, this.size, this.size); 
-        this.addChild(this.rect);
+                  
+        var spriteData = {
+            images: [Resources.getResult('ghost')],
+            frames: {width: 40, height: 40},
+            animations: {
+                stand: 0
+            }
+        };
+        
+        var spriteSheet = new createjs.SpriteSheet(spriteData);
+        this.sprite = new createjs.Sprite(spriteSheet, 'stand')
+            .set({
+            x: this.size / -2,
+            y: this.size / -2
+        });        
+        
+        this.addChild(this.sprite);
+        
+//        this.rect = new createjs.Shape();
+//        this.rect.graphics.beginStroke("Red")
+//            .drawRect(this.hitbox.width / -2, 
+//                      this.hitbox.height / -2, 
+//                      this.hitbox.width, 
+//                      this.hitbox.height); 
+//        this.addChild(this.rect);
         
         this.healthMeter = new EnemyHealthMeter(this);
         this.addChild(this.healthMeter);
@@ -66,16 +86,15 @@ Enemy.init = function(){
       
     prototype.refreshCache = function(){
     
-        this.rect.cache(
-            -this.size / 2 - 3, 
-            -this.size / 2 - 3, 
-            this.size + 6, 
-            this.size + 6);
+        this.sprite.cache(
+            0, 0, this.size, this.size);
+        
     };
     
     prototype.tick = function(){    
         
         this.comboManager.tick(this.comboRingInner, this.comboRingOuter);
+        this.healthMeter.tick();
 
     };
     
@@ -91,8 +110,13 @@ Enemy.init = function(){
         var damage = source.damage;
         damage *= this.comboManager.hit();
 
+        var event = new createjs.Event('healthChanged');
+        event.oldHealth = this.health;
+        
         this.health -= damage;
-        this.dispatchEvent('healthChanged');
+        event.newHealth = this.health;
+        
+        this.dispatchEvent(event);
 
         if (this.health <= 0 ) {
 

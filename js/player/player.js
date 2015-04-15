@@ -97,8 +97,12 @@ Player.init = function() {
 
         if (this.dead)
             return;
+        
+        var event = new createjs.Event('healthChanged');
+        event.oldHealth = this.health;
 
         this.health -= source.playerDamage;
+        event.newHealth = this.health;
 
         if (this.health <= 0) {
             this.health = 0;
@@ -111,7 +115,7 @@ Player.init = function() {
                 this.movementManager.setKnockback(source);
         }
 
-        this.dispatchEvent('healthChanged');
+        this.dispatchEvent(event);
     };
     
     prototype.die = function() {
