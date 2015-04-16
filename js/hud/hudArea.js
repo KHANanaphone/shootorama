@@ -1,10 +1,5 @@
 function HudArea(){
     
-    if(!HudArea.initialized){
-        HudArea.init();
-        return new HudArea();
-    }
-    
     this.Container_constructor();
     
     setupVars.bind(this)();
@@ -40,7 +35,7 @@ function HudArea(){
     };
 }
 
-HudArea.init = function(){
+(function(){
     
     var prototype = createjs.extend(HudArea, createjs.Container);
 
@@ -48,4 +43,4 @@ HudArea.init = function(){
 
     HudArea = createjs.promote(HudArea, 'Container');
     HudArea.initialized = true;
-}
+})();

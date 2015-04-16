@@ -1,10 +1,5 @@
 function PlayingArea(){
     
-    if(!PlayingArea.initialized){
-        PlayingArea.init();
-        return new PlayingArea();
-    }
-    
     this.Container_constructor();
     
     setupVars.bind(this)();
@@ -39,7 +34,7 @@ function PlayingArea(){
     };
 }
 
-PlayingArea.init = function(){
+(function(){
     
 var prototype = createjs.extend(PlayingArea, createjs.Container);
 
@@ -50,5 +45,5 @@ var prototype = createjs.extend(PlayingArea, createjs.Container);
     
     PlayingArea = createjs.promote(PlayingArea, 'Container');
     PlayingArea.initialized = true;
-}
+})();
 

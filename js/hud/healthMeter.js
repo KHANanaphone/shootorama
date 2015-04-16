@@ -1,10 +1,4 @@
 function HealthMeter(vars){
-
-    if(!HealthMeter.initialized){
-        
-        HealthMeter.init();
-        return new HealthMeter(vars);
-    };
     
     this.Container_constructor();
     
@@ -54,7 +48,7 @@ function HealthMeter(vars){
     }
 };
 
-HealthMeter.init = function(){
+(function(){
     
     var prototype = createjs.extend(HealthMeter, createjs.Container);
     
@@ -92,4 +86,4 @@ HealthMeter.init = function(){
     
     HealthMeter = createjs.promote(HealthMeter, 'Container');
     HealthMeter.initialized = true;
-}
+})();

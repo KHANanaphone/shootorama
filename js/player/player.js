@@ -1,10 +1,5 @@
-function Player() {
-
-    if (!Player.initialized) {
-        Player.init();
-        return new Player();
-    }
-
+function Player(vars) {
+    
     this.Container_constructor();
 
     setupVars.bind(this)();
@@ -13,11 +8,11 @@ function Player() {
 
     function setupVars() {
 
-        this.x = 100;
-        this.y = 100;
+        this.x = vars.x;
+        this.y = vars.y;
         this.size = Player.HITBOX_SIZE;
-        this.health = 50;
-        this.maxHealth = 50;
+        this.health = vars.health ? vars.health : 50;
+        this.maxHealth = this.health;
 
         this.controlsManager = new ControlsManager(this);
         this.movementManager = new MovementManager(this);
@@ -56,7 +51,7 @@ function Player() {
     }
 };
 
-Player.init = function() {
+(function() {
 
     var prototype = createjs.extend(Player, createjs.Container);
 
@@ -126,9 +121,9 @@ Player.init = function() {
 
     Player = createjs.promote(Player, 'Container');
     Player.initialized = true;
-};
+})();
 
-Player.SPEED = 3.6;
+Player.SPEED = 2.4;
 Player.DASH_COOLDOWN_TICKS = 90;
 Player.DASH_THRESHOLD = 170;
 Player.DASH_SPEED_MUL = 2.8;

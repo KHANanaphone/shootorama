@@ -5,9 +5,9 @@ function ComboManager(enemy, vars){
     
     this.enemy = enemy;
     
-    this.start = vars.start ? vars.start : 38;
-    this.window = vars.window ? vars.window : 15;
-    this.visualEffectMaxTicks = 15;
+    this.start = vars.start ? vars.start : 60;
+    this.window = vars.window ? vars.window : 20;
+    this.visualEffectMaxTicks = 40;
     this.visualEffectTicks = -1;
     
     this.currentCombo = 0;
@@ -21,19 +21,19 @@ ComboManager.prototype.hit = function(){
         
         this.currentCombo = 0;
         this.currentTicks = this.start;
-        return 0.25;
+        return 0.16666666;
     } 
     else if(this.currentTicks > 0 && this.currentTicks <= this.window){
         
         this.currentCombo++;
         this.visualEffectTicks = this.visualEffectMaxTicks; 
         this.currentTicks = this.start;
-        return 1.5;        
+        return 2;        
     }
     else{
         
         this.currentCombo = 0;
-        this.visualEffectTicks = this.visualEffectMaxTicks; 
+//        this.visualEffectTicks = this.visualEffectMaxTicks; 
         this.currentTicks = this.start;
         return 1;
     }

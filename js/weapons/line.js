@@ -1,10 +1,5 @@
 function Line(vars){
     
-    if(!Line.initialized){
-        Line.init();
-        return new Line(vars);
-    }
-    
     this.Container_constructor();
     
     setupVars.bind(this)();
@@ -43,7 +38,7 @@ function Line(vars){
     };
 };
 
-Line.init = function(){
+(function(){
         
     var prototype = createjs.extend(Line, createjs.Container);
       
@@ -107,7 +102,7 @@ Line.init = function(){
     
     Line = createjs.promote(Line, 'Container');
     Line.initialized = true;
-};
+})();
 
 Line.getTarget = function(line){
     

@@ -1,13 +1,28 @@
+About
+-----
+
+Move around and shoot stuff. After you hit an enemy, two rings will
+appear around it. If you shoot it too soon, your shots will have little effect.
+If you time it just when the rings match, you will do bonus damage.
+
 Controls
 --------
 
 Movement: WASD or arrow keys
 Shoot: I or Z
-Strafe: Hold O or X
-Dash: P or C
+Dash: ) or X
+Strafe: Hold P or C
 
 Changelog
 ---------
+
+4/15/2015
+- Oops, forgot to put updates.
+- Enemies move
+- Damage
+- Walls
+- Enemy 'combo' system thing'
+- Blah blah blah
 
 3/26/2015
 - Remembered existence of changelog

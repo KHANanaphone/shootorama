@@ -1,10 +1,5 @@
 function Ghost(player){
     
-    if(!Ghost.initialized){
-        Ghost.init();
-        return new Ghost(player);
-    }
-    
     this.Container_constructor();
     
     setupVars.bind(this)();
@@ -37,7 +32,7 @@ function Ghost(player){
     }
 };
 
-Ghost.init = function(){
+(Ghost.init = function(){
     
     var prototype = createjs.extend(Ghost, createjs.Container);
       
@@ -51,4 +46,4 @@ Ghost.init = function(){
     
     Ghost = createjs.promote(Ghost, 'Container');
     Ghost.initialized = true;
-};
+})();

@@ -1,10 +1,5 @@
 function Wall(vars){
     
-    if(!Wall.initialized){
-        Wall.init();
-        return new Wall(vars);
-    }
-    
     this.Container_constructor();
     
     setupVars.bind(this)();
@@ -43,7 +38,7 @@ function Wall(vars){
     }
 };
 
-Wall.init = function(){
+(function(){
         
     var prototype = createjs.extend(Wall, createjs.Container);
       
@@ -57,4 +52,4 @@ Wall.init = function(){
     
     Wall = createjs.promote(Wall, 'Container');
     Wall.initialized = true;
-}
+})();

@@ -1,28 +1,23 @@
 function Enemy(vars){
     
-    if(!Enemy.initialized){
-        Enemy.init();
-        return new Enemy(vars);
-    }
-    
     this.Container_constructor();
     
-    setupVars.bind(this)();
-    setupComponents.bind(this)();
-    setupEvents.bind(this)();
+    setupVars.call(this);
+    setupComponents.call(this);
+    setupEvents.call(this);
     
     function setupVars(){
       
         this.x = vars.x;
         this.y = vars.y;
+        this.maxHealth = this.health;
         
-        this.health = vars.health ? vars.health : 50;
-        this.maxHealth = vars.maxHealth ? vars.maxHealth : this.health;
+        if(!this.scale)
+            this.scale = 1;
         
-        this.size = vars.size ? vars.size : 40;     
-        this.playerDamage = vars.playerDamage ? vars.playerDamage : 10;
-        this.knockback = vars.knockback ? vars.knockback : {
-            
+        this.size = 40 * this.scale;
+           
+        this.knockback = {            
             ticks: 9,
             velocity: 2
         };
@@ -30,30 +25,23 @@ function Enemy(vars){
         this.hitbox = {
             type: 'enemy',
             collidesWith: ['player','enemy','wall'],
-            width: this.size * 0.75,
-            height: this.size * 0.75
+            width: this.size * 0.85,
+            height: this.size * 0.85
         };
         
-        this.comboManager = new ComboManager(this, vars.combo);
+        this.comboManager = new ComboManager(this, vars.combo);        
+        this.statedef = new Statedef();
     };
     
     function setupComponents(){
                   
-        var spriteData = {
-            images: [Resources.getResult('ghost')],
-            frames: {width: 40, height: 40},
-            animations: {
-                stand: 0
-            }
-        };
-        
-        var spriteSheet = new createjs.SpriteSheet(spriteData);
-        this.sprite = new createjs.Sprite(spriteSheet, 'stand')
-            .set({
-            x: this.size / -2,
-            y: this.size / -2
-        });        
-        
+        this.sprite = 
+            SpriteManager.makeSprite(this.spriteName).set({
+            regX: this.size / 2 / this.scale,
+            regY: this.size / 2 / this.scale,
+            scaleX: this.scale,
+            scaleY: this.scale
+        });                
         this.addChild(this.sprite);
         
 //        this.rect = new createjs.Shape();
@@ -80,26 +68,34 @@ function Enemy(vars){
     }
 };
 
-Enemy.init = function(){
+(function(){
         
     var prototype = createjs.extend(Enemy, createjs.Container);
       
     prototype.refreshCache = function(){
     
-        this.sprite.cache(
-            0, 0, this.size, this.size);
-        
+        this.sprite.cache(0, 0, this.size, this.size);        
     };
     
     prototype.tick = function(){    
         
         this.comboManager.tick(this.comboRingInner, this.comboRingOuter);
         this.healthMeter.tick();
-
+        
+        if(this['state_' + this.statedef.id])
+            this['state_' + this.statedef.id]();
+        else{
+            console.error('State not found: ' + this.statedef.id);
+            this.statedef.changeState('initial');
+        }            
+ 
+        this.statedef.time++;
     };
     
     prototype.handleCollision = function(obj){
     
+        if (obj.hitbox.type == 'enemy' || obj.hitbox.type == 'wall')
+            CollisionManager.push(this, obj);
     };
     
     prototype.takeDamage = function(source){
@@ -122,17 +118,60 @@ Enemy.init = function(){
 
             this.health = 0;
             this.die();
-        }
-        
+        }        
     };
     
     prototype.die = function(){
     
         this.dead = true;
-        this.parent.removeChild(this);
+        this.parent.removeChild(this);        
+    };
+    
+    prototype.move = function(vector, angle){
         
-    }
+        this.x += vector.x * 0.75;
+        this.y += vector.y * 0.75;
+        this.sprite.rotation = angle;
+    };
+    
+    //distance from player in ticks
+    prototype.playerDistance = function(){  
+        
+        var vector = this.playerVector();
+        return Math.sqrt(vector.x * vector.x + vector.y * vector.y);
+    };
+    
+    //Distance from player in a vector. If a 'length' is specified, the
+    //vector will be of that length instead.
+    prototype.playerVector = function(length){
+        
+        var vector = {x: Game.player.x - this.x, y: Game.player.y - this.y};
+        
+        if(!length)
+            return vector;
+        
+        var pLength = this.playerDistance();
+        vector.x = length * vector.x / pLength;
+        vector.y = length * vector.y / pLength;
+        
+        return vector;
+    };
+    
+    //angle from player. radians by default unless inDegrees = true
+    prototype.playerAngle = function(inDegrees){
+        
+        if(!inDegrees)
+            inDegrees = false;
+        
+        var vector = this.playerVector();
+        var rads = Math.atan2(vector.y, vector.x);
+        
+        if(inDegrees)
+            return rads * (180 / Math.PI);
+        else
+            return rads;
+    };
     
     Enemy = createjs.promote(Enemy, 'Container');
     Enemy.initialized = true;
-};
+})();

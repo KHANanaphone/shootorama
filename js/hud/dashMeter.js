@@ -1,10 +1,4 @@
 function DashMeter(vars){
-
-    if(!DashMeter.initialized){
-        
-        DashMeter.init();
-        return new DashMeter(vars);
-    };
     
     this.Container_constructor();
     
@@ -42,7 +36,7 @@ function DashMeter(vars){
     }
 };
 
-DashMeter.init = function(){
+(function(){
     
     var prototype = createjs.extend(DashMeter, createjs.Container);
     
@@ -66,4 +60,4 @@ DashMeter.init = function(){
     
     DashMeter = createjs.promote(DashMeter, 'Container');
     DashMeter.initialized = true;
-}
+})();

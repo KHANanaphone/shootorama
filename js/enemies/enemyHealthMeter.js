@@ -1,10 +1,4 @@
 function EnemyHealthMeter(enemy){
-
-    if(!EnemyHealthMeter.initialized){
-        
-        EnemyHealthMeter.init();
-        return new EnemyHealthMeter(enemy);
-    };
     
     this.Container_constructor();
     
@@ -44,7 +38,7 @@ function EnemyHealthMeter(enemy){
     }
 };
 
-EnemyHealthMeter.init = function(){
+(function(){
     
     var prototype = createjs.extend(EnemyHealthMeter, createjs.Container);
     
@@ -85,4 +79,4 @@ EnemyHealthMeter.init = function(){
     
     EnemyHealthMeter = createjs.promote(EnemyHealthMeter, 'Container');
     EnemyHealthMeter.initialized = true;
-}
+})();

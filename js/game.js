@@ -10,14 +10,18 @@ Game.init = function(stage){
     Game.stage = stage;
     
     //Player
-    Game.player = new Player();
+    Game.player = new Player({x: 500, y: 300});
     
     //Playing Area
     Game.playingArea = new PlayingArea();
     stage.addChild(Game.playingArea);
     
     Game.playingArea.addChild(Game.player);
-    Game.playingArea.addChild(new Enemy({x: 300, y: 300}));
+    Game.playingArea.addChild(new GhostEnemy({x: 20, y: 20}));
+    Game.playingArea.addChild(new GhostEnemy({x: 980, y: 20}));
+    Game.playingArea.addChild(new GhostEnemy({x: 20, y: 580}));
+    
+    Game.playingArea.addChild(new SuperghostEnemy({x: 980, y: 580}));
     
     //Hud Area
     Game.hudArea = new HudArea();

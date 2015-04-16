@@ -82,6 +82,12 @@ CollisionManager.prototype.detectCollisions = function(){
     
     function hasCollision(obj1, obj2){
         
+        if(isNaN(obj1.x) || isNaN(obj1.y) || isNaN(obj2.x) || isNaN(obj2.y)){
+            
+            console.error("Object's location is valid.");
+            return false;
+        }
+        
         var xDist = Math.abs(obj1.x - obj2.x) - (obj1.hitbox.width + obj2.hitbox.width) / 2;
         var yDist = Math.abs(obj1.y - obj2.y) - (obj1.hitbox.height + obj2.hitbox.height) / 2;
         
