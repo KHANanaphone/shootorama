@@ -11,26 +11,23 @@ function Enemy(vars){
         this.x = vars.x;
         this.y = vars.y;
         this.maxHealth = this.health;
+        this.pushPriority = 0;
+        this.stunTime = this.stunTime ? this.stunTime : 120;
         
         if(!this.scale)
             this.scale = 1;
         
         this.size = 40 * this.scale;
-           
-        this.knockback = {            
-            ticks: 9,
-            velocity: 2
-        };
         
         this.hitbox = {
             type: 'enemy',
-            collidesWith: ['player','enemy','wall'],
+            collidesWith: ['player','enemy','wall','ghost'],
             width: this.size * 0.85,
             height: this.size * 0.85
         };
         
-        this.comboManager = new ComboManager(this, vars.combo);        
-        this.statedef = new Statedef();
+        this.hitManager = new HitManager(this);        
+        this.statedef = new Statedef(this);
     };
     
     function setupComponents(){
@@ -77,34 +74,55 @@ function Enemy(vars){
         this.sprite.cache(0, 0, this.size, this.size);        
     };
     
+    prototype.setStunnable = function(frames){
+      
+        if(this.hitManager.currentTicks > 0)
+            return;
+        
+        this.stunnableFramesLeft = 10;
+        this.stunnableFrames = 10;
+    };
+    
     prototype.tick = function(){    
         
-        this.comboManager.tick(this.comboRingInner, this.comboRingOuter);
+        this.hitManager.tick();
         this.healthMeter.tick();
+        manageState.call(this);
         
-        if(this['state_' + this.statedef.id])
-            this['state_' + this.statedef.id]();
-        else{
-            console.error('State not found: ' + this.statedef.id);
-            this.statedef.changeState('initial');
-        }            
- 
-        this.statedef.time++;
+        function manageState(){
+            
+            if(this.stunQueued && !this.delayStun){
+                this.stunQueued = false;
+                this.statedef.changeState('stun');
+            }
+
+            if(this['state_' + this.statedef.id])
+                this['state_' + this.statedef.id]();
+            else{
+                console.error('State not found: ' + this.statedef.id);
+                this.statedef.changeState('initial');
+            }            
+
+            this.statedef.time++;
+        }        
     };
     
     prototype.handleCollision = function(obj){
     
         if (obj.hitbox.type == 'enemy' || obj.hitbox.type == 'wall')
             CollisionManager.push(this, obj);
+        
+        if (obj.hitbox.type == 'player' && this.playerDamage)            
+            obj.hit(this);
     };
     
-    prototype.takeDamage = function(source){
+    prototype.hit = function(source){
     
         if (this.dead)
             return;
 
         var damage = source.damage;
-        damage *= this.comboManager.hit();
+        damage *= this.hitManager.hit();
 
         var event = new createjs.Event('healthChanged');
         event.oldHealth = this.health;
@@ -170,6 +188,36 @@ function Enemy(vars){
             return rads * (180 / Math.PI);
         else
             return rads;
+    };
+    
+    prototype.triggerGhost = function(){
+
+        this.stunQueued = true;
+    };    
+    
+    prototype.state_initial = function(){
+        
+        this.statedef.changeState(this.defaultState);
+    };
+    
+    prototype.state_stun = function(){
+        
+        if(this.statedef.time == 1){
+            
+            this.stunned = true;            
+            this.statedef.onExitState = function(){
+                this.stunned = false;
+            }
+        }
+        
+        if(this.statedef.time > this.stunTime) {
+            
+            this.statedef.changeState(this.defaultState);            
+        }     
+    };
+        
+    prototype.state_idle = function(){
+        
     };
     
     Enemy = createjs.promote(Enemy, 'Container');

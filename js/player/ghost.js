@@ -12,6 +12,15 @@ function Ghost(player){
         this.x = player.x;
         this.y = player.y;
         this.rotation = player.rotation;
+        this.triggered = false;
+        this.startup = 8;
+        
+        this.hitbox = {
+            type: 'ghost',
+            collidesWith: ['enemy'],
+            width: this.player.size,
+            height: this.player.size
+        };
     };
     
     function setupComponents(){
@@ -28,6 +37,8 @@ function Ghost(player){
     
     function setupEvents(){
     
+        var self = this;
+        
         this.on('tick', this.tick);
     }
 };
@@ -38,11 +49,30 @@ function Ghost(player){
       
     prototype.tick = function(){
 
-        this.alpha -= 0.04;
+        if(this.startup){
+            this.startup--;
+            return;
+        }
+        
+        this.alpha -= 0.05;
 
         if(this.alpha <= 0)
-            Game.playingArea.removeChild(this);
-    }
+            this.player.destroyGhost();
+    };
+    
+    prototype.handleCollision = function(obj){
+        
+        if(this.triggered)
+            return;
+        if(!obj.triggersGhost)
+            return;        
+        if(this.startup)
+            return;
+        
+        this.triggered = true;
+        this.player.movementManager.resetDash();
+        obj.triggerGhost();
+    };
     
     Ghost = createjs.promote(Ghost, 'Container');
     Ghost.initialized = true;

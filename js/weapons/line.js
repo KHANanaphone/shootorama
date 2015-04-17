@@ -56,8 +56,8 @@ function Line(vars){
             var target = Line.getTarget(this);
             this.targetPt = this.globalToLocal(target.x, target.y);
 
-            if(target.obj && target.obj.takeDamage)
-                target.obj.takeDamage(this);
+            if(target.obj && target.obj.hit)
+                target.obj.hit(this);
         }
         
         function drawBeam(){

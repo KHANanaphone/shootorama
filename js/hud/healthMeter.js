@@ -41,6 +41,7 @@ function HealthMeter(vars){
         var meter = this;
         
         this.player.on('healthChanged', function(e){
+            
             meter.update(e);
         });
         

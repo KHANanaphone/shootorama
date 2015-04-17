@@ -11,19 +11,30 @@ function SuperghostEnemy(vars){
     
     function setupVars(){
         
+        //required
         this.spriteName = 'ghost';
+        this.defaultState = 'chasing';
         this.health = 80;
-        this.scale = 1.5;
         this.playerDamage = 15;
         
+        //optional
+        this.scale = 1.5;
+        this.stunTime = 90;    
         this.speed = 0.7;
+                 
+        this.knockback = {            
+            ticks: 11,
+            velocity: 2.2
+        };
         
-        this.dashTriggerRadius = 140;        
+        this.dashTriggerRadius = 120;        
         this.dashCooldownTime = 150;
         this.dashChargeTime = 40;        
         
         this.dashSpeed = 7;
         this.dashTime = 24;
+        
+        this.pushPriority = 10;
     };
     
     function setupComponents(){
@@ -39,12 +50,12 @@ function SuperghostEnemy(vars){
         
     var prototype = createjs.extend(SuperghostEnemy, Enemy);
     
-    prototype.state_initial = function(){
-        
-        this.statedef.changeState('chasing');
-    };
-    
     prototype.state_chasing = function(){
+        
+        var vector = this.playerVector(this.speed);
+        var angle = this.playerAngle(true) - 90;
+
+        this.move(vector, angle);
         
         if(Game.player.dead){
             this.statedef.changeState('idle');
@@ -55,11 +66,6 @@ function SuperghostEnemy(vars){
             this.statedef.changeState('dashCharging');
             return;
         }
-
-        var vector = this.playerVector(this.speed);
-        var angle = this.playerAngle(true) - 90;
-
-        this.move(vector, angle);
     };
     
     prototype.state_dashCharging = function(){
@@ -75,17 +81,33 @@ function SuperghostEnemy(vars){
     
     prototype.state_dashing = function(){
         
-        if(this.statedef.time > this.dashTime){
-            this.statedef.changeState('chasing');   
-            return;
+        if(this.statedef.time == 1){
+            
+            this.triggersGhost = true;
+            this.pushPriority = -1;
+            this.knockback.velocity = 4;
+            this.setStunnable(10);
+            
+            this.statedef.onExitState = function(){
+            
+                this.triggersGhost = false;
+                this.pushPriority = 1;
+                this.delayStun = false;
+                this.knockback.velocity = 2;
+            };
         }
-
-        this.move(this.dashVector, this.dashAngle);
-    };
-    
-    prototype.state_idle = function(){
+        else if(this.statedef.time == 10){
+            
+            this.delayStun = true;
+        }
         
-    }
+        this.move(this.dashVector, this.dashAngle);
+        
+        if(this.statedef.time > this.dashTime){
+            
+            this.statedef.changeState('chasing');
+        };
+    };
     
     SuperghostEnemy = createjs.promote(SuperghostEnemy, 'Enemy');
     SuperghostEnemy.initialized = true;

@@ -3,8 +3,23 @@ function CollisionManager(playingArea){
     this.playingArea = playingArea;
 }
 
-//push the 'pushed' object so it is no longer clipping with the 'pusher' object
-CollisionManager.push = function(pushed, pusher){
+//Push the object with higher 'pushPriority'. If it's a tie, obj1 pushes obj2.
+//If the object has no pushPriority, it is set to 0
+CollisionManager.push = function(obj1, obj2){
+    
+    if(!obj1.pushPriority)
+        obj1.pushPriority = 0;
+    if(!obj2.pushPriority)
+        obj2.pushPriority = 0;
+    
+    if(obj2.pushPriority > obj1.pushPriority){
+        var pusher = obj2;
+        var pushed = obj1;
+    }
+    else {
+        var pusher = obj1;
+        var pushed = obj2;        
+    }        
     
     //center of this object to the center of the colliding object
     var xDist = pusher.x - pushed.x;
@@ -91,9 +106,9 @@ CollisionManager.prototype.detectCollisions = function(){
         var xDist = Math.abs(obj1.x - obj2.x) - (obj1.hitbox.width + obj2.hitbox.width) / 2;
         var yDist = Math.abs(obj1.y - obj2.y) - (obj1.hitbox.height + obj2.hitbox.height) / 2;
         
-        if(xDist >= 0)
+        if(isNaN(xDist) || xDist >= 0)
             return false;
-        if(yDist >= 0)
+        if(isNaN(yDist) || yDist >= 0)
             return false;
         
         return true;

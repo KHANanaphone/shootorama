@@ -1,45 +1,50 @@
-function ComboManager(enemy, vars){
-    
-    if(!vars)
-        vars = {};
+function HitManager(enemy){
     
     this.enemy = enemy;
     
-    this.start = vars.start ? vars.start : 60;
-    this.window = vars.window ? vars.window : 20;
+    this.start = 60;
+    this.window = 20;
     this.visualEffectMaxTicks = 40;
-    this.visualEffectTicks = -1;
-    
-    this.currentCombo = 0;
+    this.visualEffectTicks = -1;    
     this.currentTicks = 0;
 }
 
-ComboManager.prototype.hit = function(){
+HitManager.prototype.hit = function(){
+
+    if(this.enemy.stunned){
+        
+        this.currentTicks = 0;
+        return 1;
+    }
+    else if(this.enemy.stunnableFramesLeft > 0){
+        
+        this.enemy.stunnableFrames = 0;
+        this.enemy.stunnableFramesLeft = 0;
+        this.enemy.statedef.changeState('stun');
+        return 3;
+    }
     
     //weak hit
     if(this.currentTicks > 0 && this.currentTicks > this.window){
         
-        this.currentCombo = 0;
         this.currentTicks = this.start;
         return 0.16666666;
     } 
     else if(this.currentTicks > 0 && this.currentTicks <= this.window){
         
-        this.currentCombo++;
         this.visualEffectTicks = this.visualEffectMaxTicks; 
         this.currentTicks = this.start;
         return 2;        
     }
     else{
         
-        this.currentCombo = 0;
-//        this.visualEffectTicks = this.visualEffectMaxTicks; 
+        //this.visualEffectTicks = this.visualEffectMaxTicks; 
         this.currentTicks = this.start;
         return 1;
     }
 }
 
-ComboManager.prototype.updateVisual = function(){
+HitManager.prototype.updateVisual = function(){
     
     var scale = this.visualEffectTicks / this.visualEffectMaxTicks;
     var mult = 1 - scale;
@@ -54,14 +59,28 @@ ComboManager.prototype.updateVisual = function(){
     this.enemy.refreshCache();
 };
 
-ComboManager.prototype.clearVisual = function(){
+HitManager.prototype.clearVisual = function(){
     
     this.enemy.sprite.filters = [];    
     this.enemy.refreshCache();
 };
 
-ComboManager.prototype.tick = function(inner, outer){
+HitManager.prototype.tick = function(){
 
+    var inner = this.enemy.comboRingInner;
+    var outer = this.enemy.comboRingOuter;
+    
+    if(this.enemy.stunnableFramesLeft > 0){
+        
+        this.enemy.stunnableFramesLeft--;
+        
+        if(this.enemy.stunnableFramesLeft == 0){
+            
+            this.enemy.stunnableFramesLeft = 0;
+            this.enemy.stunnableFrames = 0;
+        }
+    }
+    
     if(this.visualEffectTicks > 0){
         this.updateVisual();
         this.visualEffectTicks--;

@@ -21,8 +21,8 @@ function Player(vars) {
         this.hitbox = {
             type: 'player',
             collidesWith: ['enemy', 'wall'],
-            width: this.size,
-            height: this.size
+            width: this.size * 0.8,
+            height: this.size * 0.8
         };
     };
 
@@ -79,18 +79,13 @@ function Player(vars) {
 
         if (obj.hitbox.type == 'wall')
             CollisionManager.push(this, obj);
-
-        if(this.invincibilityTicks > 0)
-            return;
-
-        if (obj.playerDamage)
-            this.takeDamage(obj);
-
     };
     
-    prototype.takeDamage = function(source) {
+    prototype.hit = function(source) {
 
         if (this.dead)
+            return;
+        if(this.invincibilityTicks > 0)
             return;
         
         var event = new createjs.Event('healthChanged');
@@ -98,6 +93,8 @@ function Player(vars) {
 
         this.health -= source.playerDamage;
         event.newHealth = this.health;
+        
+        this.destroyGhost();
 
         if (this.health <= 0) {
             this.health = 0;
@@ -118,6 +115,21 @@ function Player(vars) {
         this.dead = true;
         this.parent.removeChild(this);
     };
+    
+    prototype.makeGhost = function(){
+      
+        this.ghost = new Ghost(this);
+        Game.playingArea.addChild(this.ghost);
+    };
+    
+    prototype.destroyGhost = function(){
+        
+        if(!this.ghost)
+            return;
+        
+        this.ghost.parent.removeChild(this.ghost);        
+        this.ghost = null;
+    }
 
     Player = createjs.promote(Player, 'Container');
     Player.initialized = true;
