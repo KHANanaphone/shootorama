@@ -8,11 +8,12 @@ function Ghost(player){
     
     function setupVars(){
 
+        this.type = 'ghost';
         this.player = player;
         this.x = player.x;
         this.y = player.y;
         this.rotation = player.rotation;
-        this.triggered = false;
+        this.triggered = {};
         this.startup = 8;
         
         this.hitbox = {
@@ -21,18 +22,21 @@ function Ghost(player){
             width: this.player.size,
             height: this.player.size
         };
+        
     };
     
     function setupComponents(){
                
-        var rect = new createjs.Shape();
-        rect.graphics.beginStroke("SeaGreen").drawRect(
+        this.rect = new createjs.Shape();
+        this.rect.graphics.beginStroke("SeaGreen").drawRect(
             player.size / -2, 
             player.size / -2,
             player.size, 
             player.size);
+        this.rect.setBounds(-player.size, -player.size, player.size * 2, player.size * 2);
 
-        this.addChild(rect);
+        this.addChild(this.rect);
+        this.rectEffectsManager = new EffectsManager(this.rect);
     };
     
     function setupEvents(){
@@ -49,29 +53,49 @@ function Ghost(player){
       
     prototype.tick = function(){
 
+        this.rectEffectsManager.tick();
+        
         if(this.startup){
             this.startup--;
             return;
-        }
+        }        
         
         this.alpha -= 0.05;
 
         if(this.alpha <= 0)
-            this.player.destroyGhost();
+            this.parent.removeChild(this);
     };
     
     prototype.handleCollision = function(obj){
         
-        if(this.triggered)
+        if(this.alpha < 0.2)
+            return;
+        if(this.triggered[obj.id])
             return;
         if(!obj.triggersGhost)
             return;        
         if(this.startup)
             return;
         
-        this.triggered = true;
-        this.player.movementManager.resetDash();
+        this.triggered[obj.id] = true;
+        this.player.triggerGhost();
         obj.triggerGhost();
+        
+        if(!this.rect.expanding){
+            
+            this.rect.expanding = true;
+            
+            this.rectEffectsManager
+                .addEffect(new ScaleEffect(this.rect, {
+                to: 2,
+                time: 10
+            }));
+            
+            this.rectEffectsManager
+                .addEffect(new ColorEffect(this.rect, {
+                duration: -1, r: 1, g: 0, b: 1
+            }));
+        }
     };
     
     Ghost = createjs.promote(Ghost, 'Container');

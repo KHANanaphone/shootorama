@@ -65,7 +65,7 @@ function EnemyHealthMeter(enemy){
             this.redHealth = -1;
             this.redMeter.graphics.clear();
             return;
-        }        
+        };
         
         this.redHealth -= this.enemy.maxHealth * 0.002;
         var start = this.enemy.health / this.enemy.maxHealth;

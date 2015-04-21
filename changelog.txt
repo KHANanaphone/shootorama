@@ -5,6 +5,8 @@ Move around and shoot stuff. After you hit an enemy, two rings will
 appear around it. If you shoot it too soon, your shots will have little effect.
 If you time it just when the rings match, you will do bonus damage.
 
+Dash right when the enemy dashes at you for a bonus.
+
 Controls
 --------
 
@@ -15,6 +17,12 @@ Strafe: Hold P or C
 
 Changelog
 ---------
+
+4/21/2015
+- The 'dodge' system is now in. If the enemy dashes at you, and you dash out of the way so that they hit your green 'image' that you leave behind, it will trigger. The enemy will be left confused, and your color will change. Your next shot will be 'empowered' and deal extra damage. Shoot the confused enemy to stun it.
+- Also, as the enemy begins their dash, they will flash red. Counterattack during that time to stun the enemy. Mashing won't work, will only work if they have no 'ring' around them.
+- Added a bunch more visual effects
+- Next up: room transitions, figure out how to handle room data.
 
 4/15/2015
 - Oops, forgot to put updates.

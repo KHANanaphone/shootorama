@@ -38,6 +38,11 @@ function MovementManager(player){
 MovementManager.prototype.resetDash = function(){
 
     this.dashCooldown = 0;
+    
+    this.player.effectsManager.addEffect(new ExpandingParticleEffect(this.player, {
+        time: 10,
+        count: 4
+    }));
 };
 
 MovementManager.prototype.setKnockback = function(source){
@@ -96,6 +101,7 @@ MovementManager.prototype.tick = function(controlState){
             return;
         
         self.player.rotation = Math.atan2(nY, nX) * 180 / Math.PI;
+        self.player.facing = self.player.rotation;
     };
     
     if(self.dashCooldown > 0) self.dashCooldown--;

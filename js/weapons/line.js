@@ -19,6 +19,7 @@ function Line(vars){
         };
         
         this.damage = vars.damage ? vars.damage : 5;
+        this.empoweredDamage = vars.empoweredDamage ? vars.empoweredDamage : this.damage * 3;
         this.duration = vars.duration ? vars.duration : 20;
         
         this.x = vars.x ? vars.x : this.source.x;
@@ -43,9 +44,9 @@ function Line(vars){
     var prototype = createjs.extend(Line, createjs.Container);
       
     prototype.tick = function(){
-    
+        
         if(!this.targetPt)
-            getTarget.bind(this)();
+            getTarget.call(this);
 
         drawBeam.bind(this)();    
         fadeOut.bind(this)(); 
@@ -79,11 +80,21 @@ function Line(vars){
                 return;
             }
 
-
-            this.beam.graphics.clear()
+            this.beam.graphics.clear();
+            
+            if(this.empowered){
+                
+                this.beam.graphics.setStrokeStyle(3)
+                .beginStroke("Red")
+                .moveTo(point.x, point.y)
+                .lineTo(this.targetPt.x, this.targetPt.y);
+            }
+            else {
+                this.beam.graphics.setStrokeStyle(1)
                 .beginStroke("DeepSkyBlue")
                 .moveTo(point.x, point.y)
                 .lineTo(this.targetPt.x, this.targetPt.y);
+            }
         }
 
         function fadeOut(){

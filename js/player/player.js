@@ -17,6 +17,7 @@ function Player(vars) {
         this.controlsManager = new ControlsManager(this);
         this.movementManager = new MovementManager(this);
         this.weaponManager = new WeaponManager(this);
+        this.effectsManager = new EffectsManager(this);
 
         this.hitbox = {
             type: 'player',
@@ -31,6 +32,7 @@ function Player(vars) {
         var rect = new createjs.Shape();
         this.rect = rect;
         rect.graphics
+            .setStrokeStyle(2)
             .beginStroke("DeepSkyBlue")
             .drawRect(
                 this.size / -2,
@@ -38,6 +40,7 @@ function Player(vars) {
                 this.size,
                 this.size);
 
+        this.rect.setBounds(-this.size, -this.size, this.size * 2, this.size * 2);
         this.addChild(rect);
 
         var front = new createjs.Shape();
@@ -64,7 +67,8 @@ function Player(vars) {
 
         this.movementManager.tick(this.controlsManager.controlState);
         this.weaponManager.tick(this.controlsManager.controlState);
-
+        this.effectsManager.tick();
+        
         if (this.invincibilityTicks > 0) {
 
             this.invincibilityTicks--;
@@ -94,8 +98,8 @@ function Player(vars) {
         this.health -= source.playerDamage;
         event.newHealth = this.health;
         
-        this.destroyGhost();
-
+        Game.playingArea.removeChildrenOfType('ghost');
+        
         if (this.health <= 0) {
             this.health = 0;
             this.die();
@@ -117,19 +121,15 @@ function Player(vars) {
     };
     
     prototype.makeGhost = function(){
-      
-        this.ghost = new Ghost(this);
-        Game.playingArea.addChild(this.ghost);
+        
+        Game.playingArea.addChild(new Ghost(this));
     };
     
-    prototype.destroyGhost = function(){
+    prototype.triggerGhost = function(){
         
-        if(!this.ghost)
-            return;
-        
-        this.ghost.parent.removeChild(this.ghost);        
-        this.ghost = null;
-    }
+        this.movementManager.resetDash();
+        this.weaponManager.empower();
+    };
 
     Player = createjs.promote(Player, 'Container');
     Player.initialized = true;

@@ -24,5 +24,7 @@ Main.init = function(){
 }
 
 Main.manifest = [
-    {id: 'ghost', src: 'img/ghost.png'}
+    {id: 'ghost', src: 'img/ghost.png'},
+    {id: 'qmark', src: 'img/qmark.png'},
+    {id: 'star', src: 'img/star.png'}
 ];

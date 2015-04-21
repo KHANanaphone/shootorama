@@ -41,7 +41,21 @@ var prototype = createjs.extend(PlayingArea, createjs.Container);
     prototype.tick = function(){
         
         this.collisionManager.detectCollisions();
-    }
+    };
+    prototype.removeChildrenOfType = function(type){
+        
+        var toRemove = [];
+        for(var i = 0; i < this.children.length; i++){
+            
+            var child = this.children[i];
+            
+            if(child.type == type)
+                toRemove.push(child);
+        }
+        
+        for(var j = 0; j < toRemove.length; j++)
+            this.removeChild(toRemove[j]);
+    };
     
     PlayingArea = createjs.promote(PlayingArea, 'Container');
     PlayingArea.initialized = true;

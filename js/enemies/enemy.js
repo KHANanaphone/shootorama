@@ -21,21 +21,20 @@ function Enemy(vars){
         
         this.hitbox = {
             type: 'enemy',
-            collidesWith: ['player','enemy','wall','ghost'],
+            collidesWith: ['player','wall','ghost'],
             width: this.size * 0.85,
             height: this.size * 0.85
         };
         
         this.hitManager = new HitManager(this);        
         this.statedef = new Statedef(this);
+        this.effectsManager = new EffectsManager(this);
     };
     
     function setupComponents(){
                   
         this.sprite = 
             SpriteManager.makeSprite(this.spriteName).set({
-            regX: this.size / 2 / this.scale,
-            regY: this.size / 2 / this.scale,
             scaleX: this.scale,
             scaleY: this.scale
         });                
@@ -74,13 +73,13 @@ function Enemy(vars){
         this.sprite.cache(0, 0, this.size, this.size);        
     };
     
-    prototype.setStunnable = function(frames){
+    prototype.flashColor = function(duration, r, g, b){
       
-        if(this.hitManager.currentTicks > 0)
-            return;
-        
-        this.stunnableFramesLeft = 10;
-        this.stunnableFrames = 10;
+        this.effectsManager.addEffect(
+            new ColorEffect(this.sprite, {
+                duration: duration, r: r, g: g, b: b
+            })
+        );
     };
     
     prototype.tick = function(){    
@@ -88,13 +87,9 @@ function Enemy(vars){
         this.hitManager.tick();
         this.healthMeter.tick();
         manageState.call(this);
+        this.effectsManager.tick();
         
         function manageState(){
-            
-            if(this.stunQueued && !this.delayStun){
-                this.stunQueued = false;
-                this.statedef.changeState('stun');
-            }
 
             if(this['state_' + this.statedef.id])
                 this['state_' + this.statedef.id]();
@@ -121,35 +116,54 @@ function Enemy(vars){
         if (this.dead)
             return;
 
-        var damage = source.damage;
-        damage *= this.hitManager.hit();
+        var damage = this.hitManager.hit(source);
 
         var event = new createjs.Event('healthChanged');
         event.oldHealth = this.health;
         
         this.health -= damage;
         event.newHealth = this.health;
-        
-        this.dispatchEvent(event);
 
         if (this.health <= 0 ) {
 
             this.health = 0;
             this.die();
-        }        
+        };
+        
+        this.dispatchEvent(event);
     };
     
     prototype.die = function(){
     
-        this.dead = true;
-        this.parent.removeChild(this);        
+        this.statedef.changeState('dying');        
+        this.dead = true;       
     };
     
     prototype.move = function(vector, angle){
         
+        while(angle < 0)
+            angle += 360;
+        
+        angle = angle % 360;  
+        
+        var diff = this.facing - angle;
+        
+        if(diff < -180)
+            diff += 360;
+        else if(diff > 180)
+            diff -= 360;
+        
+        var newAngle = angle;
+        
+        if(diff > 5)
+            newAngle = this.facing - 5;
+        else if(diff < -5)
+            newAngle = this.facing + 5;
+        
         this.x += vector.x * 0.75;
         this.y += vector.y * 0.75;
-        this.sprite.rotation = angle;
+        this.facing = newAngle;
+        this.sprite.rotation = newAngle;
     };
     
     //distance from player in ticks
@@ -191,8 +205,7 @@ function Enemy(vars){
     };
     
     prototype.triggerGhost = function(){
-
-        this.stunQueued = true;
+    
     };    
     
     prototype.state_initial = function(){
@@ -200,13 +213,17 @@ function Enemy(vars){
         this.statedef.changeState(this.defaultState);
     };
     
-    prototype.state_stun = function(){
+    prototype.state_stunned = function(){
         
         if(this.statedef.time == 1){
+
+            this.stunned = true;
+            var stunEffect = new CirclingParticleEffect(this);
+            this.effectsManager.addEffect(stunEffect);
             
-            this.stunned = true;            
             this.statedef.onExitState = function(){
                 this.stunned = false;
+                this.effectsManager.clearEffect(stunEffect);
             }
         }
         
@@ -215,6 +232,14 @@ function Enemy(vars){
             this.statedef.changeState(this.defaultState);            
         }     
     };
+    
+    prototype.state_dying = function(){
+        
+        this.alpha -= 0.05;
+        
+        if(this.statedef.time == 20) 
+            this.parent.removeChild(this);       
+    }
         
     prototype.state_idle = function(){
         
