@@ -129,6 +129,7 @@ function GhostEnemy(vars){
             
             this.statedef.onExitState = function(){
                 
+                this.confused = false;
                 this.stunnable = 0;
                 this.questionMark.alpha = 0;
             };
