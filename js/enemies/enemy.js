@@ -1,3 +1,11 @@
+/* For objects deriving from this, here are the vars that need to be set BEFORE
+this constructor is called:
+
+- sprite name
+- health
+- scale
+
+*/
 function Enemy(vars){
     
     this.Container_constructor();
@@ -21,9 +29,26 @@ function Enemy(vars){
         
         this.hitbox = {
             type: 'enemy',
-            collidesWith: ['player','wall','ghost'],
+            collidesWith: ['player','wall','illusion'],
             width: this.size * 0.85,
             height: this.size * 0.85
+        };
+        
+        this.hits = {
+            
+            damageScaling : {
+                weak: 0.16,
+                normal: 1,
+                strong: 2,
+                stunned: 1,
+                counter: 3,
+                empowered: 1
+            },
+            
+            combo: {
+                startup: 40,
+                window: 10
+            }
         };
         
         this.hitManager = new HitManager(this);        
@@ -82,7 +107,7 @@ function Enemy(vars){
         );
     };
     
-    prototype.tick = function(){    
+    prototype.tick = function(){   
         
         this.hitManager.tick();
         this.healthMeter.tick();
@@ -204,7 +229,7 @@ function Enemy(vars){
             return rads;
     };
     
-    prototype.triggerGhost = function(){
+    prototype.triggerIllusion = function(){
     
     };    
     

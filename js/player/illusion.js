@@ -1,4 +1,4 @@
-function Ghost(player){
+function Illusion(player){
     
     this.Container_constructor();
     
@@ -8,7 +8,7 @@ function Ghost(player){
     
     function setupVars(){
 
-        this.type = 'ghost';
+        this.type = 'illusion';
         this.player = player;
         this.x = player.x;
         this.y = player.y;
@@ -17,7 +17,7 @@ function Ghost(player){
         this.startup = 8;
         
         this.hitbox = {
-            type: 'ghost',
+            type: 'illusion',
             collidesWith: ['enemy'],
             width: this.player.size,
             height: this.player.size
@@ -47,9 +47,9 @@ function Ghost(player){
     }
 };
 
-(Ghost.init = function(){
+(Illusion.init = function(){
     
-    var prototype = createjs.extend(Ghost, createjs.Container);
+    var prototype = createjs.extend(Illusion, createjs.Container);
       
     prototype.tick = function(){
 
@@ -72,14 +72,14 @@ function Ghost(player){
             return;
         if(this.triggered[obj.id])
             return;
-        if(!obj.triggersGhost)
+        if(!obj.triggersIllusion)
             return;        
         if(this.startup)
             return;
         
         this.triggered[obj.id] = true;
-        this.player.triggerGhost();
-        obj.triggerGhost();
+        this.player.triggerIllusion();
+        obj.triggerIllusion();
         
         if(!this.rect.expanding){
             
@@ -98,6 +98,6 @@ function Ghost(player){
         }
     };
     
-    Ghost = createjs.promote(Ghost, 'Container');
-    Ghost.initialized = true;
+    Illusion = createjs.promote(Illusion, 'Container');
+    Illusion.initialized = true;
 })();

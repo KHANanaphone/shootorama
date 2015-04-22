@@ -1,15 +1,12 @@
 function HitManager(enemy){
     
     this.enemy = enemy;
-    
-    this.start = 40;
-    this.window = 12;  
     this.currentTicks = 0;
 }
 
 HitManager.prototype.hit = function(source){
     
-    console.log(this.enemy.statedef.id + ' - ' + this.enemy.statedef.time);
+    var dmg;
     
     if(source.empowered){
         
@@ -17,32 +14,34 @@ HitManager.prototype.hit = function(source){
             this.enemy.statedef.changeState('stunned'); 
         
         this.refreshRingEffect(true);
-        return source.empoweredDamage;
+        dmg = source.empoweredDamage * this.enemy.hits.damageScaling.empowered;
     }
-    
-    if(this.enemy.stunnable == 2 && this.currentTicks <= 0){
+    else if(this.enemy.stunnable == 2 && this.currentTicks <= 0){
         
         this.enemy.statedef.changeState('stunned'); 
         this.refreshRingEffect(true);        
-        return source.damage * 3;
-    };
-    
-    //weak hit
-    if(this.currentTicks > 0 && this.currentTicks > this.window){
+        dmg = source.damage * this.enemy.hits.damageScaling.counter;
+    }
+    else if(this.currentTicks > 0 && this.currentTicks > this.enemy.hits.combo.window){
         
         this.refreshRingEffect(false);        
-        return source.damage / 6;
+        dmg = source.damage * this.enemy.hits.damageScaling.weak;
     } 
-    else if(this.currentTicks > 0 && this.currentTicks <= this.window){
+    else if(this.currentTicks > 0 && this.currentTicks <= this.enemy.hits.combo.window){
              
         this.refreshRingEffect(true);          
-        return source.damage * 2;      
+        dmg = source.damage * this.enemy.hits.damageScaling.strong;      
     }
     else{
         
         this.refreshRingEffect(false);
-        return source.damage;
+        dmg = source.damage * this.enemy.hits.damageScaling.normal;
     }
+
+    if(this.enemy.stunned)
+        return dmg * this.enemy.hits.damageScaling.stunned;
+    else
+        return dmg;
 };
 
 HitManager.prototype.refreshRingEffect = function(flash){  
@@ -50,12 +49,12 @@ HitManager.prototype.refreshRingEffect = function(flash){
     if(flash)
         this.enemy.flashColor(40, 0.9, 0.9, 0.3);         
         
-    this.currentTicks = this.start;
+    this.currentTicks = this.enemy.hits.combo.startup;
     
     this.enemy.effectsManager.addEffect(
         new RingEffect(this.enemy, {
-            start: this.start,
-            window: this.window,
+            start: this.enemy.hits.combo.startup,
+            window: this.enemy.hits.combo.window,
             color1: '#AAA',
             color2: '#8F8'
         })

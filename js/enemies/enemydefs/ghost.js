@@ -1,19 +1,22 @@
-function GhostEnemy(vars){
+function Ghost (vars){
     
-    setupVars.call(this);
-    this.Enemy_constructor(vars);    
+    if(!this.spriteName)
+        this.spriteName = 'ghost';
+    
+    this.health = 40;
+    
+    this.Enemy_constructor(vars); 
+    
+    setupVars.call(this);   
     setupComponents.call(this);
-    setupEvents.call(this);
     
     function setupVars(){
         
         //required
-        this.spriteName = 'ghost';
         this.defaultState = 'chasing';
-        this.health = 40;
-        this.playerDamage = 5;
+        this.playerDamage = 5; 
         
-        //optional
+        //default stats        
         this.stunTime = 90;        
         this.speed = 0.9;
            
@@ -22,12 +25,13 @@ function GhostEnemy(vars){
             velocity: 2
         };
         
-        this.dashTriggerRadius = 140;        
-        this.dashCooldownTime = 150;
-        this.dashChargeTime = 40;
-        
-        this.dashSpeed = 10;
-        this.dashTime = 18;
+        this.dash = {
+            triggerRadius: 140,
+            cooldownTime: 90,
+            chargeTime: 40,
+            speed: 10,
+            time: 18
+        };
     };
     
     function setupComponents(){
@@ -39,18 +43,13 @@ function GhostEnemy(vars){
             scaleY: this.scale,
             alpha: 0
         });
-        this.addChild(this.questionMark);
-        
+        this.addChild(this.questionMark);        
     };
-    
-    function setupEvents(){
-    
-    }
-};
+}
 
 (function(){
         
-    var prototype = createjs.extend(GhostEnemy, Enemy);
+    var prototype = createjs.extend(Ghost, Enemy);
     
     prototype.state_chasing = function(){
         
@@ -62,28 +61,28 @@ function GhostEnemy(vars){
         if(Game.player.dead){
             this.statedef.changeState('idle');
         }
-        else if(this.playerDistance() < this.dashTriggerRadius
-               && this.statedef.time > this.dashCooldownTime){
+        else if(this.playerDistance() < this.dash.triggerRadius
+               && this.statedef.time > this.dash.cooldownTime){
             this.statedef.changeState('dashCharging');
         }
     };
     
     prototype.state_dashCharging = function(){
         
-        if(this.statedef.time > this.dashChargeTime){
+        if(this.statedef.time > this.dash.chargeTime){
             this.statedef.changeState('dashing');
         }   
         else if(this.statedef.time == 1){
             
             this.effectsManager.addEffect(new ExpandingParticleEffect(this, {
-                time: this.dashChargeTime,
+                time: this.dash.chargeTime,
                 distance: 1.5,
                 reverse: true,
                 count: 5
             }));
             
-            this.dashVector = this.playerVector(this.dashSpeed);
-            this.dashAngle = this.playerAngle(true) - 90;
+            this.dash.vector = this.playerVector(this.dash.speed);
+            this.dash.angle = this.playerAngle(true) - 90;
         }     
     };
     
@@ -91,7 +90,7 @@ function GhostEnemy(vars){
         
         if(this.statedef.time == 1){
             
-            this.triggersGhost = true;
+            this.triggersIllusion = true;
             this.pushPriority = -1;
             this.knockback.velocity = 4;
             this.stunnable = 2;            
@@ -99,7 +98,7 @@ function GhostEnemy(vars){
             
             this.statedef.onExitState = function(){
             
-                this.triggersGhost = false;
+                this.triggersIllusion = false;
                 this.pushPriority = 1;
                 this.knockback.velocity = 2;
                 this.stunnable = 0;
@@ -110,9 +109,9 @@ function GhostEnemy(vars){
             this.stunnable = 0;
         }
         
-        this.move(this.dashVector, this.dashAngle);
+        this.move(this.dash.vector, this.dash.angle);
         
-        if(this.statedef.time > this.dashTime){
+        if(this.statedef.time > this.dash.time){
             
             if(this.confused)
                 this.statedef.changeState('confused');
@@ -142,11 +141,11 @@ function GhostEnemy(vars){
         };
     };
     
-    prototype.triggerGhost = function(){
+    prototype.triggerIllusion = function(){
 
         this.confused = true;
     };
     
-    GhostEnemy = createjs.promote(GhostEnemy, 'Enemy');
-    GhostEnemy.initialized = true;
+    Ghost = createjs.promote(Ghost, 'Enemy');
+    Ghost.initialized = true;
 })();

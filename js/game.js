@@ -17,11 +17,11 @@ Game.init = function(stage){
     stage.addChild(Game.playingArea);
     
     Game.playingArea.addChild(Game.player);
-    Game.playingArea.addChild(new GhostEnemy({x: 20, y: 20}));
-    Game.playingArea.addChild(new GhostEnemy({x: 980, y: 20}));
-    Game.playingArea.addChild(new GhostEnemy({x: 20, y: 580}));
     
-    Game.playingArea.addChild(new SuperghostEnemy({x: 980, y: 580}));
+    Game.playingArea.addChild(new Ghost({x: 20, y: 20})); 
+    Game.playingArea.addChild(new GhostArmored({x: 980, y: 20}));   
+    Game.playingArea.addChild(new GhostBig({x: 980, y: 580}));
+    Game.playingArea.addChild(new GhostFast({x: 20, y: 580}));
     
     //Hud Area
     Game.hudArea = new HudArea();

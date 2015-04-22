@@ -24,6 +24,18 @@ SpriteManager.spriteData = {
         animations: {
             stand: 0
         }
+    },    
+    'ghostBlue' : {
+        frames: {width: 40, height: 40},
+        animations: {
+            stand: 0
+        }
+    },    
+    'ghostOrange' : {
+        frames: {width: 40, height: 40},
+        animations: {
+            stand: 0
+        }
     },
     'qmark' : {
         frames: {width: 20, height: 20},

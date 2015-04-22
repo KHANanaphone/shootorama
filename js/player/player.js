@@ -98,7 +98,7 @@ function Player(vars) {
         this.health -= source.playerDamage;
         event.newHealth = this.health;
         
-        Game.playingArea.removeChildrenOfType('ghost');
+        Game.playingArea.removeChildrenOfType('illusion');
         
         if (this.health <= 0) {
             this.health = 0;
@@ -120,12 +120,12 @@ function Player(vars) {
         this.parent.removeChild(this);
     };
     
-    prototype.makeGhost = function(){
+    prototype.makeIllusion = function(){
         
-        Game.playingArea.addChild(new Ghost(this));
+        Game.playingArea.addChild(new Illusion(this));
     };
     
-    prototype.triggerGhost = function(){
+    prototype.triggerIllusion = function(){
         
         this.movementManager.resetDash();
         this.weaponManager.empower();
