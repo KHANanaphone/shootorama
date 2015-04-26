@@ -22,7 +22,7 @@ WeaponManager.prototype.tick = function(controlState){
         this.empoweredEffect = null;
     };
     
-    Game.playingArea.addChild(line);
+    Game.currentRoom.addChild(line);
     this.lastShot = new Date();
 };
 

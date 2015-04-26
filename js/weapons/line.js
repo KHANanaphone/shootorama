@@ -35,7 +35,6 @@ function Line(vars){
     
     function setupEvents(){
         
-        this.on('tick', this.tick);
     };
 };
 
@@ -125,7 +124,7 @@ Line.getTarget = function(line){
         aboutToBreak++;
         
         var l2g = line.localToGlobal(point.x, point.y);
-        var targets = Game.playingArea.collisionManager.getTargets(
+        var targets = CollisionManager.getTargets(
             l2g, ['enemy', 'wall']
         );
         

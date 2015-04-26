@@ -16,11 +16,13 @@ function Enemy(vars){
     
     function setupVars(){
       
+        this.type = 'enemy';
         this.x = vars.x;
         this.y = vars.y;
         this.maxHealth = this.health;
         this.pushPriority = 0;
         this.stunTime = this.stunTime ? this.stunTime : 120;
+        this.facing = 0;
         
         if(!this.scale)
             this.scale = 1;
@@ -85,7 +87,6 @@ function Enemy(vars){
     
     function setupEvents(){
     
-        this.on('tick', this.tick);
     }
 };
 
@@ -161,7 +162,7 @@ function Enemy(vars){
     prototype.die = function(){
     
         this.statedef.changeState('dying');        
-        this.dead = true;       
+        this.dead = true;           
     };
     
     prototype.move = function(vector, angle){
@@ -262,8 +263,11 @@ function Enemy(vars){
         
         this.alpha -= 0.05;
         
-        if(this.statedef.time == 20) 
+        if(this.statedef.time == 20) {
+            
+            this.dispatchEvent(new createjs.Event('dead'));  
             this.parent.removeChild(this);       
+        };
     }
         
     prototype.state_idle = function(){

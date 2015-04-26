@@ -1,4 +1,4 @@
-function Player(vars) {
+function Player() {
     
     this.Container_constructor();
 
@@ -8,10 +8,8 @@ function Player(vars) {
 
     function setupVars() {
 
-        this.x = vars.x;
-        this.y = vars.y;
         this.size = Player.HITBOX_SIZE;
-        this.health = vars.health ? vars.health : 50;
+        this.health = 50;
         this.maxHealth = this.health;
 
         this.controlsManager = new ControlsManager(this);
@@ -22,8 +20,8 @@ function Player(vars) {
         this.hitbox = {
             type: 'player',
             collidesWith: ['enemy', 'wall'],
-            width: this.size * 0.8,
-            height: this.size * 0.8
+            width: this.size,
+            height: this.size
         };
     };
 
@@ -50,8 +48,7 @@ function Player(vars) {
 
     function setupEvents() {
 
-        this.on('tick', this.tick);
-    }
+    };
 };
 
 (function() {
@@ -98,7 +95,7 @@ function Player(vars) {
         this.health -= source.playerDamage;
         event.newHealth = this.health;
         
-        Game.playingArea.removeChildrenOfType('illusion');
+        Game.currentRoom.removeChildrenOfType('illusion');
         
         if (this.health <= 0) {
             this.health = 0;
@@ -122,7 +119,7 @@ function Player(vars) {
     
     prototype.makeIllusion = function(){
         
-        Game.playingArea.addChild(new Illusion(this));
+        Game.currentRoom.addChild(new Illusion(this));
     };
     
     prototype.triggerIllusion = function(){
@@ -135,7 +132,7 @@ function Player(vars) {
     Player.initialized = true;
 })();
 
-Player.SPEED = 2.4;
+Player.SPEED = 3.6;
 Player.DASH_COOLDOWN_TICKS = 90;
 Player.DASH_THRESHOLD = 170;
 Player.DASH_SPEED_MUL = 2.8;

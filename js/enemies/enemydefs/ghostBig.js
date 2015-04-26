@@ -11,7 +11,7 @@ function GhostBig(vars){
     function setupVars(){
         
         this.playerDamage = 15;
-        this.speed = 0.7;
+        this.speed = 1.2;
 
         this.knockback.ticks = 11;
         this.knockback.velocity = 2;

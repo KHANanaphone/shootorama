@@ -1,14 +1,15 @@
 function PlayingArea(){
     
     this.Container_constructor();
-    
-    setupVars.bind(this)();
-    setupComponents.bind(this)();
-    setupEvents.bind(this)();    
+
+    setupVars.call(this);
+    setupComponents.call(this);
+    setupEvents.call(this); 
     
     function setupVars(){
         
-        this.collisionManager = new CollisionManager(this);
+        this.alpha = 0;        
+        this.ready = false;
     };
     
     function setupComponents(){
@@ -16,16 +17,6 @@ function PlayingArea(){
         var boundary = new createjs.Shape();
         boundary.graphics.beginStroke('Black').drawRect(0, 0, 1000, 600); 
         this.addChild(boundary);
-        this.boundary = boundary;
-    
-        var leftWall = new Wall({x: 5, y: 300, width: 10, height: 600}); 
-        var rightWall = new Wall({x: 995, y: 300, width: 10, height: 600});
-        var topWall = new Wall({x: 500, y: 5, width: 1000, height: 10}); 
-        var botWall = new Wall({x: 500, y: 595, width: 1000, height: 10});
-        this.addChild(leftWall);
-        this.addChild(rightWall);
-        this.addChild(topWall);
-        this.addChild(botWall);
     };
     
     function setupEvents(){
@@ -38,23 +29,131 @@ function PlayingArea(){
     
 var prototype = createjs.extend(PlayingArea, createjs.Container);
 
-    prototype.tick = function(){
+    prototype.fadeInRoom = function(room){
         
-        this.collisionManager.detectCollisions();
+        this.ready = false;
+        
+        this.fadeStatus = {
+            room: room,
+            fadeOutFramesLeft: this.currentRoom ? 25 : 0,
+            fadeInFramesLeft: 25
+        };
     };
-    prototype.removeChildrenOfType = function(type){
+    
+    prototype.transitionRoom = function(next, direction){
         
-        var toRemove = [];
-        for(var i = 0; i < this.children.length; i++){
-            
-            var child = this.children[i];
-            
-            if(child.type == type)
-                toRemove.push(child);
+        this.ready = false;
+                
+        if(direction == 'left'){
+            next.x = -1000;
+            Game.player.x += 1000;
         }
+        else if(direction == 'right'){
+            next.x = 1000;
+            Game.player.x -= 1000;
+        }
+        else if(direction == 'up'){
+            next.y = -600;
+            Game.player.y += 600;
+        }
+        else if(direction == 'down'){
+            next.y = 600;
+            Game.player.y -= 600;
+        }
+                
+        this.currentRoom.removeChild(Game.player);
+        next.addChild(Game.player);
+        this.addChild(next);
         
-        for(var j = 0; j < toRemove.length; j++)
-            this.removeChild(toRemove[j]);
+        this.transitionStatus = {
+            
+            room: next,
+            direction: direction,
+            ticksLeft: 90,
+            ticks: 90
+        };
+    };
+    
+    prototype.tick = function(){
+
+        if(this.ready == false){    
+            
+            if(this.fadeStatus)
+                this.handleFade();
+            
+            if(this.transitionStatus)
+                this.handleTransition();
+        }            
+        else if(this.currentRoom.ready)
+            this.currentRoom.tick();
+        else
+            this.currentRoom.setupTick();
+    };
+    
+    prototype.handleTransition = function(){
+        
+        var ts = this.transitionStatus;
+        
+        if(ts.ticksLeft > 0){
+            
+            if(ts.direction == 'left'){
+                this.currentRoom.x += 1000/ts.ticks;
+                ts.room.x += 1000/ts.ticks;
+                Game.player.x -= 50/ts.ticks;
+            }
+            else if(ts.direction == 'right'){
+                this.currentRoom.x -= 1000/ts.ticks;
+                ts.room.x -= 1000/ts.ticks;
+                Game.player.x += 50/ts.ticks;
+            }
+            else if(ts.direction == 'up'){
+                this.currentRoom.y += 600/ts.ticks;
+                ts.room.y += 600/ts.ticks;
+                Game.player.y -= 50/ts.ticks;
+            }
+            else if(ts.direction == 'down'){
+                this.currentRoom.y -= 600/ts.ticks;
+                ts.room.y -= 600/ts.ticks;
+                Game.player.y += 50/ts.ticks;
+            };
+            
+            ts.ticksLeft--;
+        }
+        else {
+            this.removeChild(this.currentRoom);
+            this.currentRoom = this.transitionStatus.room;
+            this.ready = true;
+        }
+    };
+    
+    prototype.handleFade = function(){
+    
+        if(this.fadeStatus.fadeOutFramesLeft > 0){
+            this.fadeStatus.fadeOutFramesLeft--;
+            this.alpha -= 0.04;
+        }
+        else if(this.fadeStatus.fadeOutFramesLeft == 0){
+
+            this.fadeStatus.fadeOutFramesLeft = -1;
+
+            if(this.currentRoom)
+                this.removeChild(this.currentRoom);
+
+            this.currentRoom = this.fadeStatus.room;
+            this.addChild(this.currentRoom);
+        }
+        else if(this.fadeStatus.fadeInFramesLeft > 0){
+
+            this.fadeStatus.fadeInFramesLeft--;
+            this.alpha += 0.04;
+        }
+        else if(this.fadeStatus.fadeInFramesLeft == 0){
+
+            this.currentRoom.makePlayer();            
+            this.fadeStatus.fadeInFramesLeft = -1;
+            this.fadeStatus = null;
+            this.ready = true;
+        };
     };
     
     PlayingArea = createjs.promote(PlayingArea, 'Container');

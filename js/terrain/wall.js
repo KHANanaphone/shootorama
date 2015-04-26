@@ -2,14 +2,13 @@ function Wall(vars){
     
     this.Container_constructor();
     
-    setupVars.bind(this)();
-    setupComponents.bind(this)();
-    setupEvents.bind(this)();
+    setupVars.call(this);
+    setupComponents.call(this);
     
     function setupVars(){
       
-        this.x = vars.x;
-        this.y = vars.y;
+        this.x = vars.x + vars.width / 2;
+        this.y = vars.y + vars.height / 2;
         
         this.width = vars.width;
         this.height = vars.height;
@@ -26,17 +25,12 @@ function Wall(vars){
     function setupComponents(){
                        
         var rect = new createjs.Shape();
-        rect.graphics.beginFill('#666')
+        rect.graphics.beginFill(vars.color ? vars.color : '#666')
             .drawRect(this.width / -2, this.height / -2, this.width, this.height);
         
         this.rect = rect;
         this.addChild(rect);
     };
-    
-    function setupEvents(){
-    
-        this.on('tick', this.tick);
-    }
 };
 
 (function(){

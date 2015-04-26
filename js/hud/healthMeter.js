@@ -4,15 +4,12 @@ function HealthMeter(vars){
     
     setupVars.bind(this)();
     setupComponents.bind(this)();
-    setupEvents.bind(this)();
-    
-    this.update();
     
     function setupVars(){
         
+        this.lastHealth = -1;
         this.redHealth = -1;
         
-        this.player = vars.player;
         this.x = vars.x;
         this.y = vars.y;
     }
@@ -35,49 +32,39 @@ function HealthMeter(vars){
         text.y = 6;
         this.addChild(text);
     };
-    
-    function setupEvents(){
-        
-        var meter = this;
-        
-        this.player.on('healthChanged', function(e){
-            
-            meter.update(e);
-        });
-        
-        this.on('tick', this.tick);
-    }
 };
 
 (function(){
     
     var prototype = createjs.extend(HealthMeter, createjs.Container);
     
-    prototype.update = function(e){
-    
-        var scale = this.player.health / this.player.maxHealth;
-
-        this.greenMeter.graphics.clear();
-        this.greenMeter.graphics.beginFill('#8F8').drawRect(5, 5, 140 * scale, 20);
-        
-        if(e)
-            this.redHealth = e.oldHealth;
-    };
-    
     prototype.tick = function(){
+        
+        var player = Game.player;
+        
+        if(this.lastHealth != player.health){
+            
+            this.redHealth = this.lastHealth;            
+            this.lastHealth = player.health;            
+            
+            var scale = player.health / player.maxHealth;
+
+            this.greenMeter.graphics.clear();
+            this.greenMeter.graphics.beginFill('#8F8').drawRect(5, 5, 140 * scale, 20);
+        };        
         
         if(this.redHealth == -1)
             return;
         
-        if(this.redHealth <= this.player.health){
+        if(this.redHealth <= player.health){
             this.redHealth = -1;
             this.redMeter.graphics.clear();
             return;
         }      
         
-        this.redHealth -= this.player.maxHealth * 0.004;
-        var start = this.player.health / this.player.maxHealth;
-        var end = this.redHealth / this.player.maxHealth - start;
+        this.redHealth -= player.maxHealth * 0.004;
+        var start = player.health / player.maxHealth;
+        var end = this.redHealth / player.maxHealth - start;
     
         this.redMeter.graphics.clear();        
         this.redMeter.graphics

@@ -27,11 +27,12 @@ function HudArea(){
             y:670,
             player: Game.player
         });
-        this.addChild(this.dashMeter);
-        
+        this.addChild(this.dashMeter);        
     };
     
     function setupEvents(){
+        
+        this.on('tick', this.tick);
     };
 }
 
@@ -40,6 +41,15 @@ function HudArea(){
     var prototype = createjs.extend(HudArea, createjs.Container);
 
     //prototypez
+    prototype.tick = function(){
+        
+        if(!Game.player)
+            return;
+    
+        for(var i = 0; i < this.children.length; i++)
+            if(this.children[i].tick)
+                this.children[i].tick();
+    };
 
     HudArea = createjs.promote(HudArea, 'Container');
     HudArea.initialized = true;

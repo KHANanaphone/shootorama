@@ -40,10 +40,7 @@ function Illusion(player){
     };
     
     function setupEvents(){
-    
-        var self = this;
         
-        this.on('tick', this.tick);
     }
 };
 

@@ -14,8 +14,7 @@ Main.init = function(){
         createjs.Ticker.timingMode = createjs.Ticker.RAF;
         
         createjs.Ticker.addEventListener('tick', function(){
-            
-            Game.tick();
+                      
             stage.update();
         });
 

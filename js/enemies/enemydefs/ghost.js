@@ -18,7 +18,7 @@ function Ghost (vars){
         
         //default stats        
         this.stunTime = 90;        
-        this.speed = 0.9;
+        this.speed = 1.4;
            
         this.knockback = {            
             ticks: 9,
@@ -94,7 +94,7 @@ function Ghost (vars){
             this.pushPriority = -1;
             this.knockback.velocity = 4;
             this.stunnable = 2;            
-            this.flashColor(10, 1, 0.5, 0.5);        
+            this.flashColor(10, 1, 0.1, 0.1);        
             
             this.statedef.onExitState = function(){
             

@@ -2,6 +2,7 @@ function HitManager(enemy){
     
     this.enemy = enemy;
     this.currentTicks = 0;
+    this.ticksSinceLastHit = 0;
 }
 
 HitManager.prototype.hit = function(source){
@@ -16,7 +17,7 @@ HitManager.prototype.hit = function(source){
         this.refreshRingEffect(true);
         dmg = source.empoweredDamage * this.enemy.hits.damageScaling.empowered;
     }
-    else if(this.enemy.stunnable == 2 && this.currentTicks <= 0){
+    else if(this.enemy.stunnable == 2 && this.ticksSinceLastHit >= 30){
         
         this.enemy.statedef.changeState('stunned'); 
         this.refreshRingEffect(true);        
@@ -37,6 +38,8 @@ HitManager.prototype.hit = function(source){
         this.refreshRingEffect(false);
         dmg = source.damage * this.enemy.hits.damageScaling.normal;
     }
+    
+    this.ticksSinceLastHit = 0;
 
     if(this.enemy.stunned)
         return dmg * this.enemy.hits.damageScaling.stunned;
@@ -75,4 +78,5 @@ HitManager.prototype.tick = function(){
     }
         
     this.currentTicks--;
+    this.ticksSinceLastHit++;
 }

@@ -1,7 +1,4 @@
-function CollisionManager(playingArea){
-    
-    this.playingArea = playingArea;
-}
+var CollisionManager = {};
 
 //Push the object with higher 'pushPriority'. If it's a tie, obj1 pushes obj2.
 //If the object has no pushPriority, it is set to 0
@@ -64,9 +61,10 @@ CollisionManager.getKnockbackVector = function(target, source, speed){
     return vector;
 };
 
-CollisionManager.prototype.detectCollisions = function(){
+//detects collisions within the current room
+CollisionManager.detectCollisions = function(){
     
-    var children = this.playingArea.children;
+    var children = Game.currentRoom.children;
     
     for(var i = 0; i < children.length; i++){
     
@@ -117,9 +115,9 @@ CollisionManager.prototype.detectCollisions = function(){
 
 //get all children at the given point that match the desired hitbox 
 // type in the array 'lookingFor'
-CollisionManager.prototype.getTargets = function(point, lookingFor){
+CollisionManager.getTargets = function(point, lookingFor){
     
-    var children = this.playingArea.children;
+    var children = Game.currentRoom.children;
     var targets = [];
     
     for(var i = 0; i < children.length; i++){

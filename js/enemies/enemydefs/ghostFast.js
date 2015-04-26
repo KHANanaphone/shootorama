@@ -10,7 +10,7 @@ function GhostFast(vars){
     
     function setupVars(){
         
-        this.speed = 2.5;
+        this.speed = 2.7;
         this.stunTime = 120;
 
         this.knockback = {            

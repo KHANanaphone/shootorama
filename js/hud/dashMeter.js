@@ -7,8 +7,7 @@ function DashMeter(vars){
     setupEvents.bind(this)();
     
     function setupVars(){
-        
-        this.player = vars.player;
+
         this.x = vars.x;
         this.y = vars.y;
     }
@@ -32,7 +31,7 @@ function DashMeter(vars){
     };
     
     function setupEvents(){
-        this.on('tick', this.tick);
+        
     }
 };
 
@@ -43,7 +42,7 @@ function DashMeter(vars){
     prototype.tick = function(){
         
         var scale = 
-            (Player.DASH_COOLDOWN_TICKS - this.player.movementManager.dashCooldown) 
+            (Player.DASH_COOLDOWN_TICKS - Game.player.movementManager.dashCooldown) 
         / Player.DASH_COOLDOWN_TICKS;
 
         if(scale < 1){  
