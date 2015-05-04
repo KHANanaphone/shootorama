@@ -21,7 +21,10 @@ function Room(roomdef){
         this.transitionTriggers.up,
         this.transitionTriggers.down);
     
-    roomdef.setup(this);
+    this.background = new Background();
+    this.addChild(this.background);
+    
+    roomdef.setup(this);    
 };
 
 (function(){

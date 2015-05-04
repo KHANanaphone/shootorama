@@ -20,15 +20,6 @@ Main.init = function(){
 
         Game.init(stage);
     };
-}
+};
 
-Main.manifest = [
-    
-    {id: 'ghost', src: 'img/ghost.png'},
-    {id: 'ghostOrange', src: 'img/ghostOrange.png'},
-    {id: 'ghostBlue', src: 'img/ghostBlue.png'},
-    
-    {id: 'qmark', src: 'img/qmark.png'},
-    {id: 'star', src: 'img/star.png'}
-    
-];
+Main.manifest = [];

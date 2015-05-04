@@ -12,6 +12,8 @@ function Player() {
         this.health = 50;
         this.maxHealth = this.health;
 
+        this.facing = this.rotation;
+        
         this.controlsManager = new ControlsManager(this);
         this.movementManager = new MovementManager(this);
         this.weaponManager = new WeaponManager(this);

@@ -11,24 +11,10 @@ function MovementManager(player){
         if(self.dashCooldown > 0)
             return;
         
-        if(controlState.left.isDown && controlState.right.isDown)
-            return;
-        if(controlState.up.isDown && controlState.down.isDown)
-            return;
-        if(!controlState.left.isDown &&
-           !controlState.right.isDown &&
-           !controlState.up.isDown &&
-           !controlState.down.isDown)
-            return;
-        
-        if(controlState.left.isDown)
-            self.xDash = {duration: Player.DASH_DURATION_TICKS, direction: 'left'};
-        if(controlState.right.isDown)
-            self.xDash = {duration: Player.DASH_DURATION_TICKS, direction: 'right'};
-        if(controlState.up.isDown)
-            self.yDash = {duration: Player.DASH_DURATION_TICKS, direction: 'up'};
-        if(controlState.down.isDown)
-            self.yDash = {duration: Player.DASH_DURATION_TICKS, direction: 'down'};
+        self.dash = {
+            duration: Player.DASH_DURATION_TICKS,
+            direction: player.facing
+        };
         
         self.dashCooldown = Player.DASH_COOLDOWN_TICKS;
         self.player.makeIllusion();
@@ -48,8 +34,7 @@ MovementManager.prototype.resetDash = function(){
 MovementManager.prototype.setKnockback = function(source){
     
     //cancel dashes
-    this.xDash = null;
-    this.yDash = null;
+    this.dash = null;
     
      this.knockback = {
         ticks: source.knockback.ticks,
@@ -66,8 +51,7 @@ MovementManager.prototype.tick = function(controlState){
     var control = true;
     var dashSpeed = Player.DASH_SPEED_MUL;
 
-    checkXDash();
-    checkYDash();
+    checkDash();
     checkKnockback();
 
     if(control){
@@ -84,6 +68,11 @@ MovementManager.prototype.tick = function(controlState){
     if(x != 0 || y != 0)
         setSpeed(x, y);
     
+    if(self.dashCooldown > 0) 
+        self.dashCooldown--;
+    else 
+        self.dashCooldown = 0;
+    
     function setSpeed(x, y){
         
         var nX = 0;
@@ -94,8 +83,7 @@ MovementManager.prototype.tick = function(controlState){
         nY = Math.abs(y) * y / length;
         
         self.player.x += nX * Player.SPEED;
-        self.player.y += nY * Player.SPEED;
-        
+        self.player.y += nY * Player.SPEED;        
         
         if(controlState.strafe.isDown == 1)
             return;
@@ -103,42 +91,21 @@ MovementManager.prototype.tick = function(controlState){
         self.player.rotation = Math.atan2(nY, nX) * 180 / Math.PI;
         self.player.facing = self.player.rotation;
     };
-    
-    if(self.dashCooldown > 0) self.dashCooldown--;
-    else self.dashCooldown = 0;
 
-    function checkXDash(){
+    function checkDash(){
 
-        if(!self.xDash)
+        if(!self.dash)
             return;
+        
+        var angleRadians = self.dash.direction * Math.PI / 180;
+        
+        x += Math.cos(angleRadians) * dashSpeed;
+        y += Math.sin(angleRadians) * dashSpeed;
 
-        if(self.xDash.direction == 'right')
-            x += dashSpeed;
-        else
-            x -= dashSpeed;
+        self.dash.duration--;
 
-        self.xDash.duration--;
-
-        if(self.xDash.duration <= 0)
-            self.xDash = null;
-
-        control = false;
-    }
-
-    function checkYDash(){
-
-        if(!self.yDash)
-            return;
-
-        if(self.yDash.direction == 'up')
-            y -= dashSpeed;
-        else
-            y += dashSpeed;
-
-        self.yDash.duration--;
-
-        if(self.yDash.duration <= 0)
-            self.yDash = null;
+        if(self.dash.duration <= 0)
+            self.dash = null;
 
         control = false;
     }

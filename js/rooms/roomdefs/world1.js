@@ -1,139 +1,64 @@
-Game.roomdefs['r1'] = {
-    
-    setup : function(room){
-        
-        var topDoor = new Wall({x: 460, y: 0, width: 80, height: 10, color: '#AAA'});
-        var rightDoor = new Wall({x: 990, y: 260, width: 10, height: 80, color: '#AAA'});
-        
-        room.fadeInObject(new Ghost({x: 300, y: 300}));
-        room.fadeInObject(new Ghost({x: 700, y: 300}));
-        
-        //left
-        room.addChild(new Wall({x: 0, y: 0, width: 10, height: 600})); 
-        
-        //down
-        room.addChild(new Wall({x: 0, y: 590, width: 1000, height: 10}));
-        
-        //right
-        room.addChild(new Wall({x: 990, y: 0, width: 10, height: 260}));
-        room.addChild(rightDoor);
-        room.addChild(new Wall({x: 990, y: 340, width: 10, height: 260}));   
-        
-        //up
-        room.addChild(new Wall({x: 0, y: 0, width: 460, height: 10})); 
-        room.fadeInObject(topDoor);
-        room.addChild(new Wall({x: 540, y: 0, width: 460, height: 10})); 
-        
-        room.addTransition('right', 'r2');
-        
-        room.onClear = function(){
-            
-            this.fadeOutObject(rightDoor, 0);
-        }
-    }
-};
+(function(){
 
-Game.roomdefs['r2'] = {
+    var WT = 15; //wall thickness
     
-    setup : function(room){
-        
-        var topDoor = new Wall({x: 460, y: 0, width: 80, height: 10, color: '#AAA'});
-        var leftDoor = new Wall({x: 0, y: 260, width: 10, height: 80, color: '#AAA'});
-        
-        room.fadeInObject(new GhostBig({x: 300, y: 300}));
-        room.fadeInObject(new GhostBig({x: 700, y: 300}));
-        
-        //right
-        room.addChild(new Wall({x: 990, y: 0, width: 10, height: 600})); 
-        
-        //down
-        room.addChild(new Wall({x: 0, y: 590, width: 1000, height: 10}));
-        
-        //left
-        room.addChild(new Wall({x: 0, y: 0, width: 10, height: 260}));
-        room.fadeInObject(leftDoor);
-        room.addChild(new Wall({x: 0, y: 340, width: 10, height: 260}));   
-        
-        //up
-        room.addChild(new Wall({x: 0, y: 0, width: 460, height: 10})); 
-        room.addChild(topDoor);
-        room.addChild(new Wall({x: 540, y: 0, width: 460, height: 10})); 
-        
-        room.addTransition('up', 'r3');
-        
-        room.onClear = function(){
-            
-            this.fadeOutObject(topDoor, 0);
-        }
-    }
-};
+    Game.roomdefs['r1'] = {
+    
+        setup : function(room){
 
-Game.roomdefs['r3'] = {
-    
-    setup : function(room){
-        
-        var downDoor = new Wall({x: 460, y: 590, width: 80, height: 10, color: '#AAA'});
-        var leftDoor = new Wall({x: 0, y: 260, width: 10, height: 80, color: '#AAA'});
-        
-        room.fadeInObject(new GhostFast({x: 300, y: 300}));
-        room.fadeInObject(new GhostFast({x: 700, y: 300}));
-        
-        //right
-        room.addChild(new Wall({x: 990, y: 0, width: 10, height: 600})); 
-        
-        //up
-        room.addChild(new Wall({x: 0, y: 0, width: 1000, height: 10}));
-        
-        //left
-        room.addChild(new Wall({x: 0, y: 0, width: 10, height: 260}));
-        room.addChild(leftDoor);
-        room.addChild(new Wall({x: 0, y: 340, width: 10, height: 260}));   
-        
-        //down
-        room.addChild(new Wall({x: 0, y: 590, width: 460, height: 10})); 
-        room.fadeInObject(downDoor);
-        room.addChild(new Wall({x: 540, y: 590, width: 460, height: 10})); 
-        
-        room.addTransition('left', 'r4');
-        
-        room.onClear = function(){
+            room.playerSpawnPoint = {x: 600, y: 250};
             
-            this.fadeOutObject(leftDoor, 0);
-        }
-    }
-};
+            makeBG();
+            makeWalls();
+            
+            function makeBG(){
+                
+                room.background.addRect('#EEF', 0, 0, 1000, 450);  
+                room.background.addRect('#000', 0, 450, 1000, 150); 
+                room.background.addRect('#000', 0, 0, 200, 450);         
+                room.background.addText({               
+                    
+                    text: 'Use arrow keys or WSAD to move',
+                    color: '#FFF',
+                    x: 500,
+                    y: 500,
+                    textAlign: 'center'                    
+                });     
+                
+                room.background.addText({                   
+                    text: 'Tutorial ->',
+                    color: 'rgba(0, 0, 0, 0.4)',
+                    x: 960,
+                    y: 232,
+                    textAlign: 'right'                    
+                });
+            };
+            
+            function makeWalls(){
+                
+                
+                //left
+                room.addChild(new Wall({x: 200, y: 0, width: WT, height: 450})); 
 
-Game.roomdefs['r4'] = {
-    
-    setup : function(room){
-        
-        var downDoor = new Wall({x: 460, y: 590, width: 80, height: 10, color: '#AAA'});
-        var rightDoor = new Wall({x: 990, y: 260, width: 10, height: 80, color: '#AAA'});
-        
-        room.fadeInObject(new GhostArmored({x: 300, y: 300}));
-        room.fadeInObject(new GhostArmored({x: 700, y: 300}));
-        
-        //right
-        room.addChild(new Wall({x: 990, y: 0, width: 10, height: 260}));
-        room.fadeInObject(rightDoor);
-        room.addChild(new Wall({x: 990, y: 340, width: 10, height: 260}));  
-        
-        //up
-        room.addChild(new Wall({x: 0, y: 0, width: 1000, height: 10}));
-        
-        //left
-        room.addChild(new Wall({x: 0, y: 0, width: 10, height: 600}));   
-        
-        //down
-        room.addChild(new Wall({x: 0, y: 590, width: 460, height: 10})); 
-        room.addChild(downDoor);
-        room.addChild(new Wall({x: 540, y: 590, width: 460, height: 10})); 
-        
-        room.addTransition('down', 'r1');
-        
-        room.onClear = function(){
-            
-            this.fadeOutObject(downDoor, 0);
+                //down
+                room.addChild(new Wall({x: 200 + WT, y: 450 - WT, width: 800 - WT * 2, height: WT}));
+
+                //right
+                room.addChild(new Wall({x: 1000 - WT, y: 0, width: WT, height: 200}));
+                room.addChild(new Wall({x: 1000 - WT, y: 300, width: WT, height: 150}));   
+
+                //up
+                room.addChild(new Wall({x: 350, y: 0, width: 650 - WT, height: WT})); 
+            };
+
+            room.addTransition('up', 'r6');
+            room.addTransition('right', 'r2');
         }
-    }
-};
+    };
+    
+    Game.roomdefs['r6'] = {
+    };
+    
+    Game.roomdefs['r6'] = {
+    };
+})();
