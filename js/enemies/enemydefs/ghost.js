@@ -3,7 +3,7 @@ function Ghost (vars){
     if(!this.spriteName)
         this.spriteName = 'ghost';
     
-    this.health = 40;
+    this.health = this.health ? this.health : 40;
     
     this.Enemy_constructor(vars); 
     
@@ -92,9 +92,7 @@ function Ghost (vars){
             
             this.triggersIllusion = true;
             this.pushPriority = -1;
-            this.knockback.velocity = 4;
-            this.stunnable = 2;            
-            this.flashColor(10, 1, 0.1, 0.1);        
+            this.knockback.velocity = 4;       
             
             this.statedef.onExitState = function(){
             

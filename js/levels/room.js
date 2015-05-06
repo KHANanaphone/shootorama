@@ -24,7 +24,7 @@ function Room(roomdef){
     this.background = new Background();
     this.addChild(this.background);
     
-    roomdef.setup(this);    
+    roomdef(this);    
 };
 
 (function(){
@@ -72,8 +72,6 @@ function Room(roomdef){
     
     prototype.tick = function(){
         
-        CollisionManager.detectCollisions();
-        
         for(var i = 0; i < this.children.length; i++){
             
             var c = this.children[i];
@@ -81,6 +79,8 @@ function Room(roomdef){
             if(c.tick)
                 c.tick();
         };
+        
+        CollisionManager.detectCollisions();
     };
     
     prototype.removeChildrenOfType = function(type){
@@ -116,6 +116,7 @@ function Room(roomdef){
         
         enemy.on('dead', function(e){
             
+            debugger;
             self.enemyDead(e.target);
         });
         
@@ -175,9 +176,26 @@ function Room(roomdef){
         });
     };
     
-    prototype.addTransition = function(direction, roomId){
+    prototype.getCollidableChildren = function(){
         
-        this.transitionTriggers[direction].targetId = roomId;
+        var collidable = [];
+        recursiveGetCollidableChildren(this, collidable);
+        
+        return collidable;
+        
+        function recursiveGetCollidableChildren(obj, arr){
+            
+            for(var i = 0; i < obj.children.length; i++){
+        
+                var c = obj.children[i];
+                
+                if(c.hitbox)
+                    arr.push(c);
+                
+                if(c.children)
+                   recursiveGetCollidableChildren(c, arr); 
+            };
+        };        
     };
     
     Room = createjs.promote(Room, 'Container');

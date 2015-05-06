@@ -2,8 +2,8 @@ function HealthMeter(vars){
     
     this.Container_constructor();
     
-    setupVars.bind(this)();
-    setupComponents.bind(this)();
+    setupVars.call(this);
+    setupComponents.call(this);
     
     function setupVars(){
         

@@ -125,7 +125,7 @@ Line.getTarget = function(line){
         
         var l2g = line.localToGlobal(point.x, point.y);
         var targets = CollisionManager.getTargets(
-            l2g, ['enemy', 'wall']
+            l2g, ['enemy', 'solid']
         );
         
         if(targets.length > 0)

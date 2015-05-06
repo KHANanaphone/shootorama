@@ -13,8 +13,6 @@ function TransitionTrigger(side, x, y, width, height){
         width: width,
         height: height
     };
-    
-    this.targetId = null;
 };
 
 (function(){
@@ -23,10 +21,11 @@ function TransitionTrigger(side, x, y, width, height){
     
     prototype.handleCollision = function(obj){
         
-        if(!this.targetId)
-            CollisionManager.push(this, obj);
-        else
-            Game.transitionRoom(this.side);
+        if(!Game.playingArea.ready)
+            return;
+        
+        if(!Game.tryTransitionRoom(this.side))
+            CollisionManager.push(this, obj);    
     };
     
     TransitionTrigger = createjs.promote(TransitionTrigger, 'Container');

@@ -7,6 +7,7 @@ function ColorEffect(target, vars){
     this.r = vars.r;
     this.g = vars.g;
     this.b = vars.b;    
+    this.a = vars.a ? vars.a : 1;
     this.duration = vars.duration ? vars.duration : -1;
     this.timeRemaining = vars.duration;
     
@@ -24,7 +25,7 @@ ColorEffect.prototype.apply = function(scale){
     
     this.filter = 
         new createjs.ColorFilter(
-            mult,         mult,         mult,         1,
+            mult,         mult,         mult,         this.a,
             add * this.r, add * this.g, add * this.b, 0
         );
     

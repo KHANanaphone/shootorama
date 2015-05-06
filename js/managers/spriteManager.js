@@ -36,7 +36,14 @@ SpriteManager.spriteData = {
         animations: {
             stand: 0
         }
+    },  
+    'ghostRed' : {
+        frames: {width: 40, height: 40},
+        animations: {
+            stand: 0
+        }
     },
+    
     'qmark' : {
         frames: {width: 20, height: 20},
         animations: {
@@ -48,7 +55,26 @@ SpriteManager.spriteData = {
         animations: {
             initial: 0
         }
-    }
+    },    
+    'key' : {
+        frames : {width: 40, height: 40},
+        animations: {
+            initial: 0
+        }
+    },
+    
+    'turret': { 
+        frames : {width: 40, height: 40},
+        animations: {
+            initial: 0
+        }
+    },
+    'fire': { 
+        frames : {width: 20, height: 20},
+        animations: {
+            initial: 0
+        }
+    }    
 };
 
 Main.manifest.push(
@@ -56,8 +82,13 @@ Main.manifest.push(
     {id: 'ghost', src: 'img/ghost.png'},
     {id: 'ghostOrange', src: 'img/ghostOrange.png'},
     {id: 'ghostBlue', src: 'img/ghostBlue.png'},
+    {id: 'ghostRed', src: 'img/ghostBlue.png'},
     
     {id: 'qmark', src: 'img/qmark.png'},
-    {id: 'star', src: 'img/star.png'}
+    {id: 'star', src: 'img/star.png'},
+    {id: 'key', src: 'img/key.png'},
+    
+    {id: 'turret', src: 'img/turret.png'},
+    {id: 'fire', src: 'img/fire.png'}
     
 );

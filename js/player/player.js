@@ -11,6 +11,7 @@ function Player() {
         this.size = Player.HITBOX_SIZE;
         this.health = 50;
         this.maxHealth = this.health;
+        this.keys = 0;
 
         this.facing = this.rotation;
         
@@ -21,7 +22,7 @@ function Player() {
 
         this.hitbox = {
             type: 'player',
-            collidesWith: ['enemy', 'wall'],
+            collidesWith: ['enemy', 'solid'],
             width: this.size,
             height: this.size
         };
@@ -34,6 +35,7 @@ function Player() {
         rect.graphics
             .setStrokeStyle(2)
             .beginStroke("DeepSkyBlue")
+            .beginFill("#DDF")
             .drawRect(
                 this.size / -2,
                 this.size / -2,
@@ -80,7 +82,7 @@ function Player() {
     
     prototype.handleCollision = function(obj) {
 
-        if (obj.hitbox.type == 'wall')
+        if (obj.hitbox.type == 'solid')
             CollisionManager.push(this, obj);
     };
     
@@ -98,6 +100,9 @@ function Player() {
         event.newHealth = this.health;
         
         Game.currentRoom.removeChildrenOfType('illusion');
+        
+        if(this.weaponManager.empowered)
+            this.weaponManager.removeEmpowered();
         
         if (this.health <= 0) {
             this.health = 0;
@@ -128,6 +133,11 @@ function Player() {
         
         this.movementManager.resetDash();
         this.weaponManager.empower();
+    };
+    
+    prototype.addKeys = function(add){
+        
+        this.keys += add;
     };
 
     Player = createjs.promote(Player, 'Container');

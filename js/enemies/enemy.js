@@ -31,7 +31,7 @@ function Enemy(vars){
         
         this.hitbox = {
             type: 'enemy',
-            collidesWith: ['player','wall','illusion'],
+            collidesWith: ['player', 'solid', 'illusion', 'enemy'],
             width: this.size * 0.85,
             height: this.size * 0.85
         };
@@ -49,7 +49,7 @@ function Enemy(vars){
             
             combo: {
                 startup: 40,
-                window: 10
+                window: 14
             }
         };
         
@@ -130,10 +130,9 @@ function Enemy(vars){
     
     prototype.handleCollision = function(obj){
     
-        if (obj.hitbox.type == 'enemy' || obj.hitbox.type == 'wall')
+        if (obj.hitbox.type == 'solid')
             CollisionManager.push(this, obj);
-        
-        if (obj.hitbox.type == 'player' && this.playerDamage)            
+        else if (obj.hitbox.type == 'player' && this.playerDamage)            
             obj.hit(this);
     };
     
@@ -161,6 +160,7 @@ function Enemy(vars){
     
     prototype.die = function(){
     
+        this.hitbox = null;
         this.statedef.changeState('dying');        
         this.dead = true;           
     };
@@ -265,6 +265,7 @@ function Enemy(vars){
         
         if(this.statedef.time == 20) {
             
+            debugger;
             this.dispatchEvent(new createjs.Event('dead'));  
             this.parent.removeChild(this);       
         };

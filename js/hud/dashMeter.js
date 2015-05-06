@@ -2,9 +2,9 @@ function DashMeter(vars){
     
     this.Container_constructor();
     
-    setupVars.bind(this)();
-    setupComponents.bind(this)();
-    setupEvents.bind(this)();
+    setupVars.call(this);
+    setupComponents.call(this);
+    setupEvents.call(this);  
     
     function setupVars(){
 

@@ -2,32 +2,38 @@ function HudArea(){
     
     this.Container_constructor();
     
-    setupVars.bind(this)();
-    setupComponents.bind(this)();
-    setupEvents.bind(this)();    
+    setupVars.call(this);
+    setupComponents.call(this);
+    setupEvents.call(this);    
     
     function setupVars(){
+        
+        this.y = 600;
     };
     
     function setupComponents(){
         
         var boundary = new createjs.Shape();
-        boundary.graphics.beginStroke('Black').drawRect(0, 600, 1000, 120); 
+        boundary.graphics.beginStroke('Black').beginFill('White').drawRect(0, 0, 1000, 120); 
         this.addChild(boundary);
         
         this.healthMeter = new HealthMeter({
             x:20,
-            y:630,
-            player: Game.player
+            y:30
         });
         this.addChild(this.healthMeter);
         
         this.dashMeter = new DashMeter({
             x:20,
-            y:670,
-            player: Game.player
+            y:70
         });
-        this.addChild(this.dashMeter);        
+        this.addChild(this.dashMeter); 
+        
+        this.keys = new KeyCounter({
+            x: 950,
+            y: 80
+        });
+        this.addChild(this.keys);
     };
     
     function setupEvents(){
@@ -52,5 +58,4 @@ function HudArea(){
     };
 
     HudArea = createjs.promote(HudArea, 'Container');
-    HudArea.initialized = true;
 })();

@@ -19,8 +19,8 @@ CollisionManager.push = function(obj1, obj2){
     }        
     
     //center of this object to the center of the colliding object
-    var xDist = pusher.x - pushed.x;
-    var yDist = pusher.y - pushed.y;
+    var xDist = CollisionManager.getXDist(pusher, pushed);
+    var yDist = CollisionManager.getYDist(pusher, pushed);
     
     //how far away the objects have to be in this direction for them to be not touching
     var xBuffer = Math.abs(pusher.hitbox.width + pushed.hitbox.width) / 2;
@@ -64,14 +64,11 @@ CollisionManager.getKnockbackVector = function(target, source, speed){
 //detects collisions within the current room
 CollisionManager.detectCollisions = function(){
     
-    var children = Game.currentRoom.children;
+    var children = Game.currentRoom.getCollidableChildren();
     
     for(var i = 0; i < children.length; i++){
     
         var obj1 = children[i];
-        
-        if(!obj1.hitbox)
-            continue;
         
         for(var j = i + 1; j < children.length; j++){
             
@@ -79,30 +76,43 @@ CollisionManager.detectCollisions = function(){
             
             if(!obj2.hitbox)
                 continue;
+
+            var obj1cares = collidesWith(obj1, obj2);
+            var obj2cares = collidesWith(obj2, obj1);
             
-            if(
-                (obj1.hitbox.collidesWith.indexOf(obj2.hitbox.type) == -1) &&
-                (obj2.hitbox.collidesWith.indexOf(obj1.hitbox.type) == -1) 
-            )
+            if(!obj1cares && !obj2cares)
                 continue; //don't care about each other
             
             if(hasCollision(obj1, obj2)){
-                obj1.handleCollision(obj2);
-                obj2.handleCollision(obj1);
+                
+                if(obj1cares)
+                    obj1.handleCollision(obj2);
+                
+                if(obj2cares)
+                    obj2.handleCollision(obj1);
             }
         }        
-    }   
+    };
+    
+    function collidesWith(obj1, obj2){
+        
+        if(obj1.hitbox.collidesWith &&
+           obj1.hitbox.collidesWith.indexOf(obj2.hitbox.type) != -1)
+            return true;
+        
+        return false;
+    };
     
     function hasCollision(obj1, obj2){
         
         if(isNaN(obj1.x) || isNaN(obj1.y) || isNaN(obj2.x) || isNaN(obj2.y)){
             
-            console.error("Object's location is valid.");
+            console.error("Object's location is invalid.");
             return false;
         }
         
-        var xDist = Math.abs(obj1.x - obj2.x) - (obj1.hitbox.width + obj2.hitbox.width) / 2;
-        var yDist = Math.abs(obj1.y - obj2.y) - (obj1.hitbox.height + obj2.hitbox.height) / 2;
+        var xDist = Math.abs(CollisionManager.getXDist(obj1, obj2)) - (obj1.hitbox.width + obj2.hitbox.width) / 2; 
+        var yDist = Math.abs(CollisionManager.getYDist(obj1, obj2)) - (obj1.hitbox.height + obj2.hitbox.height) / 2;
         
         if(isNaN(xDist) || xDist >= 0)
             return false;
@@ -112,6 +122,21 @@ CollisionManager.detectCollisions = function(){
         return true;
     }
 }
+
+//distance between centers of hitboxes of two objects
+CollisionManager.getXDist = function(obj1, obj2){
+    
+    var x1center = (obj1.hitbox.x ? obj1.hitbox.x : 0) + obj1.x;
+    var x2center = (obj2.hitbox.x ? obj2.hitbox.x : 0) + obj2.x;
+    return x1center - x2center;    
+};
+
+CollisionManager.getYDist = function(obj1, obj2){
+    
+    var y1center = (obj1.hitbox.y ? obj1.hitbox.y : 0) + obj1.y;
+    var y2center = (obj2.hitbox.y ? obj2.hitbox.y : 0) + obj2.y;
+    return y1center - y2center;
+};
 
 //get all children at the given point that match the desired hitbox 
 // type in the array 'lookingFor'

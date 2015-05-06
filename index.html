@@ -9,7 +9,11 @@
         <script src="js/main.js"></script>
         <script src="js/playingArea.js"></script>
         
+        <script src="js/items/item.js"></script>
+        <script src="js/items/key.js"></script>
+        
         <script src="js/weapons/line.js"></script>
+        <script src="js/weapons/enemyProjectile.js"></script>
         
         <script src="js/effects/circlingParticleEffect.js"></script>
         <script src="js/effects/colorEffect.js"></script>
@@ -36,18 +40,24 @@
         <script src="js/enemies/enemydefs/ghostArmored.js"></script>
         <script src="js/enemies/enemydefs/ghostBig.js"></script>
         <script src="js/enemies/enemydefs/ghostFast.js"></script>
+        <script src="js/enemies/enemydefs/ghostTutorial1.js"></script>
+        <script src="js/enemies/enemydefs/ghostTutorial2.js"></script>
+        <script src="js/enemies/enemydefs/ghostTutorial3.js"></script>
         
         <script src="js/terrain/background.js"></script>
         <script src="js/terrain/exit.js"></script>
         <script src="js/terrain/transitionTrigger.js"></script>
+        <script src="js/terrain/turret.js"></script>
         <script src="js/terrain/wall.js"></script>
         
         <script src="js/hud/dashMeter.js"></script>
         <script src="js/hud/healthMeter.js"></script>
         <script src="js/hud/hudArea.js"></script>
+        <script src="js/hud/keyCounter.js"></script>
         
-        <script src="js/rooms/room.js"></script>  
-        <script src="js/rooms/roomdefs/world1.js"></script>      
+        <script src="js/levels/room.js"></script>  
+        <script src="js/levels/level.js"></script>
+        <script src="js/levels/leveldefs/tutorial.js"></script>      
         
         <link rel="stylesheet" type="text/css" href="style.css"></link>            
     
@@ -61,6 +71,7 @@
     <body onload="Main.init();">
         <canvas id="gameCanvas" width="1000" height="720"></canvas><br />
         <a href="changelog.txt">About</a>
+        <input type='checkbox' onchange='Main.debugShowHitboxes(this)'>Show Hitboxes
     </body>
     
 </html>

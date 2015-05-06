@@ -14,11 +14,11 @@ function Illusion(player){
         this.y = player.y;
         this.rotation = player.rotation;
         this.triggered = {};
-        this.startup = 8;
+        this.startup = 2;
         
         this.hitbox = {
             type: 'illusion',
-            collidesWith: ['enemy'],
+            collidesWith: ['enemy', 'enemyWeapon'],
             width: this.player.size,
             height: this.player.size
         };
@@ -65,7 +65,7 @@ function Illusion(player){
     
     prototype.handleCollision = function(obj){
         
-        if(this.alpha < 0.2)
+        if(this.alpha < 0.1)
             return;
         if(this.triggered[obj.id])
             return;
@@ -76,7 +76,9 @@ function Illusion(player){
         
         this.triggered[obj.id] = true;
         this.player.triggerIllusion();
-        obj.triggerIllusion();
+        
+        if(obj.triggerIllusion)
+            obj.triggerIllusion();
         
         if(!this.rect.expanding){
             

@@ -2,8 +2,7 @@ var Game = {
     playingArea: null,
     hudArea: null,
     player: null,
-    stage: null,
-    roomdefs: {}
+    stage: null
 };
 
 Game.init = function(stage){
@@ -19,18 +18,17 @@ Game.init = function(stage){
     Game.hudArea = new HudArea();
     stage.addChild(Game.hudArea);
     
-    Game.fadeInRoom('r1');   
+    Game.level = new Level('tutorial');
+    Game.currentRoom = Game.level.currentRoom;
+    Game.playingArea.fadeInRoom(Game.level.currentRoom);
 };
 
-Game.fadeInRoom = function(id){
+Game.tryTransitionRoom = function(direction){
     
-    this.currentRoom = new Room(Game.roomdefs[id]);
-    Game.playingArea.fadeInRoom(this.currentRoom);
-};
-
-Game.transitionRoom = function(direction){
+    if(!Game.level.tryTransitionRoom(direction))
+        return false;
     
-    var nextRoomId = this.playingArea.currentRoom.transitionTriggers[direction].targetId; 
-    this.currentRoom = new Room(Game.roomdefs[nextRoomId]);    
-    Game.playingArea.transitionRoom(this.currentRoom, direction);    
+    Game.currentRoom = Game.level.currentRoom;
+    Game.playingArea.transitionRoom(Game.level.currentRoom, direction);    
+    return true;
 };
