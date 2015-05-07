@@ -56,7 +56,14 @@ SpriteManager.spriteData = {
             initial: 0
         }
     },    
+    
     'key' : {
+        frames : {width: 40, height: 40},
+        animations: {
+            initial: 0
+        }
+    },     
+    'health' : {
         frames : {width: 40, height: 40},
         animations: {
             initial: 0
@@ -86,7 +93,9 @@ Main.manifest.push(
     
     {id: 'qmark', src: 'img/qmark.png'},
     {id: 'star', src: 'img/star.png'},
+    
     {id: 'key', src: 'img/key.png'},
+    {id: 'health', src: 'img/health.png'},
     
     {id: 'turret', src: 'img/turret.png'},
     {id: 'fire', src: 'img/fire.png'}

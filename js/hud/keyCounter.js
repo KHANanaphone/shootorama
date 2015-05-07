@@ -18,6 +18,7 @@ function KeyCounter(vars){
         this.addChild(sprite);
 
         var text = new createjs.Text();
+        text.x = 5;
         text.font = '30px bitrod';
         text.text = this.keys;
         text.color = '#000';   

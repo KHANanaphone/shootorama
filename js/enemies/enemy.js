@@ -24,10 +24,8 @@ function Enemy(vars){
         this.stunTime = this.stunTime ? this.stunTime : 120;
         this.facing = 0;
         
-        if(!this.scale)
-            this.scale = 1;
-        
-        this.size = 40 * this.scale;
+        this.scale = this.scale ? this.scale : 1;
+        this.size = this.size * this.scale;
         
         this.hitbox = {
             type: 'enemy',
@@ -61,9 +59,12 @@ function Enemy(vars){
     function setupComponents(){
                   
         this.sprite = 
-            SpriteManager.makeSprite(this.spriteName).set({
-            scaleX: this.scale,
-            scaleY: this.scale
+            SpriteManager.makeSprite(this.spriteName);
+        
+        var bounds = this.sprite.getBounds();        
+        this.sprite.set({
+            scaleX: this.size / bounds.width,
+            scaleY: this.size / bounds.height
         });                
         this.addChild(this.sprite);
         
@@ -265,7 +266,6 @@ function Enemy(vars){
         
         if(this.statedef.time == 20) {
             
-            debugger;
             this.dispatchEvent(new createjs.Event('dead'));  
             this.parent.removeChild(this);       
         };

@@ -9,10 +9,10 @@ function Room(roomdef){
         
     this.transitionTriggers = {
 
-        left: new TransitionTrigger('left', 0, 300, 2, 600),
-        right: new TransitionTrigger('right', 1000, 300, 2, 600),
-        up: new TransitionTrigger('up', 500, 0, 1000, 2),
-        down: new TransitionTrigger('down', 500, 600, 1000, 2)
+        left: new TransitionTrigger('left', -20, 300, 2, 600),
+        right: new TransitionTrigger('right', 1020, 300, 2, 600),
+        up: new TransitionTrigger('up', 500, -20, 1000, 2),
+        down: new TransitionTrigger('down', 500, 620, 1000, 2)
     };
     
     this.addChild(
@@ -116,7 +116,6 @@ function Room(roomdef){
         
         enemy.on('dead', function(e){
             
-            debugger;
             self.enemyDead(e.target);
         });
         

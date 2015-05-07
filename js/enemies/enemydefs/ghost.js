@@ -4,6 +4,7 @@ function Ghost (vars){
         this.spriteName = 'ghost';
     
     this.health = this.health ? this.health : 40;
+    this.size = 60;
     
     this.Enemy_constructor(vars); 
     
