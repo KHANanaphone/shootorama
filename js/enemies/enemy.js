@@ -142,20 +142,28 @@ function Enemy(vars){
         if (this.dead)
             return;
 
-        var damage = this.hitManager.hit(source);
-
-        var event = new createjs.Event('healthChanged');
-        event.oldHealth = this.health;
+        this.hitManager.hit(source);
+    };
+    
+    prototype.addHealth = function(amount){
         
-        this.health -= damage;
-        event.newHealth = this.health;
-
-        if (this.health <= 0 ) {
-
-            this.health = 0;
+        var oldHealth = this.health;
+        
+        var newHealth = this.health + amount;        
+        newHealth = newHealth < 0 ? 0 : newHealth;
+        newHealth = newHealth > this.maxHeath ? this.maxHeath : newHealth;
+        
+        if(newHealth == oldHealth)
+            return;
+        
+        this.health = newHealth;
+        
+        if(this.health == 0)            
             this.die();
-        };
         
+        var event = new createjs.Event('healthChanged');
+        event.oldHealth = oldHealth;
+        event.newHealth = newHealth;
         this.dispatchEvent(event);
     };
     

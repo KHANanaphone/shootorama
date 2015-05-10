@@ -58,17 +58,15 @@
         
         function makeObjects(){
             
-            room.addChild(new Trigger({x: 450, y: 250, width: 100, height: 100, onTrigger: spawnEnemies}));
-            
-            room.addChild(new Health({x: 500, y: 300, type: 'large'}));
+            room.addChild(new Health({x: 500, y: 300, type: 'heart', onCollect: spawnEnemies}));
         };        
         
         function spawnEnemies(){
             
-            room.fadeInObject(new Ghost({x: 100, y: 100}));
-            room.fadeInObject(new Ghost({x: 900, y: 100}));
-            room.fadeInObject(new Ghost({x: 100, y: 500}));
-            room.fadeInObject(new Ghost({x: 900, y: 500}));
+            room.fadeInObject(new Ghost({x: 100, y: 100}), 0);
+            room.fadeInObject(new Ghost({x: 900, y: 100}), 1);
+            room.fadeInObject(new Ghost({x: 100, y: 500}), 2);
+            room.fadeInObject(new Ghost({x: 900, y: 500}), 3);
         };
         
         room.onClear = function(){
@@ -217,6 +215,10 @@
         makeBG();
         makeWalls();
 
+        room.addChild(new Health({x: 300, y: 275, type: 'small'}));
+        room.addChild(new Health({x: 300, y: 300, type: 'large'}));
+        room.addChild(new Coin({x: 300, y: 325}));
+        
         room.addChild(new Turret({x: 400, y: 35, facing: 0, damage: 2}));
 
         function makeBG(){

@@ -7,7 +7,7 @@ function HitManager(enemy){
 
 HitManager.prototype.hit = function(source){
     
-    var dmg;
+    var dmg, type;
     
     if(source.empowered){
         
@@ -15,42 +15,75 @@ HitManager.prototype.hit = function(source){
             this.enemy.statedef.changeState('stunned'); 
         
         this.refreshRingEffect(true);
+        type = 'empowered';
         dmg = source.empoweredDamage * this.enemy.hits.damageScaling.empowered;
     }
     else if(this.enemy.stunnable == 2 && this.ticksSinceLastHit >= 30){
         
         this.enemy.statedef.changeState('stunned'); 
-        this.refreshRingEffect(true);        
+        this.refreshRingEffect(true);   
+        type = 'stun';     
         dmg = source.damage * this.enemy.hits.damageScaling.counter;
     }
     else if(this.currentTicks > 0 && this.currentTicks > this.enemy.hits.combo.window){
         
-        this.refreshRingEffect(false);        
+        this.refreshRingEffect(false);  
+        type = 'weak';            
         dmg = source.damage * this.enemy.hits.damageScaling.weak;
     } 
     else if(this.currentTicks > 0 && this.currentTicks <= this.enemy.hits.combo.window){
              
-        this.refreshRingEffect(true);          
+        this.refreshRingEffect(true);    
+        type = 'strong';                  
         dmg = source.damage * this.enemy.hits.damageScaling.strong;      
     }
     else{
         
         this.refreshRingEffect(false);
+        type = 'normal';            
         dmg = source.damage * this.enemy.hits.damageScaling.normal;
     }
     
     this.ticksSinceLastHit = 0;
 
     if(this.enemy.stunned)
-        return dmg * this.enemy.hits.damageScaling.stunned;
-    else
-        return dmg;
+        dmg *= this.enemy.hits.damageScaling.stunned;
+    
+    dmg = Math.floor(dmg);
+    
+    this.enemy.addHealth(-dmg);
+    this.textEffect(type, dmg);
+};
+
+HitManager.prototype.textEffect = function(type, damage){
+    
+    var params = {text: damage};
+    
+    if(type == 'empowered' || type == 'stun'){
+        params.color = 'red';
+        params.size = '35px';
+        params.text += '!';
+    }
+    else if(type == 'strong'){
+        params.color = '#ccac00';
+        params.size = '30px';
+    }
+    else if(type == 'normal'){
+        params.color = 'black';
+        params.size = '25px';
+    }
+    else if(type == 'weak'){
+        params.color = '#BBB';
+        params.size = '25px';
+    }    
+    
+    this.enemy.effectsManager.addEffect(new FadingTextEffect(this.enemy, params));
 };
 
 HitManager.prototype.refreshRingEffect = function(flash){  
     
     if(flash)
-        this.enemy.flashColor(40, 0.9, 0.9, 0.3);         
+        this.enemy.flashColor(40, 1, 0.8, 0);         
         
     this.currentTicks = this.enemy.hits.combo.startup;
     

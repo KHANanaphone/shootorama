@@ -36,15 +36,7 @@ function Ghost (vars){
     };
     
     function setupComponents(){
-        
-        this.questionMark = SpriteManager.makeSprite('qmark').set({           
-            x: 0,
-            y: this.size * -1,
-            scaleX: this.scale,
-            scaleY: this.scale,
-            alpha: 0
-        });
-        this.addChild(this.questionMark);        
+            
     };
 }
 
@@ -124,16 +116,21 @@ function Ghost (vars){
         if(this.statedef.time == 1){
             
             this.stunnable = 1;
+            this.effectsManager.addEffect(
+                new FadingTextEffect(this, {
+                    text: '?',
+                    time: 80,
+                    size: '35px'
+                })
+            );
             
             this.statedef.onExitState = function(){
                 
                 this.confused = false;
                 this.stunnable = 0;
-                this.questionMark.alpha = 0;
             };
         }
         
-        this.questionMark.alpha += 0.05;
         
         if(this.statedef.time == 60){            
             this.statedef.changeState('chasing');

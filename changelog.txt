@@ -18,6 +18,27 @@ Strafe: Hold P or C
 Changelog
 ---------
 
+5/7/2015
+- Tutorial-type level added
+- There's now a "background layer" where I can add images, colors, and text
+- "Show hitboxes" debug checkbox thing
+- There's a turret that shoots projectiles that can damage the player
+- Breakable wall
+- New 'map' system for room transitions/levels
+- Keys/key door/key count display
+- Pickupable items
+- Got rid of "counter-hit" on ghosts because it was sort of a pain to describe, and I don't think it was that needed.
+- Trigger zones
+- Blah blah blah
+
+4/26/2015
+- Ghosts no longer turn instantly, instead they will gradually turn
+- New visual effects for stunned/confused ghosts
+- Now there are variants of ghosts
+- Room transitions
+- You no longer need to hold a direction while dashing
+- Fixed 'dashing through wall' bug (but it'll be back)
+
 4/21/2015
 - The 'dodge' system is now in. If the enemy dashes at you, and you dash out of the way so that they hit your green 'image' that you leave behind, it will trigger. The enemy will be left confused, and your color will change. Your next shot will be 'empowered' and deal extra damage. Shoot the confused enemy to stun it.
 - Also, as the enemy begins their dash, they will flash red. Counterattack during that time to stun the enemy. Mashing won't work, will only work if they have no 'ring' around them.

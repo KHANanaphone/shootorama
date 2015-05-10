@@ -7,21 +7,21 @@ function ColorEffect(target, vars){
     this.r = vars.r;
     this.g = vars.g;
     this.b = vars.b;    
-    this.a = vars.a ? vars.a : 1;
+    this.scaleStart = vars.scaleStart ? vars.scaleStart : 1;
     this.duration = vars.duration ? vars.duration : -1;
     this.timeRemaining = vars.duration;
     
     if(this.timeRemaining == -1){
         
-        this.apply(1);
+        this.apply(this.scaleStart);
     }
 };
 
 ColorEffect.prototype.apply = function(scale){
       
     var applyTo = this.target;    
-    var mult = 1 - scale;
-    var add = 255 * scale;
+    var mult = (1 - scale);
+    var add = (255 * scale);
     
     this.filter = 
         new createjs.ColorFilter(
@@ -51,7 +51,7 @@ ColorEffect.prototype.tick = function(){
     if(this.timeRemaining == -1)
         return;
     
-    var scale = this.timeRemaining / this.duration;
+    var scale = (this.timeRemaining / this.duration) * this.scaleStart;
     this.apply(scale);
 };
 

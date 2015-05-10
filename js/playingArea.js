@@ -43,22 +43,27 @@ var prototype = createjs.extend(PlayingArea, createjs.Container);
     prototype.transitionRoom = function(next, direction){
         
         this.ready = false;
+        var ticks;
                 
         if(direction == 'left'){
             next.x = -1000;
             Game.player.x += 1000;
+            ticks = 75;
         }
         else if(direction == 'right'){
             next.x = 1000;
             Game.player.x -= 1000;
+            ticks = 75;
         }
         else if(direction == 'up'){
             next.y = -600;
             Game.player.y += 600;
+            ticks = 60;
         }
         else if(direction == 'down'){
             next.y = 600;
             Game.player.y -= 600;
+            ticks = 60;
         }
                 
         this.currentRoom.removeChild(Game.player);
@@ -69,8 +74,8 @@ var prototype = createjs.extend(PlayingArea, createjs.Container);
             
             room: next,
             direction: direction,
-            ticksLeft: 90,
-            ticks: 90
+            ticksLeft: ticks,
+            ticks: ticks
         };
     };
     

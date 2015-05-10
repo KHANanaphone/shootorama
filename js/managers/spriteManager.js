@@ -19,6 +19,19 @@ SpriteManager.makeSprite = function(id){
 
 SpriteManager.spriteData = {
     
+    'player' : {
+        frames: {width: 48, height: 48},
+        animations: {
+            stand: 0
+        }
+    },    
+    'playerIllusion' : {
+        frames: {width: 48, height: 48},
+        animations: {
+            stand: 0
+        }
+    },
+    
     'ghost' : {
         frames: {width: 40, height: 40},
         animations: {
@@ -63,7 +76,19 @@ SpriteManager.spriteData = {
             initial: 0
         }
     },     
-    'health' : {
+    'heartplus' : {
+        frames : {width: 40, height: 40},
+        animations: {
+            initial: 0
+        }
+    },      
+    'heart' : {
+        frames : {width: 40, height: 40},
+        animations: {
+            initial: 0
+        }
+    },  
+    'coin' : {
         frames : {width: 40, height: 40},
         animations: {
             initial: 0
@@ -81,23 +106,24 @@ SpriteManager.spriteData = {
         animations: {
             initial: 0
         }
-    }    
+    },
+    
+    'orbenergy' : {
+        frames : {width: 32, height: 32},
+        animations: {
+            initial: 0
+        }
+    },
+    'orbcoin' : {
+        frames : {width: 32, height: 32},
+        animations: {
+            initial: 0
+        }
+    },
+    'orbhealth' : {
+        frames : {width: 32, height: 32},
+        animations: {
+            initial: 0
+        }
+    },
 };
-
-Main.manifest.push(
-    
-    {id: 'ghost', src: 'img/ghost.png'},
-    {id: 'ghostOrange', src: 'img/ghostOrange.png'},
-    {id: 'ghostBlue', src: 'img/ghostBlue.png'},
-    {id: 'ghostRed', src: 'img/ghostBlue.png'},
-    
-    {id: 'qmark', src: 'img/qmark.png'},
-    {id: 'star', src: 'img/star.png'},
-    
-    {id: 'key', src: 'img/key.png'},
-    {id: 'health', src: 'img/health.png'},
-    
-    {id: 'turret', src: 'img/turret.png'},
-    {id: 'fire', src: 'img/fire.png'}
-    
-);

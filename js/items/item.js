@@ -9,8 +9,10 @@ function Item(vars){
       
         this.x = vars.x;
         this.y = vars.y;
+        this.onCollect = vars.onCollect;
         
-        this.size = 40;
+        if(!this.size)
+            this.size = 40;
         
         this.hitbox = {
             type: 'item',
@@ -22,7 +24,14 @@ function Item(vars){
     
     function setupComponents(){
                        
-        this.sprite = SpriteManager.makeSprite(this.spriteName);          
+        this.sprite = SpriteManager.makeSprite(this.spriteName);  
+        
+        var bounds = this.sprite.getBounds();        
+        this.sprite.set({
+            scaleX: this.size / bounds.width,
+            scaleY: this.size / bounds.height
+        });                       
+        
         this.addChild(this.sprite);
     };
 };
@@ -30,6 +39,32 @@ function Item(vars){
 (function(){
         
     var prototype = createjs.extend(Item, createjs.Container);
+    
+    prototype.tick = function(){
+        
+        if(this.collected){
+            
+            this.alpha -= 0.1;
+            
+            if(this.alpha <= 0)
+                this.parent.removeChild(this);
+        }
+    };
+    
+    prototype.handleCollision = function(obj){
+        
+        if(this.collected)
+            return;
+        
+        if(obj.hitbox.type != 'player')
+            return;
+        
+        this.collect(obj);
+        this.collected = true;
+        
+        if(this.onCollect)
+            this.onCollect();
+    };
     
     prototype.destroy = function(){
         

@@ -33,6 +33,11 @@ function Room(roomdef){
     
     prototype.setupTick = function(){
         
+        if(this.fading.length == 0){
+            this.ready = true;
+            return;
+        };
+        
         var currentLayer = 9999;
         
         for(var i = 0; i < this.fading.length; i++)
@@ -63,14 +68,11 @@ function Room(roomdef){
                     this.removeChild(fade.obj);
             };
         };
-        
-        if(this.fading.length == 0){
-            this.ready = true;
-            return;
-        };
     };
     
     prototype.tick = function(){
+        
+        this.setupTick();
         
         for(var i = 0; i < this.children.length; i++){
             
@@ -137,13 +139,13 @@ function Room(roomdef){
             this.onClear(this);
     };
     
-    prototype.fadeInObject = function(obj, layer){
+    prototype.fadeInObject = function(obj, layer, pause){
         
         if(!layer)
             layer = 0;
         
         obj.alpha = 0;
-        this.ready = false;
+        this.ready = pause ? false : true;
         
         if(obj.type == 'enemy'){            
             this.addEnemy(obj);
@@ -160,12 +162,12 @@ function Room(roomdef){
         });
     };
     
-    prototype.fadeOutObject = function(obj, layer){
+    prototype.fadeOutObject = function(obj, layer, pause){
         
         if(!layer)
             layer = 0;
         
-        this.ready = false;
+        this.ready = pause ? false : true;
         
         this.fading.push({
             type: 'out',

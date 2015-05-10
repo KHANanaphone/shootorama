@@ -18,8 +18,8 @@ function HudArea(){
         this.addChild(boundary);
         
         this.healthMeter = new HealthMeter({
-            x:20,
-            y:30
+            x:10,
+            y:10
         });
         this.addChild(this.healthMeter);
         
@@ -30,10 +30,16 @@ function HudArea(){
         this.addChild(this.dashMeter); 
         
         this.keys = new KeyCounter({
-            x: 950,
-            y: 80
+            x: 930,
+            y: 90
         });
         this.addChild(this.keys);
+        
+        this.coins = new CoinCounter({
+            x: 930,
+            y: 35
+        });
+        this.addChild(this.coins);
     };
     
     function setupEvents(){

@@ -1,4 +1,4 @@
-function KeyCounter(vars){
+function CoinCounter(vars){
     
     this.Container_constructor();
     
@@ -9,18 +9,19 @@ function KeyCounter(vars){
         
         this.x = vars.x;
         this.y = vars.y;
-        this.keys = 0;
+        this.coins = Game.player.coins;
     };
     
     function setupComponents(){
         
-        var sprite = SpriteManager.makeSprite('key');
+        var sprite = SpriteManager.makeSprite('coin');
+        sprite.x = -10;
         this.addChild(sprite);
 
         var text = new createjs.Text();
         text.x = 15;
         text.font = '30px bitrod';
-        text.text = this.keys;
+        text.text = this.coins;
         text.color = '#000';   
         text.textAlign = 'left';
         this.text = text;
@@ -30,17 +31,17 @@ function KeyCounter(vars){
 
 (function(){
     
-    var prototype = createjs.extend(KeyCounter, createjs.Container);
+    var prototype = createjs.extend(CoinCounter, createjs.Container);
 
     prototype.tick = function(){
         
-        if(Game.player.keys != this.keys){
+        if(Game.player.coins != this.coins){
             
-            this.keys = Game.player.keys;
-            this.text.text = this.keys;
+            this.coins = Game.player.coins;
+            this.text.text = this.coins;
         };
     };
     
-    KeyCounter = createjs.promote(KeyCounter, 'Container');
+    CoinCounter = createjs.promote(CoinCounter, 'Container');
     
 })();

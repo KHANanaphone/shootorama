@@ -10,7 +10,7 @@ function Line(vars){
         
         this.source = vars.source;
         
-        this.trajectory = vars.trajectory ? vars.trajectory : this.source.rotation;
+        this.trajectory = vars.trajectory ? vars.trajectory : this.source.facing;
         this.trajectory *= Math.PI / 180; //radian conversion
         
         this.startPt = {

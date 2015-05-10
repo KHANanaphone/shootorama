@@ -33,8 +33,8 @@ WeaponManager.prototype.removeEmpowered = function(){
 WeaponManager.prototype.empower = function(){
     
     this.empowered = true;
-    this.empoweredEffect = new ColorEffect(this.player.rect, {
-        duration: -1, r: 1, g: 0, b: 0, a: 0.4
+    this.empoweredEffect = new ColorEffect(this.player.sprite, {
+        duration: -1, r: 1, g: 0, b: 0, scaleStart: 0.5
     });
     
     this.player.effectsManager.addEffect(this.empoweredEffect);

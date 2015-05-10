@@ -21,6 +21,11 @@ function MovementManager(player){
     });
 };
 
+MovementManager.prototype.endMovement = function(){
+    
+    this.dash = null;
+};
+
 MovementManager.prototype.resetDash = function(){
 
     this.dashCooldown = 0;
@@ -49,7 +54,6 @@ MovementManager.prototype.tick = function(controlState){
     var y = 0;
     var x = 0;
     var control = true;
-    var dashSpeed = Player.DASH_SPEED_MUL;
 
     checkDash();
     checkKnockback();
@@ -63,33 +67,32 @@ MovementManager.prototype.tick = function(controlState){
             x--;
         if(controlState['right'].isDown == 1)
             x++;
-    }
+        
+        if(x && y){
+            
+            x *= 0.72;
+            y *= 0.72;
+        };
+    };
     
     if(x != 0 || y != 0)
-        setSpeed(x, y);
+        movePlayer(x, y);
     
     if(self.dashCooldown > 0) 
         self.dashCooldown--;
     else 
         self.dashCooldown = 0;
     
-    function setSpeed(x, y){
+    function movePlayer(x, y){
         
-        var nX = 0;
-        var nY = 0;
-
-        var length = Math.sqrt(x*x + y*y);
-        nX = Math.abs(x) * x / length;
-        nY = Math.abs(y) * y / length;
-        
-        self.player.x += nX * Player.SPEED;
-        self.player.y += nY * Player.SPEED;        
+        self.player.x += x * Player.SPEED;
+        self.player.y += y * Player.SPEED;        
         
         if(controlState.strafe.isDown == 1)
             return;
         
-        self.player.rotation = Math.atan2(nY, nX) * 180 / Math.PI;
-        self.player.facing = self.player.rotation;
+        self.player.sprite.rotation = Math.atan2(y, x) * 180 / Math.PI - 90;
+        self.player.facing = Math.atan2(y, x) * 180 / Math.PI;
     };
 
     function checkDash(){
@@ -98,9 +101,11 @@ MovementManager.prototype.tick = function(controlState){
             return;
         
         var angleRadians = self.dash.direction * Math.PI / 180;
+        var mul = 1 + (Player.DASH_SPEED_MUL - 1) * 
+            (self.dash.duration / Player.DASH_DURATION_TICKS);        
         
-        x += Math.cos(angleRadians) * dashSpeed;
-        y += Math.sin(angleRadians) * dashSpeed;
+        x += Math.cos(angleRadians) * mul;
+        y += Math.sin(angleRadians) * mul;
 
         self.dash.duration--;
 

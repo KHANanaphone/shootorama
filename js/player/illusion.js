@@ -12,7 +12,7 @@ function Illusion(player){
         this.player = player;
         this.x = player.x;
         this.y = player.y;
-        this.rotation = player.rotation;
+        this.rotation = player.facing;
         this.triggered = {};
         this.startup = 2;
         
@@ -23,20 +23,14 @@ function Illusion(player){
             height: this.player.size
         };
         
+        this.effectsManager = new EffectsManager(this);       
     };
     
     function setupComponents(){
                
-        this.rect = new createjs.Shape();
-        this.rect.graphics.beginStroke("SeaGreen").drawRect(
-            player.size / -2, 
-            player.size / -2,
-            player.size, 
-            player.size);
-        this.rect.setBounds(-player.size, -player.size, player.size * 2, player.size * 2);
-
-        this.addChild(this.rect);
-        this.rectEffectsManager = new EffectsManager(this.rect);
+        this.sprite = SpriteManager.makeSprite('playerIllusion');  
+        this.sprite.rotation = -90;        
+        this.addChild(this.sprite);
     };
     
     function setupEvents(){
@@ -50,7 +44,7 @@ function Illusion(player){
       
     prototype.tick = function(){
 
-        this.rectEffectsManager.tick();
+        this.effectsManager.tick();
         
         if(this.startup){
             this.startup--;
@@ -78,23 +72,18 @@ function Illusion(player){
         this.player.triggerIllusion();
         
         if(obj.triggerIllusion)
-            obj.triggerIllusion();
-        
-        if(!this.rect.expanding){
+            obj.triggerIllusion();        
             
-            this.rect.expanding = true;
-            
-            this.rectEffectsManager
-                .addEffect(new ScaleEffect(this.rect, {
-                to: 2,
-                time: 10
-            }));
-            
-            this.rectEffectsManager
-                .addEffect(new ColorEffect(this.rect, {
-                duration: -1, r: 1, g: 0, b: 1
-            }));
-        }
+        this.effectsManager
+            .addEffect(new ScaleEffect(this.sprite, {
+            to: 2,
+            time: 10
+        }));
+
+        this.effectsManager
+            .addEffect(new ColorEffect(this.sprite, {
+            duration: -1, r: 1, g: 0, b: 1, scaleStart: 0.75
+        }));
     };
     
     Illusion = createjs.promote(Illusion, 'Container');

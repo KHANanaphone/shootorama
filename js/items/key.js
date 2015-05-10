@@ -1,5 +1,6 @@
 function Key(vars){
     
+    this.size = 40;    
     this.spriteName = 'key';    
     this.Item_constructor(vars);
 };
@@ -8,13 +9,9 @@ function Key(vars){
         
     var prototype = createjs.extend(Key, Item);
     
-    prototype.handleCollision = function(obj){
-        
-        if(obj.hitbox.type != 'player')
-            return;
+    prototype.collect = function(obj){
         
         obj.addKeys(1);
-        this.destroy();
     };
     
     Key = createjs.promote(Key, 'Item');

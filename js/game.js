@@ -28,7 +28,9 @@ Game.tryTransitionRoom = function(direction){
     if(!Game.level.tryTransitionRoom(direction))
         return false;
     
+    Game.player.prepareForRoomTransition();
     Game.currentRoom = Game.level.currentRoom;
     Game.playingArea.transitionRoom(Game.level.currentRoom, direction);    
+    
     return true;
 };
