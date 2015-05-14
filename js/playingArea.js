@@ -125,9 +125,11 @@ var prototype = createjs.extend(PlayingArea, createjs.Container);
             ts.ticksLeft--;
         }
         else {
+            
             this.removeChild(this.currentRoom);
             this.currentRoom = this.transitionStatus.room;
             this.ready = true;
+            this.currentRoom.start();
         }
     };
     
@@ -158,6 +160,7 @@ var prototype = createjs.extend(PlayingArea, createjs.Container);
             this.fadeStatus.fadeInFramesLeft = -1;
             this.fadeStatus = null;
             this.ready = true;
+            this.currentRoom.start();
         };
     };
     

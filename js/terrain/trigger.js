@@ -8,6 +8,7 @@ function Trigger(vars){
       
         this.x = vars.x;
         this.y = vars.y;
+        this.persistence = 'persist';
         this.onTrigger = vars.onTrigger;
         this.persistent = vars.persistent? vars.persistent : false;
         

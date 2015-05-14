@@ -16,7 +16,7 @@ function Item(vars){
         
         this.hitbox = {
             type: 'item',
-            collidesWith: ['player'],
+            collidesWith: ['player', 'solid'],
             width: this.size,
             height: this.size
         };
@@ -40,6 +40,14 @@ function Item(vars){
         
     var prototype = createjs.extend(Item, createjs.Container);
     
+    prototype.setMovementVector = function(vector){
+        
+        this.movement = {
+            ticksLeft: 60,
+            vector: vector
+        } 
+    };
+    
     prototype.tick = function(){
         
         if(this.collected){
@@ -49,13 +57,32 @@ function Item(vars){
             if(this.alpha <= 0)
                 this.parent.removeChild(this);
         }
+        
+        if(this.movement){
+            
+            var scale = this.movement.ticksLeft / 60;
+            
+            this.x += this.movement.vector.x * 1.5 * scale;
+            this.y += this.movement.vector.y * 1.5 * scale;
+            this.movement.ticksLeft--;
+            
+            if(this.movement.ticksLeft == 0)
+                this.movement = null;
+        };
     };
     
     prototype.handleCollision = function(obj){
         
+        if(obj.hitbox.type == 'solid'){
+            
+            CollisionManager.push(this, obj);
+            return;
+        }     
+        
+        if(this.movement)
+            return;
         if(this.collected)
             return;
-        
         if(obj.hitbox.type != 'player')
             return;
         

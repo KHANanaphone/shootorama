@@ -18,17 +18,30 @@ SpriteManager.makeSprite = function(id){
 }
 
 SpriteManager.spriteData = {
-    
-    'player' : {
-        frames: {width: 48, height: 48},
+      
+    'chest' : {
+        frames : {width: 48, height: 48},
         animations: {
-            stand: 0
+            initial: 0
         }
-    },    
-    'playerIllusion' : {
-        frames: {width: 48, height: 48},
+    },
+    'chestlocked' : {
+        frames : {width: 48, height: 48},
         animations: {
-            stand: 0
+            initial: 0
+        }
+    },
+    'coin' : {
+        frames : {width: 40, height: 40},
+        animations: {
+            initial: 0
+        }
+    },
+    
+    'fire': { 
+        frames : {width: 20, height: 20},
+        animations: {
+            initial: 0
         }
     },
     
@@ -56,65 +69,34 @@ SpriteManager.spriteData = {
             stand: 0
         }
     },
-    
-    'qmark' : {
-        frames: {width: 20, height: 20},
-        animations: {
-            initial: 0
-        }
-    },
-    'star' : {
-        frames : {width: 20, height: 20},
+      
+    'heart' : {
+        frames : {width: 40, height: 40},
         animations: {
             initial: 0
         }
     },    
+    'heartplus' : {
+        frames : {width: 40, height: 40},
+        animations: {
+            initial: 0
+        }
+    },  
     
     'key' : {
         frames : {width: 40, height: 40},
         animations: {
             initial: 0
         }
-    },     
-    'heartplus' : {
-        frames : {width: 40, height: 40},
-        animations: {
-            initial: 0
-        }
     },      
-    'heart' : {
-        frames : {width: 40, height: 40},
-        animations: {
-            initial: 0
-        }
-    },  
-    'coin' : {
-        frames : {width: 40, height: 40},
-        animations: {
-            initial: 0
-        }
-    },
     
-    'turret': { 
-        frames : {width: 40, height: 40},
-        animations: {
-            initial: 0
-        }
-    },
-    'fire': { 
-        frames : {width: 20, height: 20},
-        animations: {
-            initial: 0
-        }
-    },
-    
-    'orbenergy' : {
+    'orbcoin' : {
         frames : {width: 32, height: 32},
         animations: {
             initial: 0
         }
     },
-    'orbcoin' : {
+    'orbenergy' : {
         frames : {width: 32, height: 32},
         animations: {
             initial: 0
@@ -122,6 +104,47 @@ SpriteManager.spriteData = {
     },
     'orbhealth' : {
         frames : {width: 32, height: 32},
+        animations: {
+            initial: 0
+        }
+    },
+    
+    'player' : {
+        frames: {width: 48, height: 48},
+        animations: {
+            stand: 0
+        }
+    },    
+    'playerIllusion' : {
+        frames: {width: 48, height: 48},
+        animations: {
+            stand: 0
+        }
+    },
+    
+    'qmark' : {
+        frames: {width: 20, height: 20},
+        animations: {
+            initial: 0
+        }
+    },
+    
+    'star' : {
+        frames : {width: 20, height: 20},
+        animations: {
+            initial: 0
+        }
+    },     
+    
+    'turret': { 
+        frames : {width: 40, height: 40},
+        animations: {
+            initial: 0
+        }
+    },
+    
+    'vendor': { 
+        frames : {width: 48, height: 48},
         animations: {
             initial: 0
         }

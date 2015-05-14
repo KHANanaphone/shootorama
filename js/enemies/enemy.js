@@ -17,12 +17,16 @@ function Enemy(vars){
     function setupVars(){
       
         this.type = 'enemy';
+        this.persistence = 'reset';
+        this.initialX = vars.x;
+        this.initialY = vars.y;
         this.x = vars.x;
         this.y = vars.y;
         this.maxHealth = this.health;
         this.pushPriority = 0;
         this.stunTime = this.stunTime ? this.stunTime : 120;
         this.facing = 0;
+        this.drop = vars.drop ? vars.drop : 'random';
         
         this.scale = this.scale ? this.scale : 1;
         this.size = this.size * this.scale;
@@ -95,6 +99,15 @@ function Enemy(vars){
         
     var prototype = createjs.extend(Enemy, createjs.Container);
       
+    prototype.init = function(){
+        
+        this.x = this.initialX;
+        this.y = this.initialY;
+        this.health = this.maxHealth;
+        this.rotation = 0;
+        this.effectsManager.clearAll();
+    };
+    
     prototype.refreshCache = function(){
     
         this.sprite.cache(0, 0, this.size, this.size);        
@@ -171,7 +184,13 @@ function Enemy(vars){
     
         this.hitbox = null;
         this.statedef.changeState('dying');        
-        this.dead = true;           
+        this.dead = true;        
+        
+        if(typeof this.drop === 'string')
+            this.drop = [this.drop];        
+            
+        for(var i = 0; i < this.drop.length; i++)
+            ItemManager.dropItem(this, this.drop[i]);
     };
     
     prototype.move = function(vector, angle){
@@ -275,7 +294,7 @@ function Enemy(vars){
         if(this.statedef.time == 20) {
             
             this.dispatchEvent(new createjs.Event('dead'));  
-            this.parent.removeChild(this);       
+            this.parent.removeObject(this);     
         };
     }
         

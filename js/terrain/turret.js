@@ -9,6 +9,7 @@ function Turret(vars){
       
         this.x = vars.x;
         this.y = vars.y;
+        this.persistence = 'persist';
         
         this.rotation = vars.facing ? vars.facing: 0;
         
@@ -63,7 +64,7 @@ function Turret(vars){
             y: Math.sin(rads) * this.shotSpeed
         };
         
-        Game.currentRoom.addChild(new EnemyProjectile({
+        Game.currentRoom.addObject(new EnemyProjectile({
             spriteName: 'fire',
             source: this,
             x: start.x,

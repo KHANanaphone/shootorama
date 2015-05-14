@@ -117,7 +117,7 @@ function Ghost (vars){
             
             this.stunnable = 1;
             this.effectsManager.addEffect(
-                new FadingTextEffect(this, {
+                new TextEffect(this, {
                     text: '?',
                     time: 80,
                     size: '35px'

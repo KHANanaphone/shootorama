@@ -3,6 +3,7 @@ function Background(){
     this.Container_constructor();
     this.x = 0;
     this.y = 0;
+    this.persistence = 'persist';
     
     this.rect = new createjs.Shape();
     this.addChild(this.rect);    

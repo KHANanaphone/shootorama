@@ -1,10 +1,10 @@
-function FadingTextEffect(target, vars){
+function TextEffect(target, vars){
     
     if(!vars)
         vars = {};
     
     this.target = target;
-    this.type = 'FadingTextEffect';
+    this.type = 'TextEffect';
     
     this.duration = vars.time ? vars.time : 80;
     this.timeRemaining = this.duration;
@@ -15,7 +15,7 @@ function FadingTextEffect(target, vars){
     this.outlineText = new createjs.Text();
     this.outlineText.alpha = 0.8;
     this.outlineText.x = 0;
-    this.outlineText.y = target.size * -0.7;
+    this.outlineText.y = target.size * -0.8;
     this.outlineText.font = size + ' bitrod';
     this.outlineText.color = 'white';
     this.outlineText.textAlign = 'center';
@@ -35,7 +35,7 @@ function FadingTextEffect(target, vars){
     
 };
 
-FadingTextEffect.prototype.tick = function(){
+TextEffect.prototype.tick = function(){
     
     this.text.alpha = 0.8 * (this.timeRemaining / this.duration);
     this.outlineText.alpha = 0.8 * (this.timeRemaining / this.duration);
@@ -44,7 +44,7 @@ FadingTextEffect.prototype.tick = function(){
     this.outlineText.y -= 30 / this.duration;
 };
 
-FadingTextEffect.prototype.clear = function(){
+TextEffect.prototype.clear = function(){
     
     this.text.parent.removeChild(this.text);
     this.outlineText.parent.removeChild(this.outlineText);

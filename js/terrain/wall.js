@@ -13,6 +13,7 @@ function Wall(vars){
         this.width = vars.width;
         this.height = vars.height;
         this.pushPriority = 9999;
+        this.persistence = 'persist';
         this.type = vars.type ? vars.type : 'normal';
         
         this.hitbox = {

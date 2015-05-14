@@ -6,61 +6,8 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         
         <script src="js/game.js"></script>
-        <script src="js/main.js"></script>
-        
-        <script src="js/items/item.js"></script>
-        <script src="js/items/coin.js"></script>
-        <script src="js/items/health.js"></script>
-        <script src="js/items/key.js"></script>
-        
-        <script src="js/weapons/line.js"></script>
-        <script src="js/weapons/enemyProjectile.js"></script>
-        
-        <script src="js/effects/circlingParticleEffect.js"></script>
-        <script src="js/effects/colorEffect.js"></script>
-        <script src="js/effects/expandingParticleEffect.js"></script>
-        <script src="js/effects/fadingTextEffect.js"></script>
-        <script src="js/effects/ringEffect.js"></script>
-        <script src="js/effects/scaleEffect.js"></script>  
-        
-        <script src="js/managers/collisionManager.js"></script>
-        <script src="js/managers/controlsManager.js"></script>
-        <script src="js/managers/effectsManager.js"></script>
-        <script src="js/managers/hitManager.js"></script>
-        <script src="js/managers/movementManager.js"></script>
-        <script src="js/managers/spriteManager.js"></script>
-        <script src="js/managers/weaponManager.js"></script>
-        
-        <script src="js/player/illusion.js"></script>
-        <script src="js/player/player.js"></script>
-        
-        <script src="js/enemies/enemy.js"></script>
-        <script src="js/enemies/enemyHealthMeter.js"></script>
-        <script src="js/enemies/statedef.js"></script>
-        
-        <script src="js/enemies/enemydefs/ghost.js"></script>
-        <script src="js/enemies/enemydefs/ghostArmored.js"></script>
-        <script src="js/enemies/enemydefs/ghostBig.js"></script>
-        <script src="js/enemies/enemydefs/ghostFast.js"></script>
-        <script src="js/enemies/enemydefs/ghostTutorial1.js"></script>
-        <script src="js/enemies/enemydefs/ghostTutorial2.js"></script>
-        <script src="js/enemies/enemydefs/ghostTutorial3.js"></script>
-        
-        <script src="js/terrain/background.js"></script>
-        <script src="js/terrain/trigger.js"></script>
-        <script src="js/terrain/transitionTrigger.js"></script>
-        <script src="js/terrain/turret.js"></script>
-        <script src="js/terrain/wall.js"></script>
-        
-        <script src="js/hud/coinCounter.js"></script>
-        <script src="js/hud/dashMeter.js"></script>
-        <script src="js/hud/healthMeter.js"></script>
-        <script src="js/hud/hudArea.js"></script>
-        <script src="js/hud/keyCounter.js"></script>
-        
-        <script src="js/levels/room.js"></script>  
-        <script src="js/levels/level.js"></script>
-        <script src="js/levels/leveldefs/tutorial.js"></script>      
+        <script src="js/main.js"></script> 
+        <script src="js/manifest.js"></script>   
         
         <link rel="stylesheet" type="text/css" href="style.css"></link>            
     
@@ -75,6 +22,10 @@
         <canvas id="gameCanvas" width="1000" height="720"></canvas><br />
         <a href="changelog.txt">About</a>
         <input type='checkbox' onchange='Main.debugShowHitboxes(this)'>Show Hitboxes
+        
+        <div id='loading'>
+            Loading <span class='loaded'></span> of <span class='total'></span>
+        </div>
     </body>
 
 </html>

@@ -77,7 +77,7 @@ HitManager.prototype.textEffect = function(type, damage){
         params.size = '25px';
     }    
     
-    this.enemy.effectsManager.addEffect(new FadingTextEffect(this.enemy, params));
+    this.enemy.effectsManager.addEffect(new TextEffect(this.enemy, params));
 };
 
 HitManager.prototype.refreshRingEffect = function(flash){  

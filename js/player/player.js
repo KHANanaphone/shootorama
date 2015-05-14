@@ -132,7 +132,7 @@ function Player() {
     
     prototype.makeIllusion = function(){
         
-        Game.currentRoom.addChild(new Illusion(this));
+        Game.currentRoom.addObject(new Illusion(this));
     };
     
     prototype.triggerIllusion = function(){
@@ -162,7 +162,7 @@ function Player() {
     prototype.textEffect = function(txt){
         
         this.effectsManager.addEffect(
-            new FadingTextEffect(this, {
+            new TextEffect(this, {
                 text: txt
             })
         );

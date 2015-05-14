@@ -24,11 +24,20 @@ EffectsManager.prototype.removeEffectsOfType = function(type){
         
         if(effect.type != type)
             withRemoved.push(effect);
-        else
+        else if(effect.clear)
             effect.clear();
     };
     
     this.effects = withRemoved;
+};
+
+EffectsManager.prototype.clearAll = function(){
+    
+    for(var i = 0; i < this.effects.length; i++){
+        this.effects[i].clear();
+    };
+    
+    this.effects = [];   
 };
 
 EffectsManager.prototype.clearEffect = function(effect){

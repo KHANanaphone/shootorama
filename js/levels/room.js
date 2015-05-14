@@ -1,8 +1,7 @@
-function Room(roomdef){
+function Room (roomdef) {
     
     this.Container_constructor();
         
-    this.enemies = [];    
     this.fading = [];    
     this.roomdef = roomdef;
     this.playerSpawnPoint = {x: 500, y: 300};
@@ -19,17 +18,48 @@ function Room(roomdef){
         this.transitionTriggers.left,
         this.transitionTriggers.right,
         this.transitionTriggers.up,
-        this.transitionTriggers.down);
+        this.transitionTriggers.down
+    );
     
     this.background = new Background();
     this.addChild(this.background);
     
-    roomdef(this);    
+    this.roomdef.init(this);
 };
 
 (function(){
     
     var prototype = createjs.extend(Room, createjs.Container);
+    
+    prototype.start = function(){
+        
+        if(this.roomdef.start)
+            this.roomdef.start();
+    };
+    
+    prototype.enter = function(){
+        
+        //call the init function of all objects with persistence
+        //set to 'reset'
+        for(var i = this.children.length - 1; i >= 0; i--){
+            
+            var c = this.children[i];
+            
+            if(c.persistence == 'reset' && c.init)
+                c.init();
+        };
+    };    
+    
+    prototype.leave = function(){
+        
+        for(var i = this.children.length - 1; i >= 0; i--){
+            
+            var c = this.children[i];
+            
+            if(c.persistence == 'remove')
+                this.removeChildAt(i);            
+        };
+    };
     
     prototype.setupTick = function(){
         
@@ -65,7 +95,7 @@ function Room(roomdef){
                 if(fade.type == 'in')
                     fade.obj.alpha = 1;   
                 else
-                    this.removeChild(fade.obj);
+                    this.removeObject(fade.obj);
             };
         };
     };
@@ -102,79 +132,100 @@ function Room(roomdef){
         Game.player.alpha = 0;
         Game.player.x = this.playerSpawnPoint.x;
         Game.player.y = this.playerSpawnPoint.y;
-        this.addChild(Game.player);
-        
-        this.fading.push({
-            type: 'in',
-            obj: Game.player,
-            ticks: 25,
-            layer: 0
-        });
+        this.addObject(Game.player, {fade: {pause: true}});
     };
     
-    prototype.addEnemy = function(enemy){
+    prototype.addWall = function(pt1, pt2, vars){
         
-        var self = this;
-        
-        enemy.on('dead', function(e){
-            
-            self.enemyDead(e.target);
-        });
-        
-        this.addChild(enemy);
-        this.enemies.push(enemy);
-    };
-    
-    prototype.enemyDead = function(dead){
-        
-        for(var i = this.enemies.length - 1; i >= 0; i--){
-            
-            var e = this.enemies[i];
-            
-            if(e.id == dead.id)
-                this.enemies.splice(i, 1);
+        var params = {
+            x: pt1[0],
+            y: pt1[1],
+            width: pt2[0] - pt1[0],
+            height: pt2[1] - pt1[1]
         };
         
-        if(this.enemies.length == 0 && this.onClear)
-            this.onClear(this);
+        if(vars)
+            for(var attr in vars) { params[attr] = vars[attr]; }        
+
+        var wall = new Wall(params);        
+        this.addObject(wall, vars);
     };
     
-    prototype.fadeInObject = function(obj, layer, pause){
+    prototype.addObject = function(obj, vars){
         
-        if(!layer)
-            layer = 0;
+        if(!vars)
+            vars = {};
         
-        obj.alpha = 0;
-        this.ready = pause ? false : true;
+        if(vars.persistence)
+            obj.persistence = vars.persistence;
+        else 
+            obj.persistence = obj.persistence ? obj.persistence : 'remove';
         
-        if(obj.type == 'enemy'){            
-            this.addEnemy(obj);
+        if(vars.fade){
+            
+            if(typeof vars.fade !== 'object')
+                vars.fade = {};
+            
+            obj.alpha = 0;
+            
+            this.fading.push({               
+                type: 'in',
+                obj: obj,
+                ticks: vars.fade.ticks ? vars.fade.ticks : 25,
+                layer: vars.fade.layer ? vars.fade.layer : 0
+            });
+            
+            if(vars.fade.pause)
+                this.ready = false;
+        };
+        
+        if(obj.init)
+            obj.init();
+        
+        this.addChild(obj);
+    };    
+    
+    prototype.removeObject = function(obj, vars){
+            
+        if(!vars)
+            vars = {};
+        
+        if(vars.fade){
+                      
+            if(typeof vars.fade !== 'object')
+                vars.fade = {};
+            
+            this.fading.push({               
+                type: 'out',
+                obj: obj,
+                ticks: vars.fade.ticks ? vars.fade.ticks : 25,
+                layer: vars.fade.layer ? vars.fade.layer : 0
+            });
+            
+            if(vars.fade.pause)
+                this.ready = false;
         }
-        else{
-            this.addChild(obj);
-        }
-        
-        this.fading.push({
-            type: 'in',
-            obj: obj,
-            ticks: 25,
-            layer: layer
-        });
+        else {
+            this.removeChild(obj);  
+            console.log(obj.type);   
+            
+            if(obj.type == 'enemy')
+                this.checkEnemyCount();       
+        };  
     };
     
-    prototype.fadeOutObject = function(obj, layer, pause){
+    prototype.checkEnemyCount = function(){
         
-        if(!layer)
-            layer = 0;
-        
-        this.ready = pause ? false : true;
-        
-        this.fading.push({
-            type: 'out',
-            obj: obj,
-            ticks: 25,
-            layer: layer
-        });
+        var enemyCount = 0;
+        for(var i = 0; i < this.children.length; i++){
+
+            if(this.children[i].type == 'enemy')
+                enemyCount++;
+        };
+
+        console.log(enemyCount);
+        if(enemyCount == 0 && this.onClear)
+            this.onClear();
     };
     
     prototype.getCollidableChildren = function(){
@@ -193,8 +244,8 @@ function Room(roomdef){
                 if(c.hitbox)
                     arr.push(c);
                 
-                if(c.children)
-                   recursiveGetCollidableChildren(c, arr); 
+//                if(c.children)
+//                   recursiveGetCollidableChildren(c, arr); 
             };
         };        
     };

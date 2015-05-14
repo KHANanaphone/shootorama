@@ -12,7 +12,7 @@ function EnemyProjectile(vars){
         this.x = vars.x;
         this.y = vars.y;
         this.vector = vars.vector;
-        this.triggersIllusion = true;        
+        this.triggersIllusion = true;
         this.playerDamage = vars.damage ? vars.damage: 1;
         
         this.hitbox = {

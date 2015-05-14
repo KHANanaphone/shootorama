@@ -19,7 +19,7 @@ WeaponManager.prototype.tick = function(controlState){
         this.removeEmpowered();
     };
     
-    Game.currentRoom.addChild(line);
+    Game.currentRoom.addObject(line);
     this.lastShot = new Date();
 };
 

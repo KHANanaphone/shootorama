@@ -7,3 +7,14 @@
     font-family: bitrod;
     src: url(bitrod.ttf);
 }
+
+#loading{
+    
+    position: absolute;
+    top: 320px;
+    width: 100%;
+    text-align: center;
+    y: inherit;
+    font-family: bitrod;
+    font-size: 70px;
+}
