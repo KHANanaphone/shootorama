@@ -5,6 +5,7 @@ function Room (roomdef) {
     this.fading = [];    
     this.roomdef = roomdef;
     this.playerSpawnPoint = {x: 500, y: 300};
+    this.visited = false;
         
     this.transitionTriggers = {
 
@@ -34,7 +35,9 @@ function Room (roomdef) {
     prototype.start = function(){
         
         if(this.roomdef.start)
-            this.roomdef.start();
+            this.roomdef.start(!this.visited);
+
+        this.visited = true;
     };
     
     prototype.enter = function(){
@@ -82,9 +85,9 @@ function Room (roomdef) {
                 continue;
             
             if(fade.type == 'in')            
-                fade.obj.alpha += 0.04;
+                fade.obj.alpha += (1 / fade.ticks);
             else
-                fade.obj.alpha -= 0.04;
+                fade.obj.alpha -= (1 / fade.ticks);
             
             fade.ticks--;
             
@@ -101,6 +104,11 @@ function Room (roomdef) {
     };
     
     prototype.tick = function(){
+        
+        if(!this.started){            
+            this.started = true;
+            this.start();
+        }
         
         this.setupTick();
         
@@ -224,8 +232,15 @@ function Room (roomdef) {
         };
 
         console.log(enemyCount);
-        if(enemyCount == 0 && this.onClear)
-            this.onClear();
+        
+        if(enemyCount == 0){
+            
+            if(this.onClear)
+                this.onClear();
+            
+            if(this.roomdef.clear)
+                this.roomdef.clear();            
+        }
     };
     
     prototype.getCollidableChildren = function(){

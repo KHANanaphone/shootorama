@@ -5,12 +5,14 @@ function EffectsManager(target){
     this.nextId = 0;
 };
 
-EffectsManager.prototype.addEffect = function(effect){
+EffectsManager.prototype.addEffect = function(effect, overlap){
     
     effect.id = this.nextId;
     this.nextId++;
     
-    this.removeEffectsOfType(effect.type);    
+    if(!overlap)
+        this.removeEffectsOfType(effect.type);  
+    
     this.effects.push(effect);
 };
 

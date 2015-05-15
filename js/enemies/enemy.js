@@ -17,7 +17,7 @@ function Enemy(vars){
     function setupVars(){
       
         this.type = 'enemy';
-        this.persistence = 'reset';
+        this.persistence = vars.persistence ? vars.persistence : 'reset';
         this.initialX = vars.x;
         this.initialY = vars.y;
         this.x = vars.x;
@@ -25,7 +25,8 @@ function Enemy(vars){
         this.maxHealth = this.health;
         this.pushPriority = 0;
         this.stunTime = this.stunTime ? this.stunTime : 120;
-        this.facing = 0;
+        this.facing = vars.facing ? vars.facing : 0;
+        
         this.drop = vars.drop ? vars.drop : 'random';
         
         this.scale = this.scale ? this.scale : 1;
@@ -51,7 +52,7 @@ function Enemy(vars){
             
             combo: {
                 startup: 40,
-                window: 14
+                window: 9
             }
         };
         
@@ -185,6 +186,9 @@ function Enemy(vars){
         this.hitbox = null;
         this.statedef.changeState('dying');        
         this.dead = true;        
+        
+        if(this.drop == 'none')
+            return;
         
         if(typeof this.drop === 'string')
             this.drop = [this.drop];        

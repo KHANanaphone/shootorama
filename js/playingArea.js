@@ -32,6 +32,7 @@ var prototype = createjs.extend(PlayingArea, createjs.Container);
     prototype.fadeInRoom = function(room){
         
         this.ready = false;
+        room.started = false;
         
         this.fadeStatus = {
             room: room,
@@ -43,6 +44,7 @@ var prototype = createjs.extend(PlayingArea, createjs.Container);
     prototype.transitionRoom = function(next, direction){
         
         this.ready = false;
+        next.started = false;
         var ticks;
                 
         if(direction == 'left'){
@@ -129,7 +131,6 @@ var prototype = createjs.extend(PlayingArea, createjs.Container);
             this.removeChild(this.currentRoom);
             this.currentRoom = this.transitionStatus.room;
             this.ready = true;
-            this.currentRoom.start();
         }
     };
     
@@ -160,7 +161,6 @@ var prototype = createjs.extend(PlayingArea, createjs.Container);
             this.fadeStatus.fadeInFramesLeft = -1;
             this.fadeStatus = null;
             this.ready = true;
-            this.currentRoom.start();
         };
     };
     

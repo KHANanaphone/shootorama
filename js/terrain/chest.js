@@ -68,10 +68,10 @@ function Chest(vars){
         
         if(this.nextItem == 0){
             
-            var item = this.items.shift();
+            var item = this.contents.shift();
             ItemManager.dropItem(this, item);   
             
-            if(this.items.length > 0)
+            if(this.contents.length > 0)
                 this.nextItem = 8;
             else
                 Game.currentRoom.removeObject(this, {fade: true});

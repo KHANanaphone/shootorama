@@ -1,7 +1,6 @@
 function GhostTutorial3(vars){
     
     //prevars 
-    this.spriteName = 'ghostOrange';
     this.health = 1;
     
     this.Ghost_constructor(vars);

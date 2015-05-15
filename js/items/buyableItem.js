@@ -13,6 +13,10 @@ function BuyableItem(vars){
         this.item.x = 0;
         this.item.y = 0;
         this.item.hitbox = null;
+        this.persistence = 'persist';
+        
+        this.vendor = vars.vendor;
+        this.vendorQuote = vars.vendorQuote;
         
         this.price = vars.price;  
         
@@ -47,8 +51,13 @@ function BuyableItem(vars){
         if(obj.hitbox.type != 'player')
             return;
         
-        this.item.collect(obj);
-        this.parent.removeObject(this);
+        if(obj.coins >= this.price){
+            
+            obj.addCoins(-this.price);
+            this.item.collect(obj);
+            this.parent.removeObject(this);           
+            this.vendor.say(this.vendorQuote);
+        }        
     };
     
     BuyableItem = createjs.promote(BuyableItem, 'Container');

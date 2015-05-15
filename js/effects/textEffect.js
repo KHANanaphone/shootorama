@@ -21,7 +21,6 @@ function TextEffect(target, vars){
     this.outlineText.textAlign = 'center';
     this.outlineText.text = text;    
     this.outlineText.outline = 1; 
-    target.addChild(this.outlineText);
     
     this.text = new createjs.Text();
     this.text.alpha = 0.8;
@@ -30,12 +29,17 @@ function TextEffect(target, vars){
     this.text.font = size + ' bitrod';
     this.text.color = color;
     this.text.textAlign = 'center';
-    this.text.text = text;
-    target.addChild(this.text);
-    
+    this.text.text = text;    
 };
 
 TextEffect.prototype.tick = function(){
+    
+    if(!this.started){
+        
+        this.target.addChild(this.outlineText);
+        this.target.addChild(this.text);
+        this.started = true;
+    };
     
     this.text.alpha = 0.8 * (this.timeRemaining / this.duration);
     this.outlineText.alpha = 0.8 * (this.timeRemaining / this.duration);

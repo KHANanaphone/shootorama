@@ -12,9 +12,11 @@ function Player() {
         this.health = 50;
         this.maxHealth = this.health;
         this.keys = 0;
-        this.coins = 0;
+        this.coins = 7;
 
         this.facing = this.rotation;
+        this.textEffects = [];
+        this.textEffectCooldown = 0;
         
         this.controlsManager = new ControlsManager(this);
         this.movementManager = new MovementManager(this);
@@ -59,6 +61,9 @@ function Player() {
 
         this.movementManager.tick(this.controlsManager.controlState);
         this.weaponManager.tick(this.controlsManager.controlState);
+        
+        this.updateTextEffect();
+        
         this.effectsManager.tick();
         
         if (this.invincibilityTicks > 0) {
@@ -69,6 +74,20 @@ function Player() {
             else
                 this.sprite.alpha = 1;
         }
+    };
+    
+    prototype.updateTextEffect = function(){
+        
+        if(this.textEffectCooldown > 0){
+            this.textEffectCooldown--;
+            return;
+        };
+        
+        if(this.textEffects.length == 0)
+            return;
+              
+        this.effectsManager.addEffect(this.textEffects.shift(), true);
+        this.textEffectCooldown = 30;
     };
     
     prototype.handleCollision = function(obj) {
@@ -161,7 +180,7 @@ function Player() {
     
     prototype.textEffect = function(txt){
         
-        this.effectsManager.addEffect(
+        this.textEffects.push(
             new TextEffect(this, {
                 text: txt
             })

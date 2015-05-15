@@ -10,6 +10,6 @@
             ['r140', 'r141', 'r142', null, null]
         ],
         initialX: 0,
-        initialY: 3
+        initialY: 2
     };    
 })();

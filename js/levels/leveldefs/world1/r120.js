@@ -1,8 +1,9 @@
+var WT = 15;
+
 RoomDefs.r120 = {
     
-    init: function(room){
+    init: function(room){        
         
-        var WT = 15;
         this.room = room;
         
         makeBackground.call(this);
@@ -21,6 +22,7 @@ RoomDefs.r120 = {
             
             //top
             room.addWall([WT, 0], [450, WT]);
+            room.addWall([450, 0], [550, WT], {type: 'locked'});
             room.addWall([550, 0], [1000 - WT, WT]);
             
             //right
@@ -37,18 +39,37 @@ RoomDefs.r120 = {
             this.vendor = new Vendor({x: 500, y: 200})
             room.addObject(this.vendor);
             
-            var item = new BuyableItem({
-                x: 500,
+            var health = new BuyableItem({
+                x: 400,
+                y: 300,
+                item: new Health({type: 'large'}),
+                price: 2,
+                vendor: this.vendor,
+                vendorQuote: 'Be careful out there.'
+            });
+            room.addObject(health);
+            
+            var key = new BuyableItem({
+                x: 600,
                 y: 300,
                 item: new Key({}),
-                price: 2
+                price: 15,
+                vendor: this.vendor,
+                vendorQuote: "Don't get into too much trouble with that key."
             });
-            room.addObject(item);
+            room.addObject(key);
         };
     },
     
-    start: function(){
-    
-        this.vendor.say('Greetings, stranger. Welcome to \nmy cool shop.');
+    start: function(firstVisit){
+        
+        if(firstVisit){
+            this.room.addWall([450, 600 - WT], [550, 600], {fade: true});
+            this.vendor.say('Greetings, stranger. Welcome to \nmy cool shop.');
+        }
+        else{
+            this.vendor.say('You again?');
+        }
+        
     }
 };

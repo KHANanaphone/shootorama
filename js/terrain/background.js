@@ -25,14 +25,14 @@ function Background(){
         var bounds = bitmap.getBounds();        
         
         bitmap.set({
-            x: x,
-            y: y,
+            x: x - w/2,
+            y: y - h/2,
             scaleX: w / bounds.width,
             scaleY: h / bounds.height
         });
         
         this.addChild(bitmap);
-        
+        return bitmap;
     }; 
     
     prototype.addRect = function(color, x, y, w, h){

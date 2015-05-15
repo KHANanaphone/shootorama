@@ -31,7 +31,7 @@ RoomDefs.r130 = {
 
             //top
             room.addObject(new Wall({x: WT, y: 0, width: 450 - WT, height: WT}));
-//            room.addObject(topDoor);
+            room.addObject(topDoor);
             room.addObject(new Wall({x: 550, y: 0, width: 450 - WT, height: WT}));
 
             //bottom

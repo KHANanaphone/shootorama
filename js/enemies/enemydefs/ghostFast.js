@@ -2,7 +2,7 @@ function GhostFast(vars){
     
     //prevars    
     this.spriteName = 'ghostBlue';
-    this.health = 30;
+    this.health = 40;
     
     this.Ghost_constructor(vars);
         
@@ -10,7 +10,7 @@ function GhostFast(vars){
     
     function setupVars(){
         
-        this.speed = 2.7;
+        this.speed = 3.6;
         this.stunTime = 120;
 
         this.knockback = {            
@@ -19,7 +19,7 @@ function GhostFast(vars){
         };
 
         this.dashTriggerRadius = 240;
-        this.dashChargeTime = 30;        
+        this.dashChargeTime = 6;        
 
         this.dashSpeed = 19;
         this.dashTime = 16;

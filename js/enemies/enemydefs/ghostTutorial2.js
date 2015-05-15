@@ -1,7 +1,6 @@
 function GhostTutorial2(vars){
     
     //prevars 
-    this.spriteName = 'ghostBlue';
     this.health = 50;
     
     this.Ghost_constructor(vars);
@@ -24,6 +23,11 @@ function GhostTutorial2(vars){
             counter: 0,
             empowered: 0
         };   
+        
+        this.hits.combo = {
+            startup: 40,
+            window: 15
+        };
     };
 };
 
