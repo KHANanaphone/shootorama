@@ -68,7 +68,7 @@ function Wall(vars){
         
         if(this.type == 'locked' && obj.keys > 0){
             obj.addKeys(-1);
-            this.parent.removeChild(this);
+            this.parent.removeObject(this);
         }
     };
     

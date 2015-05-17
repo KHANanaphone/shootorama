@@ -11,7 +11,7 @@ function Player() {
         this.size = Player.HITBOX_SIZE;
         this.health = 50;
         this.maxHealth = this.health;
-        this.keys = 0;
+        this.keys = 1;
         this.coins = 7;
 
         this.facing = this.rotation;
@@ -26,8 +26,8 @@ function Player() {
         this.hitbox = {
             type: 'player',
             collidesWith: ['enemy', 'solid'],
-            width: this.size,
-            height: this.size
+            width: this.size * 0.6,
+            height: this.size * 0.6
         };
     };
 
@@ -47,6 +47,14 @@ function Player() {
 
     var prototype = createjs.extend(Player, createjs.Container);
 
+    prototype.isDashing = function(){
+        
+        if(this.movementManager.dash)
+            return true;
+        
+        return false;
+    };
+    
     prototype.prepareForRoomTransition = function(){
         
         this.movementManager.endMovement();
@@ -64,7 +72,8 @@ function Player() {
         
         this.updateTextEffect();
         
-        this.effectsManager.tick();
+        this.effectsManager.tick();        
+        this.checkFloor();       
         
         if (this.invincibilityTicks > 0) {
 
@@ -74,6 +83,15 @@ function Player() {
             else
                 this.sprite.alpha = 1;
         }
+    };
+    
+    prototype.checkFloor = function(){
+        
+        var obj = Game.currentRoom.background.getFloorObjectAt(this.x, this.y);
+        
+        if(obj){
+            obj.step(this);
+        } 
     };
     
     prototype.updateTextEffect = function(){

@@ -11,8 +11,6 @@ RoomDefs.r121 = {
         function makeBackground(){
             
             room.background.setColor('#EEF');
-            
-            this.ghosts = [];
         };
         
         function makeWalls(){
@@ -34,6 +32,8 @@ RoomDefs.r121 = {
         
         function makeObjects(){
             
+            this.room.addObject(new GhostArmored({x: 700, y: 300}));            
+            
             this.chest = new Chest({
                 x: 950,
                 y: 550,
@@ -47,44 +47,12 @@ RoomDefs.r121 = {
                 ]
             });
             
-            room.addObject(this.chest);
-            
+            this.room.addObject(this.chest);
         };
-    },
-    
-    start: function(firstVisit){        
-            
-        for(var i = 0; i < 4; i++){
-
-            var g = this.room.background.addImage('ghost', 900, 100 + 133 * i, 60, 60);
-            g.alpha = 0.2;
-            g.rotation = 90;
-            this.ghosts.push(g);                
-        }
-
-        this.addGhost();
     },
     
     clear: function(){
         
-        if(this.ghosts.length > 0)
-            this.addGhost();
-        else
-            this.chest.open();
+        this.chest.open();
     },
-        
-    addGhost: function(){  
-        
-        var g = this.ghosts.shift();
-        
-        if(!g)
-            return;
-        
-        this.room.removeObject(g, {fade: {ticks: 100}});
-        this.room.addObject(
-            new GhostFast({x: g.x - 15, y: g.y + 30, 
-                           persistence: 'remove', drop: 'none', facing: 90}), 
-            {fade: true}
-        );
-    }
 };

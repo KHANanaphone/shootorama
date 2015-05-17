@@ -33,8 +33,8 @@ function GhostArmored(vars){
     prototype.hit = function(source){
         
         this.hits.combo = {
-            startup: this.stunned ? 40: 0,
-            window: this.stunned ? 12: 0
+            startup: this.stunned || source.empowered ? 40: 0,
+            window: this.stunned || source.empowered ? 12: 0
         };
         
         this.Ghost_hit(source);        

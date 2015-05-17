@@ -7,6 +7,8 @@ function Background(){
     
     this.rect = new createjs.Shape();
     this.addChild(this.rect);    
+    
+    this.floorObjects = [];
 };
 
 (function(){
@@ -52,6 +54,29 @@ function Background(){
         text.set(vars);
         
         this.addChild(text);
+    };
+    
+    prototype.addFloorObject = function(obj){
+        
+        this.addChild(obj);
+        
+        if(obj instanceof FloorObject)
+            this.floorObjects.push(obj);
+    };
+    
+    //gets the highest-level 'steppable' object under a point
+    prototype.getFloorObjectAt = function(x, y){
+        
+        for(var i = this.floorObjects.length - 1; i >= 0; i--){
+            
+            var obj = this.floorObjects[i];
+            
+            if(obj.x <= x && obj.x + obj.width >= x &&
+               obj.y <= y && obj.y + obj.height >= y)
+                return obj;
+        };
+        
+        return null;
     };
     
     Background = createjs.promote(Background, 'Container');

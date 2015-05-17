@@ -46,30 +46,36 @@ var prototype = createjs.extend(PlayingArea, createjs.Container);
         this.ready = false;
         next.started = false;
         var ticks;
+        var enterFrom;
                 
         if(direction == 'left'){
             next.x = -1000;
             Game.player.x += 1000;
             ticks = 75;
+            enterFrom = 'right';
         }
         else if(direction == 'right'){
             next.x = 1000;
             Game.player.x -= 1000;
             ticks = 75;
+            enterFrom = 'left';
         }
         else if(direction == 'up'){
             next.y = -600;
             Game.player.y += 600;
             ticks = 60;
+            enterFrom = 'down';
         }
         else if(direction == 'down'){
             next.y = 600;
             Game.player.y -= 600;
             ticks = 60;
+            enterFrom = 'up';
         }
-                
+        
         this.currentRoom.removeChild(Game.player);
         next.addChild(Game.player);
+        next.entering(enterFrom);
         this.addChild(next);
         
         this.transitionStatus = {

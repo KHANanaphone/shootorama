@@ -45,8 +45,13 @@ Main.manifest.push(
     "js/enemies/enemydefs/ghostTutorial2.js",
     "js/enemies/enemydefs/ghostTutorial3.js",
     
+    "js/terrain/floor/floorObject.js",
+    "js/terrain/floor/lava.js",
+    "js/terrain/floor/tile.js",
+    
     "js/terrain/background.js",
     "js/terrain/chest.js",
+    "js/terrain/statue.js",
     "js/terrain/trigger.js",
     "js/terrain/transitionTrigger.js",
     "js/terrain/turret.js",
@@ -63,6 +68,9 @@ Main.manifest.push(
     "js/levels/level.js",
     "js/levels/leveldefs/world1/r120.js",
     "js/levels/leveldefs/world1/r121.js",
+    "js/levels/leveldefs/world1/r112.js",
+    "js/levels/leveldefs/world1/r122.js",
+    "js/levels/leveldefs/world1/r123.js",
     "js/levels/leveldefs/world1/r130.js",
     "js/levels/leveldefs/world1/r131.js",
     "js/levels/leveldefs/world1/r132.js",
@@ -84,7 +92,8 @@ Main.manifest.push(
     {id: 'ghost', src: 'img/ghost.png'},
     {id: 'ghostBlue', src: 'img/ghostBlue.png'},
     {id: 'ghostOrange', src: 'img/ghostOrange.png'},
-    {id: 'ghostRed', src: 'img/ghostBlue.png'},
+//    {id: 'ghostRed', src: 'img/ghostBlue.png'},
+    {id: 'ghostStatue', src: 'img/ghostStatue.png'},
     
     {id: 'heart', src: 'img/heart.png'},
     {id: 'heartplus', src: 'img/heartplus.png'},

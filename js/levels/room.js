@@ -32,6 +32,12 @@ function Room (roomdef) {
     
     var prototype = createjs.extend(Room, createjs.Container);
     
+    prototype.entering = function(from){
+        
+        if(this.roomdef.entering)
+            this.roomdef.entering(from);
+    };
+    
     prototype.start = function(){
         
         if(this.roomdef.start)
@@ -157,6 +163,7 @@ function Room (roomdef) {
 
         var wall = new Wall(params);        
         this.addObject(wall, vars);
+        return wall;
     };
     
     prototype.addObject = function(obj, vars){

@@ -68,7 +68,13 @@ SpriteManager.spriteData = {
         animations: {
             stand: 0
         }
-    },
+    },         
+    'ghostStatue' : {
+        frames : {width: 48, height: 48},
+        animations: {
+            initial: 0
+        }
+    },  
       
     'heart' : {
         frames : {width: 40, height: 40},
@@ -134,7 +140,7 @@ SpriteManager.spriteData = {
         animations: {
             initial: 0
         }
-    },     
+    }, 
     
     'turret': { 
         frames : {width: 40, height: 40},
