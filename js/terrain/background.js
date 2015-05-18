@@ -9,11 +9,42 @@ function Background(){
     this.addChild(this.rect);    
     
     this.floorObjects = [];
+    this.fading = [];
 };
 
 (function(){
         
     var prototype = createjs.extend(Background, createjs.Container);
+    
+    prototype.tick = function(){
+        
+        this._doFading();
+    };
+    
+    prototype._doFading = function(){
+        
+        for(var i = this.fading.length - 1; i >= 0; i--){
+            
+            var fade = this.fading[i];
+            
+            if(fade.type == 'in')
+                fade.obj.alpha += 0.04;
+            else
+                fade.obj.alpha -= 0.04;
+            
+            fade.ticks--;
+            
+            if(fade.ticks == 0){
+                
+                this.fading.splice(i, 1);
+                
+                if(fade.type == 'in')
+                    fade.obj.alpha = 1;
+                else
+                    this._removeFloorObject(fade.obj);
+            };
+        };
+    };
     
     prototype.setColor = function(color){        
         
@@ -56,13 +87,50 @@ function Background(){
         this.addChild(text);
     };
     
-    prototype.addFloorObject = function(obj){
+    prototype.addFloorObject = function(obj, fade){
+        
+        if(fade){    
+            this.fading.push({
+                type: 'in',
+                obj: obj,
+                ticks: 25
+            });
+            
+            obj.alpha = 0;
+        }
         
         this.addChild(obj);
         
         if(obj instanceof FloorObject)
             this.floorObjects.push(obj);
     };
+        
+    prototype.removeFloorObject = function(obj, fade){
+                
+        if(fade){    
+            this.fading.push({
+                type: 'out',
+                obj: obj,
+                ticks: 25
+            });
+        }
+        else {            
+            this._removeFloorObject(obj);
+        }
+    };
+    
+    prototype._removeFloorObject = function(obj){
+        
+        this.removeChild(obj);
+        
+        for(var i = 0; i < this.floorObjects.length; i++){
+            
+            if(obj.id == this.floorObjects[i].id){
+                this.floorObjects.splice(i, 1);
+                return;
+            }
+        };
+    };        
     
     //gets the highest-level 'steppable' object under a point
     prototype.getFloorObjectAt = function(x, y){

@@ -2,9 +2,25 @@ function Tile(vars){
     
     this.FloorObject_constructor(vars);
     
-    var blue = new createjs.Shape();
-    blue.graphics.beginFill('blue').drawRect(0, 0, vars.width, vars.height);
-    this.addChild(blue);
+    tileSprites.call(this);
+    
+    function tileSprites(){
+        
+        var xCount = this.width / 50;
+        var yCount = this.height / 50;
+
+        for(var x = 0; x < xCount; x++){
+            for(var y = 0; y < yCount; y++){
+
+                var sprite = SpriteManager.makeSprite('tile', true);
+
+                sprite.x = x * 50;
+                sprite.y = y * 50;
+
+                this.addChild(sprite);
+            }
+        }; 
+    };       
 };
 
 (function(){

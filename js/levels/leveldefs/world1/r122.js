@@ -38,6 +38,7 @@ RoomDefs.r122 = {
         
         function makeObjects(){
             
+            
         };
     },
     

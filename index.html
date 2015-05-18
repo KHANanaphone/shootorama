@@ -20,8 +20,9 @@
 
     <body onload="Main.init();">
         <canvas id="gameCanvas" width="1000" height="720"></canvas><br />
-        <a href="changelog.txt">About</a>
-        <input type='checkbox' onchange='Main.debugShowHitboxes(this)'>Show Hitboxes
+        <a href="changelog.txt">About</a> <br/>
+        <input type='checkbox' onchange='Main.debugShowHitboxes(this)'>Show Hitboxes <br/>
+        <input type='checkbox' onchange='Main.showFPS(this)'>Show FPS <br/>
         
         <div id='loading'>
             Loading <span class='loaded'></span> of <span class='total'></span>

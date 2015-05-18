@@ -91,9 +91,9 @@ function Room (roomdef) {
                 continue;
             
             if(fade.type == 'in')            
-                fade.obj.alpha += (1 / fade.ticks);
+                fade.obj.alpha += 0.04;
             else
-                fade.obj.alpha -= (1 / fade.ticks);
+                fade.obj.alpha -= 0.04;
             
             fade.ticks--;
             

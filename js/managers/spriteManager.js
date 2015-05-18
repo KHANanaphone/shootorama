@@ -1,6 +1,6 @@
 var SpriteManager = {};
 
-SpriteManager.makeSprite = function(id){
+SpriteManager.makeSprite = function(id, dontCenter){
     
     var spriteData = SpriteManager.spriteData[id];
     
@@ -9,10 +9,12 @@ SpriteManager.makeSprite = function(id){
     
     var spriteSheet = new createjs.SpriteSheet(spriteData);
     var sprite = new createjs.Sprite(spriteSheet);
-    sprite.set({
-        regX: spriteData.frames.width / 2,
-        regY: spriteData.frames.height / 2
-    });   
+    
+    if(!dontCenter)
+        sprite.set({
+            regX: spriteData.frames.width / 2,
+            regY: spriteData.frames.height / 2
+        });   
     
     return sprite;
 }
@@ -94,6 +96,12 @@ SpriteManager.spriteData = {
         animations: {
             initial: 0
         }
+    },   
+    'lava' : {
+        frames : {width: 50, height: 50},
+        animations: {
+            initial: 0
+        }
     },      
     
     'orbcoin' : {
@@ -140,8 +148,14 @@ SpriteManager.spriteData = {
         animations: {
             initial: 0
         }
-    }, 
+    },  
     
+    'tile' : {
+        frames : {width: 50, height: 50},
+        animations: {
+            initial: 0
+        }
+    },
     'turret': { 
         frames : {width: 40, height: 40},
         animations: {

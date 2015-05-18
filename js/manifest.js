@@ -66,9 +66,10 @@ Main.manifest.push(
     
     "js/levels/room.js",
     "js/levels/level.js",
+    "js/levels/leveldefs/world1/r112.js",
+    "js/levels/leveldefs/world1/r113.js",
     "js/levels/leveldefs/world1/r120.js",
     "js/levels/leveldefs/world1/r121.js",
-    "js/levels/leveldefs/world1/r112.js",
     "js/levels/leveldefs/world1/r122.js",
     "js/levels/leveldefs/world1/r123.js",
     "js/levels/leveldefs/world1/r130.js",
@@ -99,6 +100,8 @@ Main.manifest.push(
     {id: 'heartplus', src: 'img/heartplus.png'},
     
     {id: 'key', src: 'img/key.png'},
+    
+    {id: 'lava', src: 'img/lava.png'},
         
     {id: 'orbcoin', src: 'img/orbcoin.png'},
     {id: 'orbenergy', src: 'img/orbenergy.png'},
@@ -109,7 +112,9 @@ Main.manifest.push(
     
     {id: 'qmark', src: 'img/qmark.png'},
     
-    {id: 'star', src: 'img/star.png'},    
+    {id: 'star', src: 'img/star.png'}, 
+    
+    {id: 'tile', src: 'img/tile.png'},     
     
     {id: 'turret', src: 'img/turret.png'},
     

@@ -4,9 +4,25 @@ function Lava(vars){
     
     this.playerDamage = 20;
     
-    var red = new createjs.Shape();
-    red.graphics.beginFill('red').drawRect(0, 0, vars.width, vars.height);
-    this.addChild(red);
+    tileSprites.call(this);
+    
+    function tileSprites(){
+        
+        var xCount = this.width / 50;
+        var yCount = this.height / 50;
+
+        for(var x = 0; x < xCount; x++){
+            for(var y = 0; y < yCount; y++){
+
+                var sprite = SpriteManager.makeSprite('lava', true);
+
+                sprite.x = x * 50;
+                sprite.y = y * 50;
+
+                this.addChild(sprite);
+            }
+        }; 
+    };       
 };
 
 (function(){

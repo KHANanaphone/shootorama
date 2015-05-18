@@ -29,11 +29,17 @@ Main.init = function(){
         $('#loading').hide();
         
         var stage = new createjs.Stage("gameCanvas");
+        this.stage = stage;
         createjs.Ticker.setFPS(60);
         createjs.Ticker.timingMode = createjs.Ticker.RAF;
         
+        var ticks = 0;
+        
         createjs.Ticker.addEventListener('tick', function(){
-                      
+            
+            if(DEBUG.showFPS && createjs.Ticker.getTicks() % 60 == 0) 
+                Main.updateFPS(createjs.Ticker.getMeasuredFPS());
+            
             if(DEBUG.showHitboxes)
                 Main.drawHitboxes();
             
@@ -41,6 +47,30 @@ Main.init = function(){
         });
 
         Game.init(stage);
+    };
+};
+
+Main.updateFPS = function(fps){
+   
+    this.fpsText.text = Math.round(fps * 10) / 10;
+};
+
+Main.showFPS = function(source){
+    
+    DEBUG.showFPS = source.checked;
+    
+    if(source.checked){
+        
+        var text = new createjs.Text();
+        text.x = 0;
+        text.y = 800;
+        this.fpsText = 'FPS: ' + text;
+        
+        Game.stage.addChild(text);
+    }
+    else {
+        
+        this.fpsText.parent.removeChild(this.fpsText);
     };
 };
 

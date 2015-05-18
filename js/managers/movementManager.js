@@ -18,6 +18,11 @@ function MovementManager(player){
         
         self.dashCooldown = Player.DASH_COOLDOWN_TICKS;
         self.player.makeIllusion();
+        self.player.effectsManager.addEffect(
+            new ColorEffect(self.player.sprite, {
+                r: 1, g: 1, b: 0.75, duration: Player.DASH_DURATION_TICKS
+            })
+        );
     });
 };
 

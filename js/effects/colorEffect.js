@@ -8,6 +8,7 @@ function ColorEffect(target, vars){
     this.g = vars.g;
     this.b = vars.b;    
     this.scaleStart = vars.scaleStart ? vars.scaleStart : 1;
+    this.scales = vars.hasOwnProperty('vars.scales') ? vars.scales : true;
     this.duration = vars.duration ? vars.duration : -1;
     this.timeRemaining = vars.duration;
     
@@ -20,8 +21,8 @@ function ColorEffect(target, vars){
 ColorEffect.prototype.apply = function(scale){
       
     var applyTo = this.target;    
-    var mult = (1 - scale);
-    var add = (255 * scale);
+    var mult = this.scales ? (1 - scale) : 0;
+    var add = this.scales ? (255 * scale) : 255;
     
     this.filter = 
         new createjs.ColorFilter(
