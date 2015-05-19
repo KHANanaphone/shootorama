@@ -111,15 +111,72 @@ CollisionManager.detectCollisions = function(){
             return false;
         }
         
-        var xDist = Math.abs(CollisionManager.getXDist(obj1, obj2)) - (obj1.hitbox.width + obj2.hitbox.width) / 2; 
-        var yDist = Math.abs(CollisionManager.getYDist(obj1, obj2)) - (obj1.hitbox.height + obj2.hitbox.height) / 2;
+        if(obj1.hitbox.radius && obj2.hitbox.radius)
+            return hasCollisionCircleCircle(obj1, obj2);
+        else if(obj1.hitbox.radius && !obj2.hitbox.radius)
+            return hasCollisionCircleRect(obj1, obj2);
+        else if(obj2.hitbox.radius && !obj1.hitbox.radius)
+            return hasCollisionCircleRect(obj2, obj1);
+        else
+            return hasCollisionRectRect(obj1, obj2);
         
-        if(isNaN(xDist) || xDist >= 0)
-            return false;
-        if(isNaN(yDist) || yDist >= 0)
-            return false;
+        function hasCollisionCircleCircle(obj1, obj2){
+            
+            var xDist = CollisionManager.getXDist(obj1, obj2);
+            var yDist = CollisionManager.getYDist(obj1, obj2);            
+            var totalDist = Math.sqrt(xDist * xDist + yDist * yDist);
+            
+            if(totalDist > obj1.hitbox.radius + obj2.hitbox.radius)
+                return false;
+            
+            return true;
+        };
         
-        return true;
+        function hasCollisionCircleRect(obj1, obj2){
+            
+            //find closest point on the rectangle to the circle
+            var xPoint, yPoint;
+            
+            if(obj1.x < obj2.x - obj2.hitbox.width / 2)
+                xPoint = obj2.x - obj2.hitbox.width / 2;
+            else if(obj1.x > obj2.x + obj2.hitbox.width / 2)
+                xPoint = obj2.x + obj2.hitbox.width / 2;
+            else
+                xPoint = obj1.x;     
+            
+            if(obj1.y < obj2.y - obj2.hitbox.height / 2)
+                yPoint = obj2.y - obj2.hitbox.height / 2;
+            else if(obj1.y > obj2.y + obj2.hitbox.height / 2)
+                yPoint = obj2.y + obj2.hitbox.height / 2;
+            else
+                yPoint = obj1.y;
+            
+            //measure distance between that point and the middle of the circle
+            var xDist = Math.abs(obj1.x - xPoint);
+            var yDist = Math.abs(obj1.y - yPoint);            
+            var totalDist = Math.sqrt(xDist * xDist + yDist * yDist);
+            
+            //is distance more or less than the circle's radius
+            if(totalDist > obj1.hitbox.radius)
+                return false;
+            
+            return true;            
+        };
+        
+        function hasCollisionRectRect(obj1, obj2){
+            
+            var xDist = Math.abs(CollisionManager.getXDist(obj1, obj2)) - 
+                (obj1.hitbox.width + obj2.hitbox.width) / 2; 
+            var yDist = Math.abs(CollisionManager.getYDist(obj1, obj2)) - 
+                (obj1.hitbox.height + obj2.hitbox.height) / 2; 
+            
+            if(isNaN(xDist) || xDist >= 0)
+                return false;
+            if(isNaN(yDist) || yDist >= 0)
+                return false;
+        
+            return true;
+        };
     }
 }
 

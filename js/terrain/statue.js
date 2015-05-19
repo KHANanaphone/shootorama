@@ -28,12 +28,12 @@ function Statue(vars){
 
 (function(){
         
-    var prototype = createjs.extend(Chest, createjs.Container);
+    var prototype = createjs.extend(Statue, createjs.Container);
     
     prototype.tick = function(){
         
     };
     
-    Chest = createjs.promote(Chest, 'Container');
-    Chest.initialized = true;
+    Statue = createjs.promote(Statue, 'Container');
+    Statue.initialized = true;
 })();

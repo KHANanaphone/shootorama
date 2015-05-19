@@ -6,8 +6,8 @@ function Trigger(vars){
     
     function setupVars(){
       
-        this.x = vars.x;
-        this.y = vars.y;
+        this.x = vars.x + vars.width / 2;
+        this.y = vars.y + vars.height / 2;
         this.persistence = 'persist';
         this.onTrigger = vars.onTrigger;
         this.persistent = vars.persistent? vars.persistent : false;

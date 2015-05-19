@@ -52,7 +52,7 @@ Main.init = function(){
 
 Main.updateFPS = function(fps){
    
-    this.fpsText.text = Math.round(fps * 10) / 10;
+    this.fpsText.text = 'FPS: ' + Math.round(fps * 10) / 10;
 };
 
 Main.showFPS = function(source){
@@ -61,12 +61,11 @@ Main.showFPS = function(source){
     
     if(source.checked){
         
-        var text = new createjs.Text();
-        text.x = 0;
-        text.y = 800;
-        this.fpsText = 'FPS: ' + text;
+        this.fpsText = new createjs.Text();
+        this.fpsText.x = 5;
+        this.fpsText.y = 705;
         
-        Game.stage.addChild(text);
+        Game.stage.addChild(this.fpsText);
     }
     else {
         
@@ -124,14 +123,21 @@ Main.drawHitboxes = function(){
                 
                 var xOffset = c.hitbox.x ? c.hitbox.x : 0;
                 var yOffset = c.hitbox.y ? c.hitbox.y : 0;
+                    c.debugHitbox = new createjs.Shape();
                 
-                c.debugHitbox = new createjs.Shape();
-                c.debugHitbox.graphics.beginStroke('#00F').drawRect(
-                    c.hitbox.width / -2 + xOffset, 
-                    c.hitbox.height / -2 + yOffset,
-                    c.hitbox.width, 
-                    c.hitbox.height);
-                c.addChild(c.debugHitbox);
+                if(c.hitbox.radius){                                   
+                    c.debugHitbox.graphics.beginStroke('#00F').drawCircle(
+                        xOffset, yOffset, c.hitbox.radius);
+                    c.addChild(c.debugHitbox);
+                }
+                else{                                    
+                    c.debugHitbox.graphics.beginStroke('#00F').drawRect(
+                        c.hitbox.width / -2 + xOffset, 
+                        c.hitbox.height / -2 + yOffset,
+                        c.hitbox.width, 
+                        c.hitbox.height);
+                    c.addChild(c.debugHitbox);
+                }
             };
             
             if(c.children)

@@ -127,6 +127,9 @@ function Room (roomdef) {
         };
         
         CollisionManager.detectCollisions();
+        
+        if(this.roomdef.tick)
+            this.roomdef.tick();
     };
     
     prototype.removeChildrenOfType = function(type){
@@ -198,6 +201,8 @@ function Room (roomdef) {
             obj.init();
         
         this.addChild(obj);
+        
+        return obj;
     };    
     
     prototype.removeObject = function(obj, vars){
@@ -229,7 +234,7 @@ function Room (roomdef) {
         };  
     };
     
-    prototype.checkEnemyCount = function(){
+    prototype.getEnemyCount = function(){
         
         var enemyCount = 0;
         for(var i = 0; i < this.children.length; i++){
@@ -237,8 +242,13 @@ function Room (roomdef) {
             if(this.children[i].type == 'enemy')
                 enemyCount++;
         };
-
-        console.log(enemyCount);
+        
+        return enemyCount;
+    }
+    
+    prototype.checkEnemyCount = function(){
+        
+        var enemyCount = this.getEnemyCount();
         
         if(enemyCount == 0){
             

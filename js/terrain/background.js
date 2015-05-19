@@ -103,6 +103,8 @@ function Background(){
         
         if(obj instanceof FloorObject)
             this.floorObjects.push(obj);
+        
+        return obj;
     };
         
     prototype.removeFloorObject = function(obj, fade){

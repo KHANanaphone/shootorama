@@ -11,6 +11,7 @@ Main.manifest.push(
     "js/items/health.js",
     "js/items/key.js",
     
+    "js/weapons/area.js",
     "js/weapons/line.js",
     "js/weapons/enemyProjectile.js",
     
@@ -41,6 +42,7 @@ Main.manifest.push(
     "js/enemies/enemydefs/ghostArmored.js",
     "js/enemies/enemydefs/ghostBig.js",
     "js/enemies/enemydefs/ghostFast.js",
+    "js/enemies/enemydefs/ghostRed.js",
     "js/enemies/enemydefs/ghostTutorial1.js",
     "js/enemies/enemydefs/ghostTutorial2.js",
     "js/enemies/enemydefs/ghostTutorial3.js",
@@ -66,6 +68,7 @@ Main.manifest.push(
     
     "js/levels/room.js",
     "js/levels/level.js",
+    "js/levels/leveldefs/world1/r111.js",
     "js/levels/leveldefs/world1/r112.js",
     "js/levels/leveldefs/world1/r113.js",
     "js/levels/leveldefs/world1/r120.js",
@@ -93,7 +96,7 @@ Main.manifest.push(
     {id: 'ghost', src: 'img/ghost.png'},
     {id: 'ghostBlue', src: 'img/ghostBlue.png'},
     {id: 'ghostOrange', src: 'img/ghostOrange.png'},
-//    {id: 'ghostRed', src: 'img/ghostBlue.png'},
+    {id: 'ghostRed', src: 'img/ghostRed.png'},
     {id: 'ghostStatue', src: 'img/ghostStatue.png'},
     
     {id: 'heart', src: 'img/heart.png'},
