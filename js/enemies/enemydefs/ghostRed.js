@@ -12,7 +12,7 @@ function GhostRed(vars){
     function setupVars(){
         
         this.drop = [];
-        this.speed = 3.5;
+        this.speed = 3.3;
         this.stunTime = 120;
 
         this.knockback = {            
@@ -42,8 +42,9 @@ function GhostRed(vars){
                 x: this.x, 
                 y: this.y,
                 radius: 20, 
-                growth: 2,
+                growth: 3,
                 duration: 30,
+                playerDamage: 5,
                 damage: 5,
                 collidesWith: ['enemy', 'player']
             })

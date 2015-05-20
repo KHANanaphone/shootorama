@@ -9,8 +9,10 @@ function Area(vars){
         
         this.x = vars.x;
         this.y = vars.y;
-        this.playerDamage = vars.damage;
+        this.damage = vars.damage;
+        this.playerDamage = vars.playerDamage;
         this.radius = vars.radius;
+        this.duration = vars.duration;
         this.growth = vars.growth ? vars.growth : 0;
         this.spriteName = vars.spriteName ? vars.spriteName : null;
         
@@ -24,7 +26,6 @@ function Area(vars){
     function setupComponents(){
 
         this.circle = new createjs.Shape();
-        this.circle.graphics.beginStroke('#F00').setStrokeStyle(3).drawCircle(0, 0, this.radius);
         this.addChild(this.circle);
         
 //        this.sprite = SpriteManager.makeSprite(vars.spriteName);        
@@ -40,11 +41,26 @@ function Area(vars){
       
     prototype.tick = function(){
         
+        if(this.growth)       
+            this.hitbox.radius += this.growth;
+
+        this.drawCircle();
+        
+        this.duration--;        
+        
+        if(this.duration <= 0)
+            this.parent.removeObject(this);
+    };
+    
+    prototype.drawCircle = function(){
+        
+        this.circle.graphics.clear();
+        this.circle.graphics.beginStroke('#F00').setStrokeStyle(3).drawCircle(0, 0, this.hitbox.radius);
     };
     
     prototype.handleCollision = function(obj){
-            
-        debugger;
+        
+        obj.hit(this);
     };
     
     Area = createjs.promote(Area, 'Container');

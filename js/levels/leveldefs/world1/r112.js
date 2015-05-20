@@ -45,7 +45,8 @@ RoomDefs.r112 = {
             
             var self = this;
             
-            room.addObject(new Key({x: 900, y: 100}));     
+            room.addObject(new Key({x: 900, y: 100}), {persistence: 'persist'});     
+            
             room.addObject(
                 new Trigger({x: 850, y: 50, width: 100, height: 100, 
                     onTrigger: function(){                    

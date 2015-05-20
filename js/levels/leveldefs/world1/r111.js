@@ -2,12 +2,24 @@ RoomDefs.r111 = {
     
     init: function(room){        
         
+        var self = this;
         this.started = false;
         this.room = room;
         
         makeBackground.call(this);
         makeWalls.call(this);
         makeObjects.call(this);
+        
+        this.spawnPoints = [
+            [100, 100], 
+            [500, 100], 
+            [900, 100], 
+            [900, 300], 
+            [900, 500], 
+            [500, 500], 
+            [100, 500], 
+            [100, 300]
+        ];
         
         function makeBackground(){
             
@@ -36,16 +48,13 @@ RoomDefs.r111 = {
             
             //top
             room.addWall([WT, 0], [450, WT]);
-            this.topDoor = room.addWall([450, 0], [550, WT], {fade: true, color: '#AAA'});
             room.addWall([550, 0], [1000, WT]);
             
             //down
             room.addWall([WT, 600 - WT], [1000, 600]);
         };
         
-        function makeObjects(){
-            
-            var self = this;
+        function makeObjects(){            
             
             room.addObject(
                 new Trigger({x: 700, y: 100, width: 10, height: 400,
@@ -54,12 +63,14 @@ RoomDefs.r111 = {
                         self.room.background.removeFloorObject(self.tilesRight, {fade: true});
                         self.room.background.removeFloorObject(self.tilesTop, {fade: true});
                         
+                        self.topDoor = 
+                            room.addWall([450, 0], [550, WT], {fade: true, color: '#AAA'});
                         self.rightDoor = 
                             room.addWall([1000 - WT, 0], [1000, 600], {fade: true, color: '#AAA'});
                         
                         self.started = true;
                         self.ticks = 0;
-                        self.enemiesLeft = 16;
+                        self.enemiesLeft = 24;
                     }
                 })
             );
@@ -74,10 +85,9 @@ RoomDefs.r111 = {
         
         this.room.removeObject(this.rightDoor, {fade: true});
         this.room.removeObject(this.topDoor, {fade: true});
-
-        this.tilesTop = room.background.addFloorObject(
-            new Tile({x: 450, y: 0, width: 100, height: 100})
-        );
+        this.room.addObject(new Health({x: 500, y: 50, type: 'large'}), {fade: true});
+        this.room.background.addFloorObject(this.tilesTop, {fade: true});
+        this.room.background.addFloorObject(this.tilesRight, {fade: true});
     },
     
     tick: function(){
@@ -90,10 +100,13 @@ RoomDefs.r111 = {
             return;
         if(this.room.getEnemyCount() >= 8)
             return;
-        if(this.ticks % 60 != 0)
+        if(this.ticks % 50 != 0)
             return;
         
-        this.room.addObject(new GhostRed({x: 200, y: 200}), {fade: true});     
+        var i = this.enemiesLeft % 8;
+        var pt = this.spawnPoints[i];
+        
+        this.room.addObject(new GhostRed({x: pt[0], y: pt[1]}), {fade: true});     
         this.enemiesLeft--;
     }
 };

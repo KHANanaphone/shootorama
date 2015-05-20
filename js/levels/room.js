@@ -226,8 +226,7 @@ function Room (roomdef) {
                 this.ready = false;
         }
         else {
-            this.removeChild(obj);  
-            console.log(obj.type);   
+            this.removeChild(obj);    
             
             if(obj.type == 'enemy')
                 this.checkEnemyCount();       
