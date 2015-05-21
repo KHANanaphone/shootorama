@@ -26,27 +26,32 @@ Main.init = function(){
     
     function loadComplete(e){
         
-        $('#loading').hide();
+        $('#loading .spinner').show();
         
-        var stage = new createjs.Stage("gameCanvas");
-        this.stage = stage;
-        createjs.Ticker.setFPS(60);
-        createjs.Ticker.timingMode = createjs.Ticker.RAF;
+        setTimeout(function(){            
         
-        var ticks = 0;
-        
-        createjs.Ticker.addEventListener('tick', function(){
-            
-            if(DEBUG.showFPS && createjs.Ticker.getTicks() % 60 == 0) 
-                Main.updateFPS(createjs.Ticker.getMeasuredFPS());
-            
-            if(DEBUG.showHitboxes)
-                Main.drawHitboxes();
-            
-            stage.update();
-        });
+            $('#loading').hide();
 
-        Game.init(stage);
+            var stage = new createjs.Stage("gameCanvas");
+            this.stage = stage;
+            createjs.Ticker.setFPS(60);
+            createjs.Ticker.timingMode = createjs.Ticker.RAF;
+
+            var ticks = 0;
+
+            createjs.Ticker.addEventListener('tick', function(){
+
+                if(DEBUG.showFPS && createjs.Ticker.getTicks() % 60 == 0) 
+                    Main.updateFPS(createjs.Ticker.getMeasuredFPS());
+
+                if(DEBUG.showHitboxes)
+                    Main.drawHitboxes();
+
+                stage.update();
+            });
+
+            Game.init(stage);
+        }, 1200);
     };
 };
 

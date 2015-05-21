@@ -83,6 +83,9 @@ CollisionManager.detectCollisions = function(){
             if(!obj1cares && !obj2cares)
                 continue; //don't care about each other
             
+            if(obj1.parent != obj2.parent)
+                return;
+            
             if(hasCollision(obj1, obj2)){
                 
                 if(obj1cares)
@@ -96,9 +99,12 @@ CollisionManager.detectCollisions = function(){
     
     function collidesWith(obj1, obj2){
         
+        if(!obj1.hitbox || !obj2.hitbox)
+            return false;
+        
         if(obj1.hitbox.collidesWith &&
-           obj1.hitbox.collidesWith.indexOf(obj2.hitbox.type) != -1)
-            return true;
+            obj1.hitbox.collidesWith.indexOf(obj2.hitbox.type) != -1)
+            return true;        
         
         return false;
     };

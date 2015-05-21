@@ -18,7 +18,7 @@ RoomDefs.r122 = {
             
             //left
             room.addWall([0, 0], [WT, 250]);
-//            this.leftDoor = room.addWall([0, 250], [WT, 350], {fade: true, color: '#AAA'});
+            this.leftDoor = room.addWall([0, 250], [WT, 350], {fade: true, color: '#AAA'});
             room.addWall([0, 350], [WT, 600]);
             
             //top

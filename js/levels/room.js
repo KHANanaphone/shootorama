@@ -25,6 +25,7 @@ function Room (roomdef) {
     this.background = new Background();
     this.addChild(this.background);
     
+    this.roomdef.room = this;
     this.roomdef.init(this);
 };
 
@@ -171,6 +172,8 @@ function Room (roomdef) {
     
     prototype.addObject = function(obj, vars){
         
+        if(!obj)
+            return;
         if(!vars)
             vars = {};
         
@@ -207,6 +210,8 @@ function Room (roomdef) {
     
     prototype.removeObject = function(obj, vars){
             
+        if(!obj)
+            return;
         if(!vars)
             vars = {};
         

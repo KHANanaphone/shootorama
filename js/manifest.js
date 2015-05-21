@@ -48,8 +48,8 @@ Main.manifest.push(
     "js/enemies/enemydefs/ghostTutorial3.js",
     
     "js/terrain/floor/floorObject.js",
-    "js/terrain/floor/lava.js",
     "js/terrain/floor/tile.js",
+    "js/terrain/floor/lava.js",
     
     "js/terrain/background.js",
     "js/terrain/chest.js",
@@ -68,6 +68,8 @@ Main.manifest.push(
     
     "js/levels/room.js",
     "js/levels/level.js",
+    "js/levels/leveldefs/world1/r100.js",
+    "js/levels/leveldefs/world1/r101.js",
     "js/levels/leveldefs/world1/r111.js",
     "js/levels/leveldefs/world1/r112.js",
     "js/levels/leveldefs/world1/r113.js",
