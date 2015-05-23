@@ -19,8 +19,8 @@ RoomDefs.r101 = {
             this.room.addWall([0, 65], [WT, 600]);
             
             //right
-            this.room.addWall([1000 - WT, 0], [1000, 450]);
-            this.room.addWall([1000 - WT, 550], [1000, 1000]);
+            this.room.addWall([1000 - WT, 0], [1000, 250]);
+            this.room.addWall([1000 - WT, 350], [1000, 600]);
             
             //top
             this.room.addWall([0, 0], [1000 - WT, WT]);
@@ -32,6 +32,7 @@ RoomDefs.r101 = {
         
         function makeObjects(){
             
+            this.room.addObject(new Shooter({x: 500, y: 100}));            
         };
     }
 };

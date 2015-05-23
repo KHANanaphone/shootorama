@@ -7,8 +7,10 @@ function Tile(vars){
         
     tileSprites.call(this);
     
-    if(vars.step)
-        this.step = vars.step;
+    if(vars.playerStep)
+        this.playerStep = vars.playerStep;
+    if(vars.enemyStep)
+        this.enemyStep = vars.enemyStep;
     
     function tileSprites(){
         

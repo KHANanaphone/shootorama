@@ -142,8 +142,10 @@ function Background(){
             var obj = this.floorObjects[i];
             
             if(obj.x <= x && obj.x + obj.width >= x &&
-               obj.y <= y && obj.y + obj.height >= y)
+               obj.y <= y && obj.y + obj.height >= y){
+                
                 return obj;
+            }
         };
         
         return null;

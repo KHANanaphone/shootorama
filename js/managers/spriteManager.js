@@ -41,7 +41,7 @@ SpriteManager.spriteData = {
     },
     
     'fire': { 
-        frames : {width: 20, height: 20},
+        frames : {width: 32, height: 32},
         animations: {
             initial: 0
         }
@@ -122,7 +122,13 @@ SpriteManager.spriteData = {
             initial: 0
         }
     },
-    
+        
+    'pit' : {
+        frames: {width: 50, height: 50},
+        animations: {
+            stand: 0
+        }
+    },  
     'player' : {
         frames: {width: 48, height: 48},
         animations: {
@@ -143,6 +149,12 @@ SpriteManager.spriteData = {
         }
     },
     
+    'shooter' : {
+        frames : {width: 48, height: 48},
+        animations: {
+            initial: 0
+        }
+    },  
     'star' : {
         frames : {width: 20, height: 20},
         animations: {

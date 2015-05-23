@@ -70,7 +70,7 @@ RoomDefs.r111 = {
                         
                         self.started = true;
                         self.ticks = 0;
-                        self.enemiesLeft = 24;
+                        self.enemiesLeft = 16;
                     }
                 })
             );

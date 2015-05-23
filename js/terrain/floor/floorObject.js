@@ -12,10 +12,6 @@ function FloorObject(vars){
         
     var prototype = createjs.extend(FloorObject, createjs.Container);
     
-    prototype.step = function(player){
-        
-    };
-    
     FloorObject = createjs.promote(FloorObject, 'Container');
     FloorObject.initialized = true;
 })();

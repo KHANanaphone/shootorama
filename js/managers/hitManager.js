@@ -9,6 +9,8 @@ HitManager.prototype.hit = function(source){
     
     var dmg, type;
     
+    console.log(this.ticksSinceLastHit + ' ' + this.enemy.hits.combo.startup);
+    
     if(source.empowered){
         
         if(this.enemy.stunnable >= 1)
@@ -27,11 +29,13 @@ HitManager.prototype.hit = function(source){
     }
     else if(this.currentTicks > 0 && this.currentTicks > this.enemy.hits.combo.window){
         
-        this.refreshRingEffect(false);  
+        //this.refreshRingEffect(false);
         type = 'weak';            
         dmg = source.damage * this.enemy.hits.damageScaling.weak;
     } 
-    else if(this.currentTicks > 0 && this.currentTicks <= this.enemy.hits.combo.window){
+    else if(this.currentTicks > 0 && 
+            this.currentTicks <= this.enemy.hits.combo.window &&
+            this.ticksSinceLastHit > this.enemy.hits.combo.startup - this.enemy.hits.combo.window){
              
         this.refreshRingEffect(true);    
         type = 'strong';                  

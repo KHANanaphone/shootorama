@@ -47,9 +47,14 @@ Main.manifest.push(
     "js/enemies/enemydefs/ghostTutorial2.js",
     "js/enemies/enemydefs/ghostTutorial3.js",
     
+    "js/enemies/enemydefs/shooter.js",
+    
     "js/terrain/floor/floorObject.js",
+    
     "js/terrain/floor/tile.js",
+    
     "js/terrain/floor/lava.js",
+    "js/terrain/floor/pit.js",
     
     "js/terrain/background.js",
     "js/terrain/chest.js",
@@ -112,11 +117,13 @@ Main.manifest.push(
     {id: 'orbenergy', src: 'img/orbenergy.png'},
     {id: 'orbhealth', src: 'img/orbhealth.png'},
     
+    {id: 'pit', src: 'img/pit.png'},
     {id: 'player', src: 'img/player.png'},
     {id: 'playerIllusion', src: 'img/playerIllusion.png'},
     
     {id: 'qmark', src: 'img/qmark.png'},
     
+    {id: 'shooter', src: 'img/shooter.png'}, 
     {id: 'star', src: 'img/star.png'}, 
     
     {id: 'tile', src: 'img/tile.png'},     

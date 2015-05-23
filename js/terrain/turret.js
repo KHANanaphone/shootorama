@@ -16,7 +16,7 @@ function Turret(vars){
         this.pushPriority = 9999;
         this.ticks = 0;
         this.shotFrequency = 90;
-        this.shotSpeed = 11;
+        this.shotSpeed = 7;
         this.damage = vars.damage ? vars.damage : 5;
         
         this.hitbox = {
@@ -36,7 +36,7 @@ function Turret(vars){
         this.firePoint = new createjs.Shape();
         this.firePoint.set({
            x: 0,
-           y: 20
+           y: 32
         });
         
         this.addChild(this.firePoint);

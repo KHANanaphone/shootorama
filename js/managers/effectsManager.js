@@ -26,8 +26,8 @@ EffectsManager.prototype.removeEffectsOfType = function(type){
         
         if(effect.type != type)
             withRemoved.push(effect);
-        else if(effect.clear)
-            effect.clear();
+        else 
+            this.clearEffect(effect);
     };
     
     this.effects = withRemoved;
@@ -36,16 +36,15 @@ EffectsManager.prototype.removeEffectsOfType = function(type){
 EffectsManager.prototype.clearAll = function(){
     
     for(var i = 0; i < this.effects.length; i++){
-        this.effects[i].clear();
+        this.clearEffect(this.effects[i]);
     };
     
     this.effects = [];   
 };
 
-EffectsManager.prototype.clearEffect = function(effect){
+EffectsManager.prototype.removeEffect = function(effect){
     
-    if(effect.clear)
-        effect.clear();
+    this.clearEffect(effect);
     
     this.effects = this.effects.filter(function(value){
         
@@ -53,7 +52,16 @@ EffectsManager.prototype.clearEffect = function(effect){
             return false;
         
         return true;
-    });
+    });    
+};
+    
+EffectsManager.prototype.clearEffect = function(effect){
+    
+    if(effect.clear)
+        effect.clear();
+    
+    if(effect.onClear)
+        effect.onClear();    
 }
     
 EffectsManager.prototype.tick = function(){
@@ -78,8 +86,7 @@ EffectsManager.prototype.tick = function(){
             effect.timeRemaining--;
         }   
         else{
-            if(effect.clear)
-                effect.clear();
+            this.clearEffect(effect);
         }        
     };    
     

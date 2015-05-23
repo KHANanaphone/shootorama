@@ -26,7 +26,7 @@ WeaponManager.prototype.tick = function(controlState){
 WeaponManager.prototype.removeEmpowered = function(){
 
     this.empowered = false;        
-    this.player.effectsManager.clearEffect(this.empoweredEffect);
+    this.player.effectsManager.removeEffect(this.empoweredEffect);
     this.empoweredEffect = null;
 };
 
@@ -34,7 +34,7 @@ WeaponManager.prototype.empower = function(){
     
     this.empowered = true;
     this.empoweredEffect = new ColorEffect(this.player.sprite, {
-        duration: -1, r: 1, g: 0, b: 0, scaleStart: 0.5
+        duration: 1000, scales: false, r: 1, g: 0, b: 0, scaleStart: 0.5
     });
     
     this.player.effectsManager.addEffect(this.empoweredEffect);

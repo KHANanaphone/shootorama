@@ -10,6 +10,9 @@ function GhostArmored(vars){
     
     function setupVars(){
         
+        this.speed = 2.1;
+        this.playerDamage = 10;
+        
         this.hits.damageScaling = {
             weak: 0,
             normal: 0.01,

@@ -10,7 +10,7 @@ function Lava(vars){
         
     var prototype = createjs.extend(Lava, Tile);
     
-    prototype.step = function(player){
+    prototype.playerStep = function(player){
         
         if(!player.isDashing())
             player.hit(this);

@@ -129,6 +129,7 @@ function Enemy(vars){
         this.healthMeter.tick();
         manageState.call(this);
         this.effectsManager.tick();
+        this.checkFloor();
         
         function manageState(){
 
@@ -141,6 +142,15 @@ function Enemy(vars){
 
             this.statedef.time++;
         }        
+    };        
+    
+    prototype.checkFloor = function(){
+        
+        var obj = Game.currentRoom.background.getFloorObjectAt(this.x, this.y);
+        
+        if(obj && obj.enemyStep){
+            obj.enemyStep(this);
+        }
     };
     
     prototype.handleCollision = function(obj){
@@ -198,6 +208,9 @@ function Enemy(vars){
     };
     
     prototype.move = function(vector, angle){
+        
+        if(!angle)
+            angle = this.facing;
         
         while(angle < 0)
             angle += 360;
@@ -281,7 +294,7 @@ function Enemy(vars){
             
             this.statedef.onExitState = function(){
                 this.stunned = false;
-                this.effectsManager.clearEffect(stunEffect);
+                this.effectsManager.removeEffect(stunEffect);
             }
         }
         

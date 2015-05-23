@@ -89,8 +89,8 @@ function Player() {
         
         var obj = Game.currentRoom.background.getFloorObjectAt(this.x, this.y);
         
-        if(obj){
-            obj.step(this);
+        if(obj && obj.playerStep){
+            obj.playerStep(this);
         } 
     };
     

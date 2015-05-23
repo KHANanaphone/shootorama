@@ -18,15 +18,15 @@ function EnemyProjectile(vars){
         this.hitbox = {
             type: 'enemyWeapon',
             collidesWith: ['player','solid','illusion'],
-            width: 10,
-            height: 10
+            width: 32,
+            height: 32
         };
     };
     
     function setupComponents(){
 
         this.sprite = SpriteManager.makeSprite(vars.spriteName);        
-        this.sprite.rotation = this.source.rotation;
+        this.sprite.rotation = Math.atan2(this.vector.x, this.vector.y) * -180 / Math.PI;
         
         this.addChild(this.sprite);
     };

@@ -21,7 +21,7 @@ function MovementManager(player){
         self.player.effectsManager.addEffect(
             new ColorEffect(self.player.sprite, {
                 r: 1, g: 1, b: 0.75, duration: Player.DASH_DURATION_TICKS
-            })
+            }), true
         );
     });
 };
@@ -63,6 +63,9 @@ MovementManager.prototype.tick = function(controlState){
     checkDash();
     checkKnockback();
 
+    if(this.player.falling)
+        control = false;
+    
     if(control){
         if(controlState['up'].isDown == 1)
             y--;

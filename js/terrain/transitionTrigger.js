@@ -10,7 +10,7 @@ function TransitionTrigger(side, x, y, width, height){
         
     this.hitbox = {
         type: 'trigger',
-        collidesWith: ['player'],
+        collidesWith: ['player', 'enemy'],
         width: width,
         height: height
     };
@@ -25,8 +25,8 @@ function TransitionTrigger(side, x, y, width, height){
         if(!Game.playingArea.ready)
             return;
         
-        if(!Game.tryTransitionRoom(this.side))
-            CollisionManager.push(this, obj);    
+        if(obj.hitbox.type == 'enemy' || !Game.tryTransitionRoom(this.side))
+            CollisionManager.push(this, obj);  
     };
     
     TransitionTrigger = createjs.promote(TransitionTrigger, 'Container');
