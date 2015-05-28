@@ -22,9 +22,13 @@ CollisionManager.push = function(obj1, obj2){
     var xDist = CollisionManager.getXDist(pusher, pushed);
     var yDist = CollisionManager.getYDist(pusher, pushed);
     
+    //use the object's hitbox unless it is a tile, then use its "width" and "height"
+    var pusherHB = pusher.hitbox ? pusher.hitbox : {width: pusher.width, height: pusher.height};
+    var pushedHB = pushed.hitbox ? pushed.hitbox : {width: pushed.width, height: pushed.height};
+    
     //how far away the objects have to be in this direction for them to be not touching
-    var xBuffer = Math.abs(pusher.hitbox.width + pushed.hitbox.width) / 2;
-    var yBuffer = Math.abs(pusher.hitbox.height + pushed.hitbox.height) / 2;    
+    var xBuffer = Math.abs(pusherHB.width + pushedHB.width) / 2;
+    var yBuffer = Math.abs(pusherHB.height + pushedHB.height) / 2;    
 
     //how far this object would have to be moved to fix the collision
     var xPush, yPush;
@@ -40,10 +44,12 @@ CollisionManager.push = function(obj1, obj2){
         yPush = pusher.y + yBuffer - pushed.y;
     
     //push the least distance
-    if(Math.abs(xPush) < Math.abs(yPush))
+    if(Math.abs(xPush) < Math.abs(yPush)){
         pushed.x += xPush;
-    else
+    }
+    else{
         pushed.y += yPush;
+    }
 };
 
 //get vector between source and target
@@ -70,6 +76,14 @@ CollisionManager.detectCollisions = function(){
     
         var obj1 = children[i];
         
+        if(!obj1.hitbox)
+            continue;
+        
+        var tile = Game.currentRoom.tileGrid.getTileUnderLocation(obj1.x, obj1.y);
+        
+        if(tile && tile.caresAbout[obj1.hitbox.type])
+            tile.handleStep(obj1);
+        
         for(var j = i + 1; j < children.length; j++){
             
             var obj2 = children[j];
@@ -83,8 +97,11 @@ CollisionManager.detectCollisions = function(){
             if(!obj1cares && !obj2cares)
                 continue; //don't care about each other
             
-            if(obj1.parent != obj2.parent)
-                return;
+            if(!obj1.parent || !obj2.parent)
+                continue; //object has been removed from existence
+            
+            if(obj1.room != obj2.room)
+                continue; //objects are in different rooms
             
             if(hasCollision(obj1, obj2)){
                 
@@ -202,10 +219,10 @@ CollisionManager.getYDist = function(obj1, obj2){
 };
 
 //get all children at the given point that match the desired hitbox 
-// type in the array 'lookingFor'
+//type in the array 'lookingFor'
 CollisionManager.getTargets = function(point, lookingFor){
     
-    var children = Game.currentRoom.children;
+    var children = Game.currentRoom.getCollidableChildren();
     var targets = [];
     
     for(var i = 0; i < children.length; i++){

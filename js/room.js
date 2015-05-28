@@ -15,15 +15,16 @@ function Room (roomdef) {
         down: new TransitionTrigger('down', 500, 620, 1000, 2)
     };
     
-    this.addChild(
-        this.transitionTriggers.left,
-        this.transitionTriggers.right,
-        this.transitionTriggers.up,
-        this.transitionTriggers.down
-    );
+    this.addObject(this.transitionTriggers.left);
+    this.addObject(this.transitionTriggers.right);
+    this.addObject(this.transitionTriggers.up);
+    this.addObject(this.transitionTriggers.down);
     
-    this.background = new Background();
-    this.addChild(this.background);
+    this.bgRect = new createjs.Shape();
+    this.addChild(this.bgRect);
+    
+    this.tileGrid = new TileGrid(this);
+    this.addChild(this.tileGrid);
     
     this.roomdef.room = this;
     this.roomdef.init(this);
@@ -182,6 +183,8 @@ function Room (roomdef) {
         else 
             obj.persistence = obj.persistence ? obj.persistence : 'remove';
         
+        obj.room = this;
+        
         if(vars.fade){
             
             if(typeof vars.fade !== 'object')
@@ -280,10 +283,51 @@ function Room (roomdef) {
                 if(c.hitbox)
                     arr.push(c);
                 
-//                if(c.children)
-//                   recursiveGetCollidableChildren(c, arr); 
+                if(c.children)
+                   recursiveGetCollidableChildren(c, arr); 
             };
         };        
+    };    
+    
+    prototype.setBgColor = function(color){        
+        
+        this.bgRect.graphics.clear();
+        this.bgRect.graphics.beginFill(color).drawRect(0, 0, 1000, 600);
+    };
+    
+    prototype.addImage = function(imageName, x, y, w, h){
+        
+        var bitmap = new createjs.Bitmap(Resources.getResult(imageName));
+        var bounds = bitmap.getBounds();        
+        
+        bitmap.set({
+            x: x - w/2,
+            y: y - h/2,
+            scaleX: w / bounds.width,
+            scaleY: h / bounds.height
+        });
+        
+        this.addChild(bitmap);
+        return bitmap;
+    }; 
+    
+    prototype.addRect = function(color, x, y, w, h){
+        
+        var rect = new createjs.Shape();
+        rect.graphics.beginFill(color).drawRect(x, y, w, h);
+        this.addChild(rect);
+    };
+    
+    prototype.addText = function(vars){
+        
+        var text = new createjs.Text();
+        
+        if(!vars.font)
+            vars.font = '50px bitrod';
+        
+        text.set(vars);
+        
+        this.addChild(text);
     };
     
     Room = createjs.promote(Room, 'Container');

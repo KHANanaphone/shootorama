@@ -18,8 +18,8 @@ function EnemyProjectile(vars){
         this.hitbox = {
             type: 'enemyWeapon',
             collidesWith: ['player','solid','illusion'],
-            width: 32,
-            height: 32
+            width: 24,
+            height: 24
         };
     };
     

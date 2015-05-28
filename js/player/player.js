@@ -72,8 +72,7 @@ function Player() {
         
         this.updateTextEffect();
         
-        this.effectsManager.tick();        
-        this.checkFloor();       
+        this.effectsManager.tick();
         
         if (this.invincibilityTicks > 0) {
 
@@ -83,15 +82,6 @@ function Player() {
             else
                 this.sprite.alpha = 1;
         }
-    };
-    
-    prototype.checkFloor = function(){
-        
-        var obj = Game.currentRoom.background.getFloorObjectAt(this.x, this.y);
-        
-        if(obj && obj.playerStep){
-            obj.playerStep(this);
-        } 
     };
     
     prototype.updateTextEffect = function(){

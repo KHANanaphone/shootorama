@@ -129,7 +129,6 @@ function Enemy(vars){
         this.healthMeter.tick();
         manageState.call(this);
         this.effectsManager.tick();
-        this.checkFloor();
         
         function manageState(){
 
@@ -142,15 +141,6 @@ function Enemy(vars){
 
             this.statedef.time++;
         }        
-    };        
-    
-    prototype.checkFloor = function(){
-        
-        var obj = Game.currentRoom.background.getFloorObjectAt(this.x, this.y);
-        
-        if(obj && obj.enemyStep){
-            obj.enemyStep(this);
-        }
     };
     
     prototype.handleCollision = function(obj){

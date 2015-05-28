@@ -4,6 +4,7 @@ Main.manifest = [];
 Main.manifest.push(
 
     "js/playingArea.js",
+    "js/room.js",
     
     "js/items/item.js",
     "js/items/buyableItem.js",
@@ -49,21 +50,20 @@ Main.manifest.push(
     
     "js/enemies/enemydefs/shooter.js",
     
-    "js/terrain/floor/floorObject.js",
-    
-    "js/terrain/floor/tile.js",
-    
-    "js/terrain/floor/lava.js",
-    "js/terrain/floor/pit.js",
+    "js/terrain/tiles/tile.js",    
+    "js/terrain/tiles/lava.js",
+    "js/terrain/tiles/pit.js",
+    "js/terrain/tiles/wall.js",
     
     "js/terrain/background.js",
     "js/terrain/chest.js",
+    "js/terrain/door.js",
     "js/terrain/statue.js",
+    "js/terrain/tileGrid.js",
     "js/terrain/trigger.js",
     "js/terrain/transitionTrigger.js",
     "js/terrain/turret.js",
     "js/terrain/vendor.js",
-    "js/terrain/wall.js",
     
     "js/hud/coinCounter.js",
     "js/hud/dashMeter.js",
@@ -71,7 +71,6 @@ Main.manifest.push(
     "js/hud/hudArea.js",
     "js/hud/keyCounter.js",
     
-    "js/levels/room.js",
     "js/levels/level.js",
     "js/levels/leveldefs/world1/r100.js",
     "js/levels/leveldefs/world1/r101.js",

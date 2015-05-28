@@ -7,6 +7,7 @@ function TransitionTrigger(side, x, y, width, height){
     this.y = y;
     this.persistence = 'persist';
     this.pushPriority = 9999;
+    this.ignoreTiles = true;
         
     this.hitbox = {
         type: 'trigger',

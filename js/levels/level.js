@@ -12,20 +12,21 @@ function Level(id){
     this.roomSetups = levelDef.roomSetups;    
     this.rooms = [];
     
-    for(var i = 0; i < this.map.length; i++){
-        
+    for(var i = 0; i < this.map.length; i++)
         this.rooms[i] = [];
-        
-        for(var j = 0; j < this.map[i].length; j++){
-            
-            var roomDef = RoomDefs[this.map[i][j]];
-            
-            if(roomDef)
-                this.rooms[i][j] = new Room(roomDef);
-        }
-    }
     
-    this.currentRoom = this.rooms[this.y][this.x];
+    this.currentRoom = this.getRoom(this.x, this.y);
+};
+
+//get the room, and load it if it hasn't been loaded yet. returns null if there's no room there
+Level.prototype.getRoom = function(x, y){
+    
+    if(!this.map[y] || !this.map[y][x])
+        return false;
+    if(!this.rooms[y][x])
+        this.rooms[y][x] = new Room(RoomDefs[this.map[y][x]]);
+    
+    return this.rooms[y][x];
 };
 
 Level.prototype.tryTransitionRoom = function(direction){
@@ -42,14 +43,16 @@ Level.prototype.tryTransitionRoom = function(direction){
     else if(direction == 'right')
         x++;
     
-    if(!this.rooms[y] || !this.rooms[y][x])
+    var nextRoom = this.getRoom(x, y);
+    
+    if(!nextRoom)
         return false;
     
     this.x = x;
     this.y = y;
     
     this.currentRoom.leave();
-    this.currentRoom = this.rooms[y][x];
+    this.currentRoom = nextRoom;
     this.currentRoom.enter();    
     
     return true;
