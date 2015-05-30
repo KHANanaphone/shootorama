@@ -27,7 +27,7 @@ function Room (roomdef) {
     this.addChild(this.tileGrid);
     
     this.roomdef.room = this;
-    this.roomdef.init(this);
+    this.roomdef.init();
 };
 
 (function(){

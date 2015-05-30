@@ -1,42 +1,45 @@
 RoomDefs.r121 = {
     
-    init: function(room){        
-        
-        this.room = room;
-        
-        makeBackground.call(this);
-        makeWalls.call(this);
+    init : function(){
+
+        this.room.setBgColor('#EEF');   
+        makeTiles.call(this);
         makeObjects.call(this);
         
-        function makeBackground(){
-            
-            room.background.setColor('#EEF');
-        };
+        this.room.playerSpawnPoint = {x: 400, y: 450};
         
-        function makeWalls(){
+        function makeTiles(){
             
-            //left
-            room.addWall([0, 0], [WT, 250]);
-            room.addWall([0, 350], [WT, 600]);
+            var grid = 
+                [//0  1   2   3   4   5   6   7   8   9   10  11  12  13  14  15  16  17  18  19 
+                ['b','w','w','w','w','w','w','w','w','w','w','w','w','w','w','w','w','w','w','b'], // 0
+                ['w',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','w'], // 1
+                ['w',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','w'], // 2
+                ['w',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','w'], // 3
+                ['w',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','w'], // 4
+                [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '], // 5
+                [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '], // 6
+                ['w',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','w'], // 7
+                ['w',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','w'], // 8
+                ['w',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','w'], // 9
+                ['w',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','w'], // 10
+                ['b','w','w','w','w','w','w','w','w','w','w','w','w','w','w','w','w','w','w','b']]; // 11
             
-            //top
-            room.addWall([WT, 0], [1000, WT]);
+            var tiles = {
+                'w': {type: Wall}, 
+                'b': {type: Tile, params: {color: 'black'} }
+            };
             
-            //right
-            room.addWall([1000 - WT, 0], [1000, 250]);
-            room.addWall([1000 - WT, 350], [1000, 600]);
-            
-            //down
-            room.addWall([WT, 600 - WT], [1000, 600]);
+            this.room.tileGrid.setGrid(tiles, grid);
         };
         
         function makeObjects(){
-            
-            this.room.addObject(new GhostArmored({x: 700, y: 300}));            
+
+            this.room.addObject(new GhostArmored({x: 700, y: 300}));               
             
             this.chest = new Chest({
-                x: 950,
-                y: 550,
+                x: 900,
+                y: 500,
                 contents: [
                     new Coin({value: 1}), 
                     new Coin({value: 1}),
@@ -54,5 +57,5 @@ RoomDefs.r121 = {
     clear: function(){
         
         this.chest.open();
-    },
+    }    
 };

@@ -1,43 +1,48 @@
-var WT = 15;
-
 RoomDefs.r120 = {
     
-    init: function(room){        
-        
-        this.room = room;
-        
-        makeBackground.call(this);
-        makeWalls.call(this);
+    init : function(){
+
+        this.room.setBgColor('#222');   
+        makeTiles.call(this);
         makeObjects.call(this);
         
-        function makeBackground(){
-            
-            room.background.setColor('#222');
-        };
+        this.room.playerSpawnPoint = {x: 400, y: 450};
         
-        function makeWalls(){
+        function makeTiles(){
             
-            //left
-            room.addWall([0, 0], [WT, 600]);
+            var grid = 
+                [//0  1   2   3   4   5   6   7   8   9   10  11  12  13  14  15  16  17  18  19 
+                ['b','w','w','w','w','w','w','w','w',' ',' ','w','w','w','w','w','w','w','w','b'], // 0
+                ['w',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','w'], // 1
+                ['w',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','w'], // 2
+                ['w',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','w'], // 3
+                ['w',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','w'], // 4
+                ['w',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '], // 5
+                ['w',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '], // 6
+                ['w',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','w'], // 7
+                ['w',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','w'], // 8
+                ['w',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','w'], // 9
+                ['w',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','w'], // 10
+                ['b','w','w','w','w','w','w','w','w',' ',' ','w','w','w','w','w','w','w','w','b']]; // 11
             
-            //top
-            room.addWall([WT, 0], [450, WT]);
-            room.addWall([450, 0], [550, WT], {type: 'locked'});
-            room.addWall([550, 0], [1000 - WT, WT]);
+            var tiles = {
+                'w': {type: Wall}, 
+                'b': {type: Tile, params: {color: 'black'} }
+            };
             
-            //right
-            room.addWall([1000 - WT, 0], [1000, 250]);
-            room.addWall([1000 - WT, 350], [1000, 600]);
-            
-            //down
-            room.addWall([WT, 600 - WT], [450, 600]);
-            room.addWall([550, 600 - WT], [1000 - WT, 600]);
+            this.room.tileGrid.setGrid(tiles, grid);
         };
         
         function makeObjects(){
             
+            this.topDoor = new Door({x: 450, y: 15, width: 100, height: 20, type: 'locked'});
+            this.room.addObject(this.topDoor, {fade: true});          
+            
+            this.bottomDoor = new Door({x: 450, y: 565, width: 100, height: 20});
+            this.room.addObject(this.bottomDoor, {fade: true});
+            
             this.vendor = new Vendor({x: 500, y: 200})
-            room.addObject(this.vendor);
+            this.room.addObject(this.vendor);
             
             var health = new BuyableItem({
                 x: 400,
@@ -47,7 +52,7 @@ RoomDefs.r120 = {
                 vendor: this.vendor,
                 vendorQuote: 'Be careful out there.'
             });
-            room.addObject(health);
+            this.room.addObject(health);
             
             var key = new BuyableItem({
                 x: 600,
@@ -57,19 +62,17 @@ RoomDefs.r120 = {
                 vendor: this.vendor,
                 vendorQuote: "Don't get into too much trouble with that key."
             });
-            room.addObject(key);
+            this.room.addObject(key);
         };
     },
     
     start: function(firstVisit){
         
         if(firstVisit){
-            this.room.addWall([450, 600 - WT], [550, 600], {fade: true});
             this.vendor.say('Greetings, stranger. Welcome to \nmy cool shop.');
         }
         else{
             this.vendor.say('You again?');
-        }
-        
-    }
+        }        
+    }    
 };

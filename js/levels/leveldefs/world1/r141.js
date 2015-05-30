@@ -1,21 +1,39 @@
 RoomDefs.r141 = {
     
-    init: function(room){
+    init: function(){
         
-        var WT = 15; //wall thickness
-        var rightDoor;
-
-        makeBG();
-        makeWalls();
-        makeEnemies();
-
-        function makeBG(){
-
-            room.background.setColor('#EEF');
-            room.background.addRect('#000', 0, 0, 1000, 150);
-            room.background.addRect('#000', 0, 450, 1000, 150);   
-
-            room.background.addText({               
+        this.room.setBgColor('#EEF');   
+        makeTiles.call(this);
+        makeObjects.call(this);
+        
+        function makeTiles(){
+            
+            var grid = 
+                [//0   1   2   3   4   5   6   7   8   9   10  11  12  13  14  15  16  17  18  19 
+                ['b','b','b','b','b','b','b','b','b','b','b','b','b','b','b','b','b','b','b','b'], // 0
+                ['b','b','b','b','b','b','b','b','b','b','b','b','b','b','b','b','b','b','b','b'], // 1
+                ['b','b','b','b','b','b','b','b','b','b','b','b','b','b','b','b','b','b','b','b'], // 2
+                ['b','w','w','w','w','w','w','w','w','w','w','w','w','w','w','w','w','w','w','b'], // 3
+                ['w',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','w'], // 4
+                [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '], // 5
+                [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '], // 6
+                ['w',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','w'], // 7
+                ['b','w','w','w','w','w','w','w','w','w','w','w','w','w','w','w','w','w','w','b'], // 8
+                ['b','b','b','b','b','b','b','b','b','b','b','b','b','b','b','b','b','b','b','b'], // 9
+                ['b','b','b','b','b','b','b','b','b','b','b','b','b','b','b','b','b','b','b','b'], // 10
+                ['b','b','b','b','b','b','b','b','b','b','b','b','b','b','b','b','b','b','b','b']]; // 11
+            
+            var tiles = {
+                'w': {type: Wall}, 
+                'b': {type: Tile, params: {color: 'black'} }
+            };
+            
+            this.room.tileGrid.setGrid(tiles, grid);
+        };
+        
+        function makeObjects(){
+            
+            this.room.addText({               
 
                 text: 'Use I or Z to shoot.',
                 color: '#FFF',
@@ -24,53 +42,34 @@ RoomDefs.r141 = {
                 textAlign: 'center'                    
             });     
 
-            room.background.addText({               
+            this.room.addText({               
 
                 text: 'Hold P or C to strafe.',
                 color: '#FFF',
                 x: 500,
                 y: 510,
                 textAlign: 'center'                    
-            });     
+            });   
+            
+            this.leftDoor = new Door({x: 15, y: 250, width: 20, height: 100});
+            this.room.addObject(this.leftDoor, {fade: true});
+            
+            this.rightDoor = new Door({x: 965, y: 250, width: 20, height: 100});
+            this.room.addObject(this.rightDoor, {fade: true});
+            
+            this.room.addObject(new GhostTutorial1({x: 950, y: 300, drop: 'none'}));
+            this.room.addObject(new GhostTutorial1({x: 900, y: 260, drop: 'none'}));
+            this.room.addObject(new GhostTutorial1({x: 900, y: 340, drop: 'none'}));
+            this.room.addObject(new GhostTutorial1({x: 850, y: 220, drop: 'none'}));
+            this.room.addObject(new GhostTutorial1({x: 850, y: 300, drop: 'none'}));
+            this.room.addObject(new GhostTutorial1({x: 850, y: 380, drop: 'none'}));
+            this.room.addObject(new GhostTutorial1({x: 800, y: 260, drop: 'none'}));
+            this.room.addObject(new GhostTutorial1({x: 800, y: 340, drop: 'none'}));
+            this.room.addObject(new GhostTutorial1({x: 750, y: 300, drop: 'none'}));
         };
-
-        function makeWalls(){
-
-            rightDoor = new Wall({x: 1000 - WT, y: 250, width: WT, height: 100});
-
-            //left
-            room.addObject(new Wall({x: 0, y: 150, width: WT, height: 100}));
-            room.addObject(new Wall({x: 0, y: 250, width: WT, height: 100}), {fade: true});
-            room.addObject(new Wall({x: 0, y: 350, width: WT, height: 100}));   
-
-            //up
-            room.addObject(new Wall({x: WT, y: 150, width: 1000 - WT * 2, height: WT}));
-
-            //down
-            room.addObject(new Wall({x: WT, y: 450 - WT, width: 1000 - WT * 2, height: WT}));
-
-            //right
-            room.addObject(new Wall({x: 1000 - WT, y: 150, width: WT, height: 100}));
-            room.addObject(rightDoor, {fade: true});
-            room.addObject(new Wall({x: 1000 - WT, y: 350, width: WT, height: 100}));
-        };
-
-        function makeEnemies(){
-
-            room.addObject(new GhostTutorial1({x: 950, y: 300, drop: 'none'}), {fade: true});
-            room.addObject(new GhostTutorial1({x: 900, y: 250, drop: 'none'}), {fade: true});
-            room.addObject(new GhostTutorial1({x: 900, y: 350, drop: 'none'}), {fade: true});
-            room.addObject(new GhostTutorial1({x: 850, y: 200, drop: 'none'}), {fade: true});
-            room.addObject(new GhostTutorial1({x: 850, y: 300, drop: 'none'}), {fade: true});
-            room.addObject(new GhostTutorial1({x: 850, y: 400, drop: 'none'}), {fade: true});
-            room.addObject(new GhostTutorial1({x: 800, y: 250, drop: 'none'}), {fade: true});
-            room.addObject(new GhostTutorial1({x: 800, y: 350, drop: 'none'}), {fade: true});
-            room.addObject(new GhostTutorial1({x: 750, y: 300, drop: 'none'}), {fade: true});
-        };
-
-        room.onClear = function(){
-
-            room.removeObject(rightDoor, {fade: true});
-        };
+    },
+    clear: function(){
+        
+        this.room.removeObject(this.rightDoor, {fade: true});
     }
 };

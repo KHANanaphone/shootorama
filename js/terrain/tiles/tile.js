@@ -14,13 +14,16 @@ function Tile(vars){
     this.rect = new createjs.Shape();
     this.addChild(this.rect);
     
-    if(vars.spriteName){
-        this.sprite = SpriteManager.makeSprite(this.spriteName, true);
+    this.spriteName = vars.spriteName ? vars.spriteName : this.spriteName;
+    this.color = vars.color ? vars.color : this.color;
+    
+    if(this.spriteName){
+        this.sprite = SpriteManager.makeSprite(this.spriteName, false);
         this.addChild(this.sprite);
     }
     
-    if(vars.color){
-        this.rect.graphics.beginFill(vars.color).drawRect(this.width / -2, this.height / -2, 50, 50);
+    if(this.color){
+        this.rect.graphics.beginFill(this.color).drawRect(this.width / -2, this.height / -2, 51, 51);
     }
 };
 

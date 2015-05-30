@@ -50,6 +50,9 @@ TextEffect.prototype.tick = function(){
 
 TextEffect.prototype.clear = function(){
     
-    this.text.parent.removeChild(this.text);
-    this.outlineText.parent.removeChild(this.outlineText);
+    if(this.text.parent)
+        this.text.parent.removeChild(this.text);
+    
+    if(this.outlineText.parent)
+        this.outlineText.parent.removeChild(this.outlineText);
 };

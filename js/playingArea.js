@@ -73,8 +73,8 @@ var prototype = createjs.extend(PlayingArea, createjs.Container);
             enterFrom = 'up';
         }
         
-        this.currentRoom.removeChild(Game.player);
-        next.addChild(Game.player);
+        this.currentRoom.removeObject(Game.player);
+        next.addObject(Game.player);
         next.entering(enterFrom);
         this.addChild(next);
         

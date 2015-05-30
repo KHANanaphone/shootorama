@@ -11,8 +11,8 @@ function Player() {
         this.size = Player.HITBOX_SIZE;
         this.health = 50;
         this.maxHealth = this.health;
-        this.keys = 1;
-        this.coins = 7;
+        this.keys = 0;
+        this.coins = 0;
 
         this.facing = this.rotation;
         this.textEffects = [];

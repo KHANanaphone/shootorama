@@ -1,16 +1,16 @@
 function Lava(vars){
     
-    this.spriteName = 'lava';
+    this.spriteName = 'lava';    
     this.Tile_constructor(vars);
-    
-    this.playerDamage = 20; 
+    this.playerDamage = 20;  
+    this.caresAbout = {player : true};
 };
 
 (function(){
         
     var prototype = createjs.extend(Lava, Tile);
     
-    prototype.playerStep = function(player){
+    prototype.handleStep = function(player){
         
         if(!player.isDashing())
             player.hit(this);
@@ -18,4 +18,5 @@ function Lava(vars){
     
     Lava = createjs.promote(Lava, 'Tile');
     Lava.initialized = true;
+    
 })();

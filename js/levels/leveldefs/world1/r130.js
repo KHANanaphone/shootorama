@@ -1,62 +1,62 @@
 RoomDefs.r130 = {
     
-    init: function(room){
-    
-        this.room = room;
+    init : function(){
+
+        this.room.setBgColor('#EEF');   
+        makeTiles.call(this);
+        makeObjects.call(this);
         
-        var WT = 15; //wall thickness
-        var topDoor;
-
-        makeBG();
-        makeWalls();
-        makeObjects();
-
-        function makeBG(){
-
-            room.background.setColor('#EEF');
-        };
-
-        function makeWalls(){
-
-            topDoor = new Wall({x: 450, y: 0, width: 100, height: WT});
-
-            //left
-            room.addObject(new Wall({x: 0, y: 0, width: WT, height: 600}));
-
-            //right
-            room.addObject(new Wall({x: 1000 - WT, y: 0, width: WT, height: 250}));
+        function makeTiles(){
             
-            room.addObject(new Wall({x: 1000 - WT, y: 250, width: WT, height: 100}), {fade: true});
-            room.addObject(new Wall({x: 1000 - WT, y: 350, width: WT, height: 250}));
-
-            //top
-            room.addObject(new Wall({x: WT, y: 0, width: 450 - WT, height: WT}));
-            room.addObject(topDoor);
-            room.addObject(new Wall({x: 550, y: 0, width: 450 - WT, height: WT}));
-
-            //bottom
-            room.addObject(new Wall({x: WT, y: 600 - WT, width: 215 - WT, height: WT}));
-            room.addObject(new Wall({x: 215, y: 600 - WT, width: 135, height: WT}), {fade: true});
-            room.addObject(new Wall({x: 350, y: 600 - WT, width: 650 - WT, height: WT}));
+            var grid = 
+                [//0  1   2   3   4   5   6   7   8   9   10  11  12  13  14  15  16  17  18  19 
+                ['b','w','w','w','w','w','w','w','w',' ',' ','w','w','w','w','w','w','w','w','b'], // 0
+                ['w',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','w'], // 1
+                ['w',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','w'], // 2
+                ['w',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','w'], // 3
+                ['w',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','w'], // 4
+                ['w',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '], // 5
+                ['w',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '], // 6
+                ['w',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','w'], // 7
+                ['w',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','w'], // 8
+                ['w',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','w'], // 9
+                ['w',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','w'], // 10
+                ['b','w',' ',' ','w','w','w','w','w','w','w','w','w','w','w','w','w','w','w','b']]; // 11
+            
+            var tiles = {
+                'w': {type: Wall}, 
+                'b': {type: Tile, params: {color: 'black'} }
+            };
+            
+            this.room.tileGrid.setGrid(tiles, grid);
         };
-
+        
         function makeObjects(){
-
-            room.addObject(
+            
+            this.topDoor = new Door({x: 450, y: 15, width: 100, height: 20});
+            this.room.addObject(this.topDoor, {fade: true});
+            
+            this.rightDoor = new Door({x: 965, y: 250, width: 20, height: 100});
+            this.room.addObject(this.rightDoor, {fade: true});            
+            
+            this.bottomDoor = new Door({x: 100, y: 565, width: 100, height: 20});
+            this.room.addObject(this.bottomDoor, {fade: true});
+            
+            this.room.addObject(
                 new Health({x: 500, y: 300, type: 'heart', onCollect: spawnEnemies}));
-        };        
-
+        };
+            
         function spawnEnemies(){
 
-            room.addObject(new Ghost({x: 100, y: 100}), {fade: {layer: 0}});
-            room.addObject(new Ghost({x: 900, y: 100}), {fade: {layer: 1}});
-            room.addObject(new Ghost({x: 100, y: 500}), {fade: {layer: 2}});
-            room.addObject(new Ghost({x: 900, y: 500}), {fade: {layer: 3}});
+            this.room.addObject(new Ghost({x: 100, y: 100}), {fade: {layer: 0}});
+            this.room.addObject(new Ghost({x: 900, y: 100}), {fade: {layer: 1}});
+            this.room.addObject(new Ghost({x: 100, y: 500}), {fade: {layer: 2}});
+            this.room.addObject(new Ghost({x: 900, y: 500}), {fade: {layer: 3}});
         };
-
-        room.onClear = function(){
-
-            room.removeObject(topDoor, {fade: true});
-        };
+    },
+    
+    clear: function(){
+        
+        this.room.removeObject(this.topDoor, {fade: true});
     }
 };

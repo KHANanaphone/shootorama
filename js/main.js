@@ -131,12 +131,12 @@ Main.drawHitboxes = function(){
                     c.debugHitbox = new createjs.Shape();
                 
                 if(c.hitbox.radius){                                   
-                    c.debugHitbox.graphics.beginStroke('#00F').drawCircle(
+                    c.debugHitbox.graphics.beginStroke('#88F').drawCircle(
                         xOffset, yOffset, c.hitbox.radius);
                     c.addChild(c.debugHitbox);
                 }
                 else{                                    
-                    c.debugHitbox.graphics.beginStroke('#00F').drawRect(
+                    c.debugHitbox.graphics.beginStroke('#88F').drawRect(
                         c.hitbox.width / -2 + xOffset, 
                         c.hitbox.height / -2 + yOffset,
                         c.hitbox.width, 
