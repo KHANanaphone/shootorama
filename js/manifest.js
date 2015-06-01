@@ -87,7 +87,7 @@ Main.manifest.push(
     "js/levels/leveldefs/world1/r140.js",
     "js/levels/leveldefs/world1/r141.js",
     "js/levels/leveldefs/world1/r142.js",
-    "js/levels/leveldefs/world1.js"
+    "js/levels/leveldefs/level1.js"
 );
 
 //images
