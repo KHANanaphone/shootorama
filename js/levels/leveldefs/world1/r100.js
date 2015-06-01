@@ -1,70 +1,44 @@
 RoomDefs.r100 = {
     
-    init: function(){        
-        
-        var self = this;
-        
-        makeBackground.call(this);
-        makeWalls.call(this);
+    init : function(){
+
+        this.room.setBgColor('#F00');   
+        makeTiles.call(this);
         makeObjects.call(this);
         
-        function makeBackground(){
-            
-            this.room.background.setColor('#EEF');
-            this.room.background.addFloorObject(
-                new Pit({x: 0, y: 0, width: 850, height: 600})
-            );
-            this.room.background.addFloorObject(
-                new Pit({x: 850, y: 150, width: 150, height: 450})
-            );
-        };
+        this.room.playerSpawnPoint = {x: 400, y: 450};
         
-        function makeWalls(){            
+        function makeTiles(){
             
-            //left
-            this.room.addWall([0, 450], [WT, 600]);
+            var grid = 
+                [//0  1   2   3   4   5   6   7   8   9   10  11  12  13  14  15  16  17  18  19 
+                ['w','w','w','w','w','w','w','w','w','w','w','w','w','w','w','w','w','b','w','w'], // 0
+                ['w','t','t','t','t','t',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','w','t','t'], // 1
+                ['w','t',' ',' ',' ','t',' ','t','t','t','t','t','t','t','t',' ',' ','w','t','w'], // 2
+                ['w','t','t','t',' ','t',' ','t',' ',' ',' ',' ',' ',' ','t',' ',' ',' ','t','w'], // 3
+                ['w',' ',' ','t',' ','t',' ','t',' ',' ',' ',' ','t','t','t',' ',' ',' ','t','w'], // 4
+                ['w',' ',' ','t',' ','t',' ','t',' ','t','t',' ','t',' ',' ',' ',' ',' ','t','w'], // 5
+                ['w','t','t','t',' ','t','t','t',' ','t','t',' ','t',' ','t','t','t','t','t','w'], // 6
+                ['w','t',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','t',' ','t',' ',' ',' ',' ','w'], // 7
+                ['w','t',' ',' ',' ','t','t','t','t','t','t','t','t',' ','t',' ',' ',' ',' ','w'], // 8
+                ['w','t','w',' ',' ','t',' ',' ',' ',' ',' ',' ',' ',' ','t',' ',' ',' ',' ','w'], // 9
+                ['w','t','w',' ',' ','t','t','t','t','t','t','t','t','t','t',' ',' ',' ',' ','w'], // 10
+                ['w','w','w','w','w','w','w','w','w','w','w','w','w','w','w','w','w','w','w','b']]; // 11
             
-            //right
-            this.room.addWall([1000 - WT, 65], [1000, 600]);
+            var tiles = {
+                'w': {type: Wall}, 
+                'b': {type: Tile, params: {color: 'black'} },
+                't': {type: Tile, params: {spriteName: 'tile'} },
+                ' ': {type: Lava}
+            };
             
-            //up
-            this.room.addWall([850, 0], [1000, WT]);
-            
-            //down
-            this.room.addWall([0, 600 - WT], [1000 - WT, 600]);
-            
-            //other
-            this.room.addWall([850, WT], [900, 150]);
-            this.room.addWall([950, 65], [1000 - WT, 150]);
-            this.room.addWall([WT, 450], [50, 600 - WT]);
-            this.room.addWall([100, 450], [150, 600 - WT]);
-            this.room.addWall([50, 550], [100, 600 - WT]);
+            this.room.tileGrid.setGrid(tiles, grid);
         };
         
         function makeObjects(){
-            
-            this.bridgeTiles = [
-                new Tile({x: 900, y: 150, width: 50, height: 150}),
-                new Tile({x: 750, y: 250, width: 150, height: 50}),
-                new Tile({x: 750, y: 300, width: 50, height: 250}),
-                new Tile({x: 250, y: 500, width: 500, height: 50}),
-                new Tile({x: 250, y: 400, width: 50, height: 100}),
-                new Tile({x: 300, y: 400, width: 350, height: 50}),
-                new Tile({x: 600, y: 150, width: 50, height: 250}),
-                new Tile({x: 650, y: 150, width: 150, height: 50}),
-                new Tile({x: 750, y: 50, width: 50, height: 100}),
-                new Tile({x: 250, y: 50, width: 500, height: 50}),
-                new Tile({x: 250, y: 100, width: 50, height: 250}),
-                new Tile({x: 150, y: 300, width: 100, height: 50}),
-                new Tile({x: 150, y: 50, width: 50, height: 250}),
-                new Tile({x: 50, y: 50, width: 100, height: 50}),
-                new Tile({x: 50, y: 100, width: 50, height: 450})
-            ];
 
-            for(var i = 0; i < this.bridgeTiles.length; i++)
-                this.room.background.addFloorObject(this.bridgeTiles[i]);
-            
             this.room.addObject(new Health({x: 75, y: 525, type: 'heart'}));
+            this.room.addObject(new Turret({x: 500, y: 300, rotating: true}))
         };
     }
 };

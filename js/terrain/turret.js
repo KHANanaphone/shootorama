@@ -11,6 +11,8 @@ function Turret(vars){
         this.y = vars.y;
         this.persistence = 'persist';
         
+        this.rotating = vars.rotating ? vars.rotating : false;
+        
         this.rotation = vars.facing ? vars.facing: 0;
         
         this.pushPriority = 9999;
@@ -53,6 +55,18 @@ function Turret(vars){
         
         if(this.ticks % this.shotFrequency == 0)
             this.shoot();
+        
+        if(this.rotating)
+            this.rotate();
+    };
+    
+    prototype.rotate = function(){
+        
+        var distX = Game.player.x - this.x;
+        var distY = Game.player.y - this.y;
+        var rads = Math.atan2(distY, distX);
+        
+        this.rotation = rads * (180 / Math.PI) - 90;
     };
     
     prototype.shoot = function(){
@@ -70,7 +84,11 @@ function Turret(vars){
             x: start.x,
             y: start.y,
             vector: vector,
-            damage: this.damage
+            damage: this.damage,
+            knockback : {            
+                ticks: 9,
+                velocity: 2
+            }
         }));
     };
     

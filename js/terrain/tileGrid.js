@@ -33,6 +33,8 @@ function TileGrid(room){
             
             if(c.tick)
                 c.tick();
+            if(c.handleFade)
+                c.handleFade();
         };
     };
     
@@ -40,7 +42,10 @@ function TileGrid(room){
     //grid: a 20x12 array of strings correlating to the 'tiles' object
     //
     //get it?
-    prototype.setGrid = function(tiles, grid){
+    prototype.setGrid = function(tiles, grid, xStart, yStart){
+        
+        if(!xStart) xStart = 0;
+        if(!yStart) yStart = 0;
         
         for(var y = 0; y < grid.length; y++){
             
@@ -54,12 +59,12 @@ function TileGrid(room){
                     continue;
                           
                 var params = tileInfo.params ? tileInfo.params : {};
-                params.tileX = x;
-                params.tileY = y;
+                params.tileX = x + xStart;
+                params.tileY = y + yStart;
                 params.room = this.room;
                     
                 var newTile = new tileInfo.type(params);
-                this.setTile(newTile, x, y);
+                this.setTile(newTile, x + xStart, y + yStart);
             };
         };
     };
@@ -83,7 +88,12 @@ function TileGrid(room){
     }; 
     
     //add tile to array on top of existing tiles
-    prototype.addTile = function(tile, x, y){
+    prototype.addTile = function(tile, x, y, fade){
+        
+        if(!x && x != 0)
+            x = tile.tileX;
+        if(!y && y != 0)
+            y = tile.tileY;
         
         tile.tileX = x;
         tile.tileY = y;
@@ -92,18 +102,28 @@ function TileGrid(room){
         
         this.tiles[y][x].push(tile);        
         this.addChild(tile);
+        
+        if(fade){
+            tile.alpha = 0;
+            tile.fadeIn = true;
+        }
     }; 
     
     //returns true if a tile is removed, false otherwise
-    prototype.removeTile = function(tile){
+    prototype.removeTile = function(tile, fade){
         
-        var tileArray = this.tiles[tile.y][tile.x];
+        var tileArray = this.tiles[tile.tileY][tile.tileX];
         
         for(var i = tileArray.length - 1; i >= 0; i--){
             
             if(tileArray[i].id == tile.id){
                 tileArray.splice(i, 1);
-                this.removeChild(tile);
+                
+                if(fade)
+                    tile.fadeOut = true;
+                else
+                    this.removeChild(tile);
+                
                 return true;
             }            
         };

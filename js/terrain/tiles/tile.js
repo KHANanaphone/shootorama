@@ -31,7 +31,28 @@ function Tile(vars){
         
     var prototype = createjs.extend(Tile, createjs.Container);
     
-    Tile = createjs.promote(Tile, 'Container');
+    prototype.handleFade = function(){
+        
+        if(this.fadeIn){
+            
+            this.alpha += 0.05;
+            if(this.alpha >= 1)
+                this.fadeIn = false;
+        }
+        else if(this.fadeOut){
+            
+            this.alpha -= 0.05;
+            if(this.alpha <= 0){
+                
+                this.fadeOut = false;
+                
+                if(this.parent)
+                    this.parent.removeChild(this);
+            };
+        };
+    };
+    
+    Tile = createjs.promote(Tile, 'Container');    
     Tile.initialized = true;
     
 })();

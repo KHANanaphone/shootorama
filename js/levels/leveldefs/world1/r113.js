@@ -2,28 +2,35 @@ RoomDefs.r113 = {
     
     init: function(room){        
         
-        this.room = room;
-        room.playerSpawnPoint = {x: 500, y: 575};
-        
-        makeBackground.call(this);
-        makeWalls.call(this);
+        var self = this;        
+        this.room.setBgColor('#F00');
+        makeTiles.call(this);
         makeObjects.call(this);
         
-        function makeBackground(){
+        function makeTiles(){
             
-            room.background.setColor('#EEF');    
+            var grid = 
+                [//0  1   2   3   4   5   6   7   8   9   10  11  12  13  14  15  16  17  18  19 
+                ['w','w','w','w','w','w','w','w','w','w','w','w','w','w','w','w','w','w','w','w'], // 0
+                [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','w'], // 1
+                [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','w'], // 2
+                [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','w'], // 3
+                [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','w'], // 4
+                [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '], // 5
+                [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '], // 6
+                [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','w'], // 7
+                [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','w'], // 8
+                [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','w'], // 9
+                [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','w'], // 10
+                ['w','w','w','w','w','w','w','w','w',' ',' ','w','w','w','w','w','w','w','w','w']]; // 11
             
-            room.background.addFloorObject(
-                new Lava({x: 0, y: 0, width: 1000, height: 600}));
-        };
-        
-        function makeWalls(){            
+            var tiles = {
+                'w': {type: Wall}, 
+                't': {type: Tile, params: {spriteName: 'tile'} },
+                ' ': {type: Lava}
+            };
             
-            //top
-            room.addWall([0, 0], [1000, WT]);
-            
-            //down
-            room.addWall([0, 600 - WT], [1000, 600]);
+            this.room.tileGrid.setGrid(tiles, grid);
         };
         
         function makeObjects(){

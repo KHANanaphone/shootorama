@@ -32,7 +32,7 @@ function Shooter(vars) {
         this.dash = {
             dashAwayRadius: 125,
             duration: 18,
-            speed: 20
+            speed: 14
         };
 
         this.knockback = {

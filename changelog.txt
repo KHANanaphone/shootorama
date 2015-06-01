@@ -18,6 +18,12 @@ Strafe: Hold P or C
 Changelog
 ---------
 
+5/31/2015
+- Completely changed a bunch of a stuff to a "tileset", to make it easier for me to actually make levels and stuff
+- A bunch of rooms added
+- Lava and stuff
+- I don't know, I'm not writing it all down
+
 5/7/2015
 - Tutorial-type level added
 - There's now a "background layer" where I can add images, colors, and text

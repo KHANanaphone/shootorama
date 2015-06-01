@@ -14,6 +14,7 @@ function EnemyProjectile(vars){
         this.vector = vars.vector;
         this.triggersIllusion = true;
         this.playerDamage = vars.damage ? vars.damage: 1;
+        this.knockback = vars.knockback ? vars.knockback : null;
         
         this.hitbox = {
             type: 'enemyWeapon',

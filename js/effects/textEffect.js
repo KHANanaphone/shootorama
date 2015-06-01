@@ -14,8 +14,8 @@ function TextEffect(target, vars){
     
     this.outlineText = new createjs.Text();
     this.outlineText.alpha = 0.8;
-    this.outlineText.x = 0;
-    this.outlineText.y = target.size * -0.8;
+    this.outlineText.x = target.x;
+    this.outlineText.y = target.y + target.size * -0.8;
     this.outlineText.font = size + ' bitrod';
     this.outlineText.color = 'white';
     this.outlineText.textAlign = 'center';
@@ -24,8 +24,8 @@ function TextEffect(target, vars){
     
     this.text = new createjs.Text();
     this.text.alpha = 0.8;
-    this.text.x = 0;
-    this.text.y = target.size * -0.8;
+    this.text.x = target.x + 0;
+    this.text.y = target.y + target.size * -0.8;
     this.text.font = size + ' bitrod';
     this.text.color = color;
     this.text.textAlign = 'center';
@@ -36,8 +36,8 @@ TextEffect.prototype.tick = function(){
     
     if(!this.started){
         
-        this.target.addChild(this.outlineText);
-        this.target.addChild(this.text);
+        Game.currentRoom.addChild(this.outlineText);
+        Game.currentRoom.addChild(this.text);
         this.started = true;
     };
     

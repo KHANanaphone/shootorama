@@ -11,9 +11,11 @@ function MovementManager(player){
         if(self.dashCooldown > 0)
             return;
         
+        var direction = getDirection(controlState, player.facing);
+        
         self.dash = {
             duration: Player.DASH_DURATION_TICKS,
-            direction: player.facing
+            direction: direction
         };
         
         self.dashCooldown = Player.DASH_COOLDOWN_TICKS;
@@ -24,6 +26,34 @@ function MovementManager(player){
             }), true
         );
     });
+    
+    function getDirection(controlState, facing){
+        
+        var L = controlState.left.isDown,
+            U = controlState.up.isDown,
+            R = controlState.right.isDown,
+            D = controlState.down.isDown;
+        
+        if(L){
+            if(U) return -135;
+            else if(D) return 135;            
+            return 180;
+        }
+        else if(U){
+            if(R) return -45;
+            return -90;
+        }
+        else if(R){
+            if(D) return 45;
+            return 0;
+        }
+        else if(D){
+            return 90;
+        }
+        else{
+            return facing;
+        }        
+    };
 };
 
 MovementManager.prototype.endMovement = function(){
