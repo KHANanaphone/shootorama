@@ -9,7 +9,7 @@
             ['r130', 'r131', 'r132', null, null],
             ['r140', 'r141', 'r142', null, null]
         ],
-        initialX: 1,
-        initialY: 0
+        initialX: 0,
+        initialY: 4
     };    
 })();
