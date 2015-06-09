@@ -43,7 +43,7 @@ RoomDefs.r130 = {
             this.room.addObject(this.bottomDoor, {fade: true});
             
             this.room.addObject(
-                new Health({x: 500, y: 300, type: 'heart', onCollect: spawnEnemies}));
+                new Health({x: 500, y: 300, type: 'maxup', onCollect: spawnEnemies}));
         };
             
         function spawnEnemies(){

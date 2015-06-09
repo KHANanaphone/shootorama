@@ -11,7 +11,7 @@ function GhostTutorial2(vars){
         
         this.speed = 0.7;
         this.stunTime = 0;
-        this.playerDamage = 2;
+        this.touchDamage = 2;
 
         this.dash.triggerRadius = 0;
         

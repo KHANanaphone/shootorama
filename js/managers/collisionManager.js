@@ -242,7 +242,7 @@ CollisionManager.getTargets = function(point, lookingFor){
           point.y > obj.y + hitbox.height / 2)
             continue;
             
-        targets.push({x: point.x, y: point.y, obj: obj});
+        targets.push(obj);
     }    
     
     return targets;

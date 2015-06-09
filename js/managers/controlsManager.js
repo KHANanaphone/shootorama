@@ -26,6 +26,14 @@ function ControlsManager(player){
     
     this.events = {};
     
+    document.onkeypress = function(e){
+        
+        var code = e.keyCode;
+        
+        if(code >= 49 && code <= 57)
+            player.weaponManager.selectWeaponByIndex(code - 48);
+    };
+    
     document.onkeydown = function(e){
         
         var code = e.keyCode;

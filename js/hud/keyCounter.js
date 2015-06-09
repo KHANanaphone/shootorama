@@ -14,15 +14,16 @@ function KeyCounter(vars){
     
     function setupComponents(){
         
-        var sprite = SpriteManager.makeSprite('key');
+        var sprite = SpriteManager.makeSprite('key', true);
         this.addChild(sprite);
 
         var text = new createjs.Text();
-        text.x = 15;
+        text.x = 60;
+        text.y = 10;
         text.font = '30px bitrod';
         text.text = this.keys;
         text.color = '#000';   
-        text.textAlign = 'left';
+        text.textAlign = 'right';
         this.text = text;
         this.addChild(text);        
     };

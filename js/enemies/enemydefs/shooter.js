@@ -16,16 +16,16 @@ function Shooter(vars) {
         //required
         this.clockwise = false;
         this.defaultState = 'moveAndShoot';
-        this.playerDamage = 5;
+        this.touchDamage = 5;
         this.shotDamage = 5;
         this.shotSpeed = 6;
 
         //default stats        
-        this.stunTime = 120;
+        this.stunTime = 180;
         this.speed = 2;
         this.moveInRadius = 275;
         this.stunnable = 1;        
-        this.shootingFrequency = 80;
+        this.shootingFrequency = 100;
         
         this.hits.damageScaling.empowered = 1.33;
 
@@ -63,7 +63,7 @@ function Shooter(vars) {
             }
         };
         
-        if(this.statedef.time % this.shootingFrequency == 8)
+        if(this.statedef.time > 60 && this.statedef.time % this.shootingFrequency == 8)
             this.shoot();
 
         var playerDist = this.playerDistance();
@@ -139,7 +139,7 @@ function Shooter(vars) {
             this.statedef.changeState('moveAndShoot');
     };
 
-    prototype.hit = function(source) {
+    prototype.hit = function(source, damage) {
 
         var dodge = true;
         if(this.stunned || source.empowered){
@@ -154,7 +154,7 @@ function Shooter(vars) {
         if(dodge)
             this.statedef.changeState('dashSide');
         
-        this.Enemy_hit(source);
+        this.Enemy_hit(source, damage);
     };
 
     prototype.handleCollision = function(obj) {
@@ -174,7 +174,8 @@ function Shooter(vars) {
             y: Math.sin(rads) * this.shotSpeed
         }; 
         
-        this.parent.addObject(new EnemyProjectile({
+        this.parent.addObject(new Projectile({
+            type: 'enemy',
             spriteName: 'fire',
             source: this,
             x: this.x,

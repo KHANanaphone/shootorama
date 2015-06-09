@@ -15,7 +15,7 @@ function Ghost (vars){
         
         //required
         this.defaultState = 'chasing';
-        this.playerDamage = 5; 
+        this.touchDamage = 5; 
         
         //default stats        
         this.stunTime = 90;        

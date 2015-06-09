@@ -10,7 +10,7 @@ function GhostTutorial1(vars){
     
     function setupVars(){
         
-        this.playerDamage = 2;
+        this.touchDamage = 2;
         this.speed = 0.5;
 
         this.knockback.ticks = 11;

@@ -37,7 +37,7 @@ RoomDefs.r100 = {
         
         function makeObjects(){
 
-            this.room.addObject(new Health({x: 75, y: 525, type: 'heart'}));
+            this.room.addObject(new Health({x: 75, y: 525, type: 'maxup'}));
             this.room.addObject(new Turret({x: 500, y: 300, rotating: true}))
         };
     }

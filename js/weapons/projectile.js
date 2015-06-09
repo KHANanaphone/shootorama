@@ -1,4 +1,4 @@
-function EnemyProjectile(vars){
+function Projectile(vars){
     
     this.Container_constructor();
     
@@ -11,16 +11,22 @@ function EnemyProjectile(vars){
         
         this.x = vars.x;
         this.y = vars.y;
+        this.width = vars.width ? vars.width : 24;
+        this.height = vars.height ? vars.height: 24;
         this.vector = vars.vector;
-        this.triggersIllusion = true;
-        this.playerDamage = vars.damage ? vars.damage: 1;
+        this.damage = vars.damage ? vars.damage: 1;
         this.knockback = vars.knockback ? vars.knockback : null;
+        this.sourceType = vars.type;
+        this.empowered = vars.empowered;
+
+        this.triggersIllusion = (this.sourceType == 'enemy');
+        var collides = this.sourceType == 'enemy' ? ['player','solid'] : ['enemy','solid'];
         
         this.hitbox = {
-            type: 'enemyWeapon',
-            collidesWith: ['player','solid','illusion'],
-            width: 24,
-            height: 24
+            type: 'projectile',
+            collidesWith: collides,
+            width: this.width,
+            height: this.height
         };
     };
     
@@ -35,7 +41,7 @@ function EnemyProjectile(vars){
 
 (function(){
         
-    var prototype = createjs.extend(EnemyProjectile, createjs.Container);
+    var prototype = createjs.extend(Projectile, createjs.Container);
       
     prototype.tick = function(){
         
@@ -44,16 +50,11 @@ function EnemyProjectile(vars){
     };
     
     prototype.handleCollision = function(obj){
+
+        if(obj.hit)
+            obj.hit(this, this.damage);
         
-        if(obj.hitbox.type == 'player'){
-            
-            obj.hit(this);
-            this.destroy();
-        }
-        else if(obj.hitbox.type == 'solid'){
-            
-            this.destroy();
-        }
+        this.destroy();        
     };
     
     prototype.destroy = function(){
@@ -61,5 +62,5 @@ function EnemyProjectile(vars){
         this.parent.removeChild(this);
     };
     
-    EnemyProjectile = createjs.promote(EnemyProjectile, 'Container');
+    Projectile = createjs.promote(Projectile, 'Container');
 })();

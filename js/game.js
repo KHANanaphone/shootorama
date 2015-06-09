@@ -2,7 +2,8 @@ var Game = {
     playingArea: null,
     hudArea: null,
     player: null,
-    stage: null
+    stage: null,
+    checkpoint: null
 };
 
 Game.init = function(stage){
@@ -29,8 +30,34 @@ Game.tryTransitionRoom = function(direction){
         return false;
     
     Game.player.prepareForRoomTransition();
+    
+    Game.currentRoom.leave();
     Game.currentRoom = Game.level.currentRoom;
+    Game.currentRoom.enter();
+    
     Game.playingArea.transitionRoom(Game.level.currentRoom, direction);    
     
     return true;
+};
+
+Game.checkpointTriggered = function(){
+    
+    Game.level.respawnRoom = Game.currentRoom;
+};
+
+Game.playerDied = function(){
+    
+    if(Game.player.lives == 0)
+        return;
+    
+    Game.player.lives--;
+    Game.player.health = Game.player.maxHealth;  
+    Game.player.dead = false;  
+    
+    debugger;
+    Game.currentRoom.leave();  
+    Game.currentRoom = Game.level.warpToRoom();
+    Game.currentRoom.enter();
+    
+    Game.playingArea.fadeInRoom(Game.level.respawnRoom);    
 };

@@ -42,7 +42,7 @@ function Enemy(vars){
         this.hits = {
             
             damageScaling : {
-                weak: 0.16,
+                weak: 0.21,
                 normal: 1,
                 strong: 2,
                 stunned: 1,
@@ -147,16 +147,16 @@ function Enemy(vars){
     
         if (obj.hitbox.type == 'solid')
             CollisionManager.push(this, obj);
-        else if (obj.hitbox.type == 'player' && this.playerDamage)            
-            obj.hit(this);
+        else if (obj.hitbox.type == 'player' && this.touchDamage)            
+            obj.hit(this, this.touchDamage);
     };
     
-    prototype.hit = function(source){
+    prototype.hit = function(source, damage){
     
         if (this.dead)
             return;
 
-        this.hitManager.hit(source);
+        this.hitManager.hit(source, damage);
     };
     
     prototype.addHealth = function(amount){
@@ -195,6 +195,7 @@ function Enemy(vars){
             
         for(var i = 0; i < this.drop.length; i++)
             ItemManager.dropItem(this, this.drop[i]);
+        
     };
     
     prototype.move = function(vector, angle){
@@ -301,12 +302,15 @@ function Enemy(vars){
         if(this.statedef.time == 20) {
             
             this.dispatchEvent(new createjs.Event('dead'));  
-            this.parent.removeObject(this);     
+            this.parent.removeObject(this);   
+            this.effectsManager.clearAll();  
         };
     }
         
     prototype.state_idle = function(){
         
+        if(Game.player.dead == false)
+            this.statdef.changeState(this.defaultState);            
     };
     
     Enemy = createjs.promote(Enemy, 'Container');

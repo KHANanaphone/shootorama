@@ -11,7 +11,7 @@ function GhostArmored(vars){
     function setupVars(){
         
         this.speed = 2.1;
-        this.playerDamage = 10;
+        this.touchDamage = 10;
         
         this.hits.damageScaling = {
             weak: 0,
@@ -33,14 +33,14 @@ function GhostArmored(vars){
         
     var prototype = createjs.extend(GhostArmored, Ghost);
     
-    prototype.hit = function(source){
+    prototype.hit = function(source, damage){
         
         this.hits.combo = {
             startup: this.stunned || source.empowered ? 40: 0,
             window: this.stunned || source.empowered ? 12: 0
         };
         
-        this.Ghost_hit(source);        
+        this.Ghost_hit(source, damage);        
     };
     
     GhostArmored = createjs.promote(GhostArmored, 'Ghost');

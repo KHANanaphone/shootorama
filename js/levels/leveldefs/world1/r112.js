@@ -37,7 +37,7 @@ RoomDefs.r112 = {
         function makeObjects(){
             
             this.room.addObject(
-                new Key({x: 900, y: 150, onCollect: keyCollected}), {persistence: 'persist'});    
+                new Coin({x: 900, y: 150, value: 5, onCollect: keyCollected}), {persistence: 'persist'});    
         };
         
         function keyCollected(){

@@ -50,14 +50,6 @@ function Item(vars){
     
     prototype.tick = function(){
         
-        if(this.collected){
-            
-            this.alpha -= 0.1;
-            
-            if(this.alpha <= 0)
-                this.parent.removeChild(this);
-        }
-        
         if(this.movement){
             
             var scale = this.movement.ticksLeft / 60;
@@ -91,6 +83,8 @@ function Item(vars){
         
         if(this.onCollect)
             this.onCollect();
+        
+        this.destroy();
     };
     
     prototype.destroy = function(){

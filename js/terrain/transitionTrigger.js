@@ -10,7 +10,7 @@ function TransitionTrigger(side, x, y, width, height){
     this.ignoreTiles = true;
         
     this.hitbox = {
-        type: 'trigger',
+        type: 'transitionTrigger',
         collidesWith: ['player', 'enemy'],
         width: width,
         height: height

@@ -10,7 +10,6 @@ function Area(vars){
         this.x = vars.x;
         this.y = vars.y;
         this.damage = vars.damage;
-        this.playerDamage = vars.playerDamage;
         this.radius = vars.radius;
         this.duration = vars.duration;
         this.growth = vars.growth ? vars.growth : 0;
@@ -60,7 +59,7 @@ function Area(vars){
     
     prototype.handleCollision = function(obj){
         
-        obj.hit(this);
+        obj.hit(this, this.damage);
     };
     
     Area = createjs.promote(Area, 'Container');

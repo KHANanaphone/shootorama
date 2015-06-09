@@ -5,11 +5,9 @@ function HitManager(enemy){
     this.ticksSinceLastHit = 0;
 }
 
-HitManager.prototype.hit = function(source){
+HitManager.prototype.hit = function(source, damage){
     
     var dmg, type;
-    
-    console.log(this.ticksSinceLastHit + ' ' + this.enemy.hits.combo.startup);
     
     if(source.empowered){
         
@@ -18,20 +16,20 @@ HitManager.prototype.hit = function(source){
         
         this.refreshRingEffect(true);
         type = 'empowered';
-        dmg = source.empoweredDamage * this.enemy.hits.damageScaling.empowered;
+        dmg = damage * this.enemy.hits.damageScaling.empowered;
     }
     else if(this.enemy.stunnable == 2 && this.ticksSinceLastHit >= 30){
         
         this.enemy.statedef.changeState('stunned'); 
         this.refreshRingEffect(true);   
         type = 'stun';     
-        dmg = source.damage * this.enemy.hits.damageScaling.counter;
+        dmg = damage * this.enemy.hits.damageScaling.counter;
     }
     else if(this.currentTicks > 0 && this.currentTicks > this.enemy.hits.combo.window){
         
         //this.refreshRingEffect(false);
         type = 'weak';            
-        dmg = source.damage * this.enemy.hits.damageScaling.weak;
+        dmg = damage * this.enemy.hits.damageScaling.weak;
     } 
     else if(this.currentTicks > 0 && 
             this.currentTicks <= this.enemy.hits.combo.window &&
@@ -39,13 +37,13 @@ HitManager.prototype.hit = function(source){
              
         this.refreshRingEffect(true);    
         type = 'strong';                  
-        dmg = source.damage * this.enemy.hits.damageScaling.strong;      
+        dmg = damage * this.enemy.hits.damageScaling.strong;      
     }
     else{
         
         this.refreshRingEffect(false);
         type = 'normal';            
-        dmg = source.damage * this.enemy.hits.damageScaling.normal;
+        dmg = damage * this.enemy.hits.damageScaling.normal;
     }
     
     this.ticksSinceLastHit = 0;
@@ -60,6 +58,9 @@ HitManager.prototype.hit = function(source){
 };
 
 HitManager.prototype.textEffect = function(type, damage){
+    
+    if(damage == 0)
+        return;
     
     var params = {text: damage};
     

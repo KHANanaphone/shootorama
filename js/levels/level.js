@@ -3,6 +3,7 @@ var RoomDefs = {};
 
 function Level(id){
     
+    Game.level = this;
     var levelDef = LevelDefs[id];
     
     this.map = levelDef.map;
@@ -16,6 +17,15 @@ function Level(id){
         this.rooms[i] = [];
     
     this.currentRoom = this.getRoom(this.x, this.y);
+    this.respawnRoom = this.currentRoom;
+};
+
+Level.prototype.isRespawnRoom = function(room){
+
+    if(this.respawnRoom == room)
+        return true;
+    
+    return false;
 };
 
 //get the room, and load it if it hasn't been loaded yet. returns null if there's no room there
@@ -24,7 +34,7 @@ Level.prototype.getRoom = function(x, y){
     if(!this.map[y] || !this.map[y][x])
         return false;
     if(!this.rooms[y][x])
-        this.rooms[y][x] = new Room(RoomDefs[this.map[y][x]]);
+        this.rooms[y][x] = new Room(RoomDefs[this.map[y][x]], x, y);
     
     return this.rooms[y][x];
 };
@@ -51,9 +61,21 @@ Level.prototype.tryTransitionRoom = function(direction){
     this.x = x;
     this.y = y;
     
-    this.currentRoom.leave();
     this.currentRoom = nextRoom;
-    this.currentRoom.enter();    
     
     return true;
+};
+
+Level.prototype.warpToRoom = function(x, y){
+    
+    if(!x && x != 0){
+        x = this.respawnRoom.roomX;
+        y = this.respawnRoom.roomY;
+    };
+    
+    this.x = x;
+    this.y = y;
+    this.currentRoom = this.getRoom(x, y);
+    
+    return this.currentRoom;
 };

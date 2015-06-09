@@ -19,7 +19,7 @@ function HudArea(){
         
         this.healthMeter = new HealthMeter({
             x:10,
-            y:10
+            y:15
         });
         this.addChild(this.healthMeter);
         
@@ -30,16 +30,22 @@ function HudArea(){
         this.addChild(this.dashMeter); 
         
         this.keys = new KeyCounter({
-            x: 930,
-            y: 90
+            x: 900,
+            y: 60
         });
         this.addChild(this.keys);
         
         this.coins = new CoinCounter({
-            x: 930,
-            y: 35
+            x: 900,
+            y: 10
         });
         this.addChild(this.coins);
+        
+        this.weapons = new WeaponBar({
+            x: 180,
+            y: 52
+        });
+        this.addChild(this.weapons);
     };
     
     function setupEvents(){

@@ -69,7 +69,7 @@ function Door(vars){
         if(this.type == 'locked' && obj.keys > 0){
             obj.addKeys(-1);
             this.parent.removeObject(this);
-        }
+        }        
     };
     
     prototype.hit = function(source){

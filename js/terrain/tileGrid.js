@@ -147,6 +147,29 @@ function TileGrid(room){
             return tiles[tiles.length - 1];
     };
     
+    prototype.getTileOfType = function(type){
+        
+        for(var i = 0; i < 12; i++){
+        
+            var row = this.tiles[i];
+
+            for(var j = 0; j < 20; j++){
+                
+                var array = row[j];
+                
+                for(var k = 0; k < array.length; k++){
+                    
+                    var tile = array[k];
+
+                    if(tile.constructor.name == type)
+                        return tile;                    
+                };
+            };
+        };
+        
+        return null;
+    };
+    
     TileGrid = createjs.promote(TileGrid, 'Container');
     TileGrid.initialized = true;
     

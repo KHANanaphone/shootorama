@@ -18,7 +18,7 @@ function Illusion(player){
         
         this.hitbox = {
             type: 'illusion',
-            collidesWith: ['enemy', 'enemyWeapon'],
+            collidesWith: ['enemy', 'projectile'],
             width: this.player.size,
             height: this.player.size
         };

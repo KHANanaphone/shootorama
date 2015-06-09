@@ -15,6 +15,7 @@ function HealthMeter(vars){
         
         this.x = vars.x;
         this.y = vars.y;
+        this.lives = Game.player.lives;
     }
     
     function setupComponents(){
@@ -27,6 +28,17 @@ function HealthMeter(vars){
             scaleY: 1
         });
         this.addChild(this.sprite);
+
+        this.livesText = new createjs.Text();
+        this.livesText.set({
+            x: 20,
+            y: 6,
+            text: this.lives,
+            textAlign: 'center',
+            font: '30px Bitrod',
+            color: 'white'
+        });
+        this.addChild(this.livesText);
         
         this.greenMeter = new createjs.Shape();
         this.greenMeter.x = 50;
@@ -105,6 +117,8 @@ function HealthMeter(vars){
         
         var player = Game.player;
         
+        if(this.lives != player.lives)
+            this.livesText.text = player.lives;
         if(this.lastHealth < player.health){ //health went up
             
             this.redHealth = player.health;

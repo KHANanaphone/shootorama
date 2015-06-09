@@ -12,7 +12,8 @@ function Player() {
         this.health = 50;
         this.maxHealth = this.health;
         this.keys = 0;
-        this.coins = 0;
+        this.coins = 5;
+        this.lives = 3;
 
         this.facing = this.rotation;
         this.textEffects = [];
@@ -126,14 +127,14 @@ function Player() {
             this.textEffect(amount);
     };
     
-    prototype.hit = function(source) {
+    prototype.hit = function(source, damage) {
 
         if (this.dead)
             return;
         if(this.invincibilityTicks > 0)
             return;
         
-        this.addHealth(source.playerDamage * -1); 
+        this.addHealth(damage * -1); 
         
         if(this.weaponManager.empowered)
             this.weaponManager.removeEmpowered();
@@ -155,6 +156,7 @@ function Player() {
 
         this.dead = true;
         this.parent.removeChild(this);
+        Game.playerDied();
     };
     
     prototype.makeIllusion = function(){
@@ -212,12 +214,20 @@ function Player() {
                 
         this.textEffect(txt);
     };
+    
+    prototype.addLife = function(amount){
+        
+        if(amount == 0)
+            return;
+        
+        this.lives += amount;
+    };
 
     Player = createjs.promote(Player, 'Container');
     Player.initialized = true;
 })();
 
-Player.SPEED = 3.6;
+Player.SPEED = 4.5;
 Player.DASH_COOLDOWN_TICKS = 90;
 Player.DASH_THRESHOLD = 170;
 Player.DASH_SPEED_MUL = 4;

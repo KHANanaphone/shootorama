@@ -44,7 +44,6 @@ function GhostRed(vars){
                 radius: 20, 
                 growth: 3,
                 duration: 30,
-                playerDamage: 5,
                 damage: 5,
                 collidesWith: ['enemy', 'player']
             })

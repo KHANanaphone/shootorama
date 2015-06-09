@@ -103,7 +103,7 @@ RoomDefs.r111 = {
         
         this.room.removeObject(this.rightDoor, {fade: true});
         this.room.removeObject(this.topDoor, {fade: true});
-        this.room.addObject(new Health({x: 175, y: 75, type: 'large'}), {fade: true});
+        this.room.addObject(new Health({x: 200, y: 100, type: 'large'}), {fade: true});
         
         for(var i = 0; i < this.trapTiles.length; i++){
 

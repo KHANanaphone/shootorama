@@ -137,11 +137,13 @@ var prototype = createjs.extend(PlayingArea, createjs.Container);
             this.removeChild(this.currentRoom);
             this.currentRoom = this.transitionStatus.room;
             this.ready = true;
+            this.transitionStatus = null;
         }
     };
     
     prototype.handleFade = function(){
     
+        
         if(this.fadeStatus.fadeOutFramesLeft > 0){
             this.fadeStatus.fadeOutFramesLeft--;
             this.alpha -= 0.04;
@@ -150,10 +152,12 @@ var prototype = createjs.extend(PlayingArea, createjs.Container);
 
             this.fadeStatus.fadeOutFramesLeft = -1;
 
-            if(this.currentRoom)
+            if(this.currentRoom)        
                 this.removeChild(this.currentRoom);
 
             this.currentRoom = this.fadeStatus.room;
+            this.currentRoom.x = 0;
+            this.currentRoom.y = 0;
             this.addChild(this.currentRoom);
         }
         else if(this.fadeStatus.fadeInFramesLeft > 0){

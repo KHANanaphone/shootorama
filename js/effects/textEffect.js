@@ -36,8 +36,8 @@ TextEffect.prototype.tick = function(){
     
     if(!this.started){
         
-        Game.currentRoom.addChild(this.outlineText);
-        Game.currentRoom.addChild(this.text);
+        Game.currentRoom.addObject(this.outlineText);
+        Game.currentRoom.addObject(this.text);
         this.started = true;
     };
     

@@ -52,7 +52,7 @@ function Vendor(vars){
             new TextEffect(this, {
                 color: 'white',
                 text: text,
-                time: 300
+                time: 500
             })
         );
     };

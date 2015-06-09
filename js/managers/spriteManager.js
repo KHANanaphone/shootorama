@@ -3,7 +3,7 @@ var SpriteManager = {};
 SpriteManager.makeSprite = function(id, dontCenter){
     
     var spriteData = SpriteManager.spriteData[id];
-    
+      
     if(!spriteData.images)
         spriteData.images = [Resources.getResult(id)];    
     
@@ -20,7 +20,14 @@ SpriteManager.makeSprite = function(id, dontCenter){
 }
 
 SpriteManager.spriteData = {
-      
+    
+    'checkpoint' : {
+        frames : {width: 50, height: 50},
+        animations: {
+            initial: 0,
+            activated: 1
+        }
+    },
     'chest' : {
         frames : {width: 48, height: 48},
         animations: {
@@ -96,13 +103,20 @@ SpriteManager.spriteData = {
         animations: {
             initial: 0
         }
-    },   
+    },  
+    
     'lava' : {
         frames : {width: 50, height: 50},
         animations: {
             initial: 0
         }
     },      
+    'laser_weapon' : {
+        frames : {width: 40, height: 40},
+        animations: {
+            initial: 0
+        }
+    },    
     
     'orbcoin' : {
         frames : {width: 32, height: 32},
@@ -122,7 +136,32 @@ SpriteManager.spriteData = {
             initial: 0
         }
     },
+    'orbhealthplus' : {
+        frames : {width: 32, height: 32},
+        animations: {
+            initial: 0
+        }
+    },
         
+    'peaShooter_bullet' : {
+        frames: {width: 8, height: 8},
+        animations: {
+            stand: 0
+        }
+    },       
+    'peaShooter_empowered' : {
+        frames: {width: 16, height: 16},
+        animations: {
+            stand: 0
+        }
+    },  
+    'peaShooter_weapon' : {
+        frames: {width: 40, height: 40},
+        animations: {
+            stand: 0
+        }
+    },
+    
     'pit' : {
         frames: {width: 50, height: 50},
         animations: {

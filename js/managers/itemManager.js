@@ -29,11 +29,16 @@ ItemManager.dropItem = function(obj, item){
 // current status (health, weapon energy)
 ItemManager.getRandomSmallItem = function(){
     
-    var rand = Math.random();
-    var healthPct = Game.player.health / Game.player.maxHealth;
+    var healthChance = (1 - Game.player.health / Game.player.maxHealth) * 0.8;    
+    var ammoChance = (1 - Game.player.weaponManager.getAmmoPct()) * 0.6;
+    var coinChance = 1;
     
-    if(rand > healthPct)
+    var rand = Math.random() * (healthChance + ammoChance + coinChance);
+    
+    if(rand <= healthChance)
         return new Health({type: 'small'});
+    else if(rand <= healthChance + ammoChance)
+        return new Ammo({type: 'small'});
     else
         return new Coin({});
 }

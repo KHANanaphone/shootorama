@@ -78,7 +78,8 @@ function Turret(vars){
             y: Math.sin(rads) * this.shotSpeed
         };
         
-        Game.currentRoom.addObject(new EnemyProjectile({
+        Game.currentRoom.addObject(new Projectile({
+            type: 'enemy',
             spriteName: 'fire',
             source: this,
             x: start.x,

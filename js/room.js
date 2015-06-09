@@ -1,7 +1,9 @@
-function Room (roomdef) {
+function Room (roomdef, x, y) {
     
     this.Container_constructor();
         
+    this.roomX = x;
+    this.roomY = y;
     this.fading = [];    
     this.roomdef = roomdef;
     this.playerSpawnPoint = {x: 500, y: 300};
@@ -147,10 +149,18 @@ function Room (roomdef) {
     
     prototype.makePlayer = function(){
         
-        Game.player = new Player();   
+        var checkpoint = this.tileGrid.getTileOfType('Checkpoint');
+                     
+        if(checkpoint){
+            Game.player.x = checkpoint.x;
+            Game.player.y = checkpoint.y;
+        }
+        else{
+            Game.player.x = this.playerSpawnPoint.x;
+            Game.player.y = this.playerSpawnPoint.y;
+        }
+        
         Game.player.alpha = 0;
-        Game.player.x = this.playerSpawnPoint.x;
-        Game.player.y = this.playerSpawnPoint.y;
         this.addObject(Game.player, {fade: {pause: true}});
     };
     
