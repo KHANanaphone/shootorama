@@ -54,7 +54,6 @@ Game.playerDied = function(){
     Game.player.health = Game.player.maxHealth;  
     Game.player.dead = false;  
     
-    debugger;
     Game.currentRoom.leave();  
     Game.currentRoom = Game.level.warpToRoom();
     Game.currentRoom.enter();

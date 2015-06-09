@@ -1,7 +1,5 @@
 function Checkpoint(vars){
     
-    debugger;
-    
     this.spriteName = 'checkpoint';    
     this.Tile_constructor(vars);
     this.caresAbout = {player : true};
