@@ -63,6 +63,9 @@ function Enemy(vars){
     
     function setupComponents(){
                   
+        this.inner = new createjs.Container();
+        this.addChild(this.inner);
+        
         this.sprite = 
             SpriteManager.makeSprite(this.spriteName);
         
@@ -71,15 +74,7 @@ function Enemy(vars){
             scaleX: this.size / bounds.width,
             scaleY: this.size / bounds.height
         });                
-        this.addChild(this.sprite);
-        
-//        this.rect = new createjs.Shape();
-//        this.rect.graphics.beginStroke("Red")
-//            .drawRect(this.hitbox.width / -2, 
-//                      this.hitbox.height / -2, 
-//                      this.hitbox.width, 
-//                      this.hitbox.height); 
-//        this.addChild(this.rect);
+        this.inner.addChild(this.sprite);
         
         this.healthMeter = new EnemyHealthMeter(this);
         this.addChild(this.healthMeter);
@@ -225,7 +220,7 @@ function Enemy(vars){
         this.x += vector.x * 0.75;
         this.y += vector.y * 0.75;
         this.facing = newAngle;
-        this.sprite.rotation = newAngle;
+        this.inner.rotation = newAngle;
     };
     
     //distance from player in ticks
@@ -311,6 +306,18 @@ function Enemy(vars){
         
         if(Game.player.dead == false)
             this.statdef.changeState(this.defaultState);            
+    };
+    
+    prototype.textEffect = function(params){
+        
+        var vars;
+        
+        if (typeof params == 'string' || params instanceof String)
+            vars = {text: params};
+        else
+            vars = params;
+        
+        this.effectsManager.addEffect(new TextEffect(this, vars));
     };
     
     Enemy = createjs.promote(Enemy, 'Container');

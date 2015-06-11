@@ -35,13 +35,13 @@ function Tile(vars){
         
         if(this.fadeIn){
             
-            this.alpha += 0.05;
+            this.alpha += 0.04;
             if(this.alpha >= 1)
                 this.fadeIn = false;
         }
         else if(this.fadeOut){
             
-            this.alpha -= 0.05;
+            this.alpha -= 0.04;
             if(this.alpha <= 0){
                 
                 this.fadeOut = false;

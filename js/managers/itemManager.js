@@ -33,7 +33,13 @@ ItemManager.getRandomSmallItem = function(){
     var ammoChance = (1 - Game.player.weaponManager.getAmmoPct()) * 0.6;
     var coinChance = 1;
     
-    var rand = Math.random() * (healthChance + ammoChance + coinChance);
+    var total = healthChance + ammoChance + coinChance;
+    
+    console.log('Health: ' + healthChance / total + 
+                ' Ammo: ' + ammoChance / total + 
+                ' Coin: ' + coinChance / total);
+    
+    var rand = Math.random() * total;
     
     if(rand <= healthChance)
         return new Health({type: 'small'});

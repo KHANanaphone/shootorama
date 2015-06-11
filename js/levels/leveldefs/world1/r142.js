@@ -49,13 +49,7 @@ RoomDefs.r142 = {
                 x: 500,
                 y: 530,
                 textAlign: 'center'                    
-            });
-            
-            this.leftDoor = new Door({x: 15, y: 250, width: 20, height: 100});
-            this.room.addObject(this.leftDoor, {fade: true});
-            
-            this.topDoor = new Door({x: 450, y: 15, width: 100, height: 20});
-            this.room.addObject(this.topDoor, {fade: true});
+            });            
             
             this.room.addObject(new GhostTutorial2({x: 925, y: 300, drop: 'none'}), {fade: true});
         };
@@ -63,5 +57,13 @@ RoomDefs.r142 = {
     clear: function(){
         
         this.room.removeObject(this.topDoor, {fade: true});
+    },
+    start: function(){
+        
+        this.leftDoor = new Door({x: 15, y: 250, width: 20, height: 100, persistence: 'remove'});
+        this.room.addObject(this.leftDoor, {fade: true});
+
+        this.topDoor = new Door({x: 450, y: 15, width: 100, height: 20, persistence: 'remove'});
+        this.room.addObject(this.topDoor, {fade: true});
     }
 };

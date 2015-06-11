@@ -25,7 +25,7 @@ Game.init = function(stage){
 };
 
 Game.tryTransitionRoom = function(direction){
-    
+
     if(!Game.level.tryTransitionRoom(direction))
         return false;
     
@@ -53,7 +53,7 @@ Game.playerDied = function(){
     Game.player.lives--;
     Game.player.health = Game.player.maxHealth;  
     Game.player.dead = false;  
-    
+
     Game.currentRoom.leave();  
     Game.currentRoom = Game.level.warpToRoom();
     Game.currentRoom.enter();

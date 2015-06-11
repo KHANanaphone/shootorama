@@ -32,16 +32,7 @@ RoomDefs.r130 = {
         };
         
         function makeObjects(){
-            
-            this.topDoor = new Door({x: 450, y: 15, width: 100, height: 20});
-            this.room.addObject(this.topDoor, {fade: true});
-            
-            this.rightDoor = new Door({x: 965, y: 250, width: 20, height: 100});
-            this.room.addObject(this.rightDoor, {fade: true});            
-            
-            this.bottomDoor = new Door({x: 100, y: 565, width: 100, height: 20});
-            this.room.addObject(this.bottomDoor, {fade: true});
-            
+                        
             this.room.addObject(
                 new Health({x: 500, y: 300, type: 'maxup', onCollect: spawnEnemies}));
         };
@@ -58,5 +49,17 @@ RoomDefs.r130 = {
     clear: function(){
         
         this.room.removeObject(this.topDoor, {fade: true});
+    },
+    
+    start: function(){
+
+        this.topDoor = new Door({x: 450, y: 15, width: 100, height: 20, persistence: 'remove'});
+        this.room.addObject(this.topDoor, {fade: true});
+
+        this.rightDoor = new Door({x: 965, y: 250, width: 20, height: 100, persistence: 'remove'});
+        this.room.addObject(this.rightDoor, {fade: true});            
+
+        this.bottomDoor = new Door({x: 100, y: 565, width: 100, height: 20, persistence: 'remove'});
+        this.room.addObject(this.bottomDoor, {fade: true});
     }
 };

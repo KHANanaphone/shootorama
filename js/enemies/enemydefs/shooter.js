@@ -18,14 +18,14 @@ function Shooter(vars) {
         this.defaultState = 'moveAndShoot';
         this.touchDamage = 5;
         this.shotDamage = 5;
-        this.shotSpeed = 6;
+        this.shotSpeed = 12;
 
         //default stats        
         this.stunTime = 180;
         this.speed = 2;
         this.moveInRadius = 275;
         this.stunnable = 1;        
-        this.shootingFrequency = 100;
+        this.shootingFrequency = 90;
         
         this.hits.damageScaling.empowered = 1.33;
 
@@ -39,13 +39,22 @@ function Shooter(vars) {
             ticks: 9,
             velocity: 2
         };
+        
+        this.defaultWindow = {
+            startup: 0,
+            window: 0
+        };
 
         if (!vars.drop)
             this.drop = ['random', 'random'];
     };
 
     function setupComponents() {
-
+        
+        this.shotPoint = new createjs.Shape();
+        this.shotPoint.x = -7;
+        this.shotPoint.y = 14;
+        this.inner.addChild(this.shotPoint);
     };
 }
 
@@ -57,22 +66,20 @@ function Shooter(vars) {
 
         if (this.statedef.time <= 1) {
 
-            this.hits.combo = {
-                startup: 0,
-                window: 0
-            }
+            this.hits.combo = this.defaultWindow;
         };
         
-        if(this.statedef.time > 60 && this.statedef.time % this.shootingFrequency == 8)
+        if(this.statedef.time % this.shootingFrequency == 15)
             this.shoot();
 
         var playerDist = this.playerDistance();
         var playerVector = this.playerVector(this.speed);
-        var playerAngle = this.playerAngle(true) - 90;
+        var facingAngle = this.getFacingAngle();        
+        
         var angle = this.clockwise ? Math.PI / 2 : Math.PI / -2;
 
         if (playerDist > this.moveInRadius)
-            this.move(playerVector, playerAngle)
+            this.move(playerVector, facingAngle)
         else {
 
             var perpVector = {
@@ -81,14 +88,23 @@ function Shooter(vars) {
                 y: playerVector.x * Math.sin(angle) +
                     playerVector.y * Math.cos(angle),
             };
-            this.move(perpVector, playerAngle);
+            this.move(perpVector, facingAngle);
         }
 
         if (Game.player.dead) {
             this.statedef.changeState('idle');
-        } else if (playerDist < this.dash.dashAwayRadius) {
+        } else if (playerDist < this.dash.dashAwayRadius && this.statedef.time > 120) {
             this.statedef.changeState('dashAway');
         }
+    };
+    
+    prototype.getFacingAngle = function(){
+
+        var shotPoint = this.shotPoint.localToGlobal(0, 0);
+        var target = {x: Game.player.x, y: Game.player.y};        
+        var vector = {x: target.x - shotPoint.x, y: target.y - shotPoint.y};
+        
+        return Math.atan2(vector.y, vector.x) * 180 / Math.PI - 90;
     };
 
     prototype.state_dashAway = function() {
@@ -169,17 +185,20 @@ function Shooter(vars) {
         
         var rads = (this.facing + 90) * Math.PI / 180;
         
+        var shotPoint = this.shotPoint.localToGlobal(this.shotPoint.x, this.shotPoint.y);
+        
         var vector = {
             x: Math.cos(rads) * this.shotSpeed,
             y: Math.sin(rads) * this.shotSpeed
-        }; 
+        };        
         
         this.parent.addObject(new Projectile({
             type: 'enemy',
             spriteName: 'fire',
             source: this,
-            x: this.x,
-            y: this.y,
+            x: shotPoint.x,
+            y: shotPoint.y,
+            size: 16,
             vector: vector,
             damage: this.shotDamage
         }));

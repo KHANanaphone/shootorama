@@ -19,7 +19,7 @@ function Chest(vars){
             this.contents = vars.contents;
         
         this.hitbox = {
-            type: 'solid',
+            type: 'none',
             collidesWith: ['player'],
             width: 48,
             height: 48

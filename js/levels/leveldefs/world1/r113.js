@@ -47,7 +47,7 @@ RoomDefs.r113 = {
 //                [{x: 10, y: 6}, {x: 10, y: 7}, {x: 11, y: 6}, {x: 11, y: 7}]        
             ];
             
-            this.room.addObject(new Key({x: 400, y: 150}));
+            this.room.addObject(new Key({x: 400, y: 150, persistence: 'persist'}));
             
             this.ticks = 0;
             this.tileSequence = 0;

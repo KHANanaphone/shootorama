@@ -50,23 +50,28 @@ var prototype = createjs.extend(PlayingArea, createjs.Container);
                 
         if(direction == 'left'){
             next.x = -1000;
+            next.y = 0;
             Game.player.x += 1000;
+
             ticks = 75;
             enterFrom = 'right';
         }
         else if(direction == 'right'){
             next.x = 1000;
+            next.y = 0;
             Game.player.x -= 1000;
             ticks = 75;
             enterFrom = 'left';
         }
         else if(direction == 'up'){
+            next.x = 0;
             next.y = -600;
             Game.player.y += 600;
             ticks = 60;
             enterFrom = 'down';
         }
         else if(direction == 'down'){
+            next.x = 0;
             next.y = 600;
             Game.player.y -= 600;
             ticks = 60;

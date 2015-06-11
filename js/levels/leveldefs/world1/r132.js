@@ -42,11 +42,6 @@ RoomDefs.r132 = {
                 textAlign: 'center'                    
             });
             
-            this.leftDoor = new Door({x: 15, y: 250, width: 20, height: 100});
-            this.room.addObject(this.leftDoor, {fade: true});
-            
-            this.bottomDoor = new Door({x: 450, y: 565, width: 100, height: 20});
-            this.room.addObject(this.bottomDoor, {fade: true});
             
             this.room.addObject(new GhostTutorial3({x: 505, y: 225, drop: 'none'}), {fade: true});
         };
@@ -54,5 +49,13 @@ RoomDefs.r132 = {
     clear: function(){
         
         this.room.removeObject(this.leftDoor, {fade: true});
+    },
+    start: function(){
+        
+        this.leftDoor = new Door({x: 15, y: 250, width: 20, height: 100, persistence: 'remove'});
+        this.room.addObject(this.leftDoor, {fade: true});
+
+        this.bottomDoor = new Door({x: 450, y: 565, width: 100, height: 20, persistence: 'remove'});
+        this.room.addObject(this.bottomDoor, {fade: true});
     }
 };

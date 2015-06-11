@@ -31,8 +31,36 @@ RoomDefs.r110 = {
             this.room.tileGrid.setGrid(tiles, grid);
         };
         
-        function makeObjects(){
+        function makeObjects(){            
             
+            this.chest = new Chest({
+                x: 900,
+                y: 500,
+                contents: [
+                    new Health({type: 'maxup'})
+                ]
+            });
+            
+            this.room.addObject(this.chest);
         };
+    },
+    
+    start: function(){        
+        
+        if(this.complete)
+            return;
+        
+        this.botDoor = new Door({x: 450, y: 565, width: 100, height: 20, persistence: 'remove'});
+        this.room.addObject(this.botDoor, {fade: true});
+        
+        this.room.addObject(new ShooterOrange({x: 500, y: 125, persistence: 'remove'}), {fade: true});   
+        this.room.addObject(new GhostArmored({x: 400, y: 175, persistence: 'remove'}), {fade: true});
+    },
+    
+    clear: function(){
+        
+        this.complete = true;            
+        this.room.removeObject(this.botDoor, {fade: true});
+        this.chest.open();
     }
 };

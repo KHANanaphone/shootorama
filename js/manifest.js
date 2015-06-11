@@ -18,6 +18,7 @@ Main.manifest.push(
     "js/weapons/area.js",
     "js/weapons/line.js",
     "js/weapons/projectile.js",
+    "js/weapons/explosiveProjectile.js",
     
     "js/effects/circlingParticleEffect.js",
     "js/effects/colorEffect.js",
@@ -54,6 +55,9 @@ Main.manifest.push(
     "js/enemies/enemydefs/ghostTutorial3.js",
     
     "js/enemies/enemydefs/shooter.js",
+    "js/enemies/enemydefs/shooterBlue.js",
+    "js/enemies/enemydefs/shooterRed.js",
+    "js/enemies/enemydefs/shooterOrange.js",
     
     "js/terrain/tiles/tile.js",
     "js/terrain/tiles/checkpoint.js",    
@@ -143,6 +147,9 @@ Main.manifest.push(
     {id: 'qmark', src: 'img/qmark.png'},
     
     {id: 'shooter', src: 'img/shooter.png'}, 
+    {id: 'shooterBlue', src: 'img/shooterBlue.png'}, 
+    {id: 'shooterRed', src: 'img/shooterRed.png'}, 
+    {id: 'shooterOrange', src: 'img/shooterOrange.png'}, 
     {id: 'star', src: 'img/star.png'}, 
     
     {id: 'tile', src: 'img/tile.png'},     

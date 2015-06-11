@@ -14,6 +14,7 @@ function Area(vars){
         this.duration = vars.duration;
         this.growth = vars.growth ? vars.growth : 0;
         this.spriteName = vars.spriteName ? vars.spriteName : null;
+        this.triggersIllusion = true;
         
         this.hitbox = {
             type: 'weapon',

@@ -194,6 +194,24 @@ SpriteManager.spriteData = {
             initial: 0
         }
     },  
+    'shooterBlue' : {
+        frames : {width: 48, height: 48},
+        animations: {
+            initial: 0
+        }
+    },  
+    'shooterRed' : {
+        frames : {width: 48, height: 48},
+        animations: {
+            initial: 0
+        }
+    },  
+    'shooterOrange' : {
+        frames : {width: 48, height: 48},
+        animations: {
+            initial: 0
+        }
+    },  
     'star' : {
         frames : {width: 20, height: 20},
         animations: {

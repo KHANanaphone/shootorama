@@ -11,8 +11,7 @@ function Projectile(vars){
         
         this.x = vars.x;
         this.y = vars.y;
-        this.width = vars.width ? vars.width : 24;
-        this.height = vars.height ? vars.height: 24;
+        this.size = vars.size ? vars.size : 24;
         this.vector = vars.vector;
         this.damage = vars.damage ? vars.damage: 1;
         this.knockback = vars.knockback ? vars.knockback : null;
@@ -25,8 +24,8 @@ function Projectile(vars){
         this.hitbox = {
             type: 'projectile',
             collidesWith: collides,
-            width: this.width,
-            height: this.height
+            width: this.size,
+            height: this.size
         };
     };
     
@@ -34,6 +33,12 @@ function Projectile(vars){
 
         this.sprite = SpriteManager.makeSprite(vars.spriteName);        
         this.sprite.rotation = Math.atan2(this.vector.x, this.vector.y) * -180 / Math.PI;
+        
+        var bounds = this.sprite.getBounds();        
+        this.sprite.set({
+            scaleX: this.size / bounds.width,
+            scaleY: this.size / bounds.height
+        });           
         
         this.addChild(this.sprite);
     };
@@ -51,10 +56,13 @@ function Projectile(vars){
     
     prototype.handleCollision = function(obj){
 
-        if(obj.hit)
-            obj.hit(this, this.damage);
+        var dest;
         
-        this.destroy();        
+        if(obj.hit)
+            dest = obj.hit(this, this.damage);
+        
+        if(dest != false)
+            this.destroy();        
     };
     
     prototype.destroy = function(){

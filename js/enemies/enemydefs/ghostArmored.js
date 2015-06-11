@@ -2,7 +2,8 @@ function GhostArmored(vars){
     
     //prevars    
     this.spriteName = 'ghostOrange';
-    this.health = 100;
+    this.health = 125;
+    this.scale = 1.5;
     
     this.Ghost_constructor(vars);
         
@@ -10,17 +11,19 @@ function GhostArmored(vars){
     
     function setupVars(){
         
-        this.speed = 2.1;
+        this.speed = 2.8;
         this.touchDamage = 10;
         
         this.hits.damageScaling = {
-            weak: 0,
-            normal: 0.01,
-            strong: 0.02,
-            stunned: 30,
+            weak: 0.1,
+            normal: 0.2,
+            strong: 0.3,
+            stunned: 3,
             counter: 3,
             empowered: 1
         };      
+        
+        this.stunTime = 150;
         
         this.hits.combo = {
             startup: 0,

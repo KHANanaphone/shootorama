@@ -36,11 +36,6 @@ RoomDefs.r122 = {
         
         function makeObjects(){
             
-            this.topDoor = new Door({x: 450, y: 15, width: 100, height: 20});
-            this.room.addObject(this.topDoor, {fade: true});
-            
-            this.leftDoor = new Door({x: 15, y: 250, width: 20, height: 100});
-            this.room.addObject(this.leftDoor, {fade: true});
             
             this.rightDoor = new Door({x: 965, y: 250, width: 20, height: 100, type: 'locked'});
             this.room.addObject(this.rightDoor);
@@ -57,6 +52,12 @@ RoomDefs.r122 = {
         
         if(this.cleared)
             return;
+        
+        this.topDoor = new Door({x: 450, y: 15, width: 100, height: 20, persistence: 'remove'});
+        this.room.addObject(this.topDoor, {fade: true});
+
+        this.leftDoor = new Door({x: 15, y: 250, width: 20, height: 100, persistence: 'remove'});
+        this.room.addObject(this.leftDoor, {fade: true});
         
         this.wavesLeft = 2;
         this.wave();

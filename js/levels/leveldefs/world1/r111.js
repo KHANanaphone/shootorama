@@ -83,10 +83,10 @@ RoomDefs.r111 = {
         this.ticks = 0;
         this.enemiesLeft = 16;
         
-        this.topDoor = new Door({x: 150, y: 15, width: 100, height: 20});
+        this.topDoor = new Door({x: 150, y: 15, width: 100, height: 20, persistence: 'remove'});
         this.room.addObject(this.topDoor, {fade: true});
 
-        this.rightDoor = new Door({x: 965, y: 50, width: 20, height: 500});
+        this.rightDoor = new Door({x: 965, y: 50, width: 20, height: 500, persistence: 'remove'});
         this.room.addObject(this.rightDoor);
         
         for(var i = 0; i < this.trapTiles.length; i++){

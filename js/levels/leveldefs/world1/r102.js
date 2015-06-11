@@ -53,10 +53,10 @@ RoomDefs.r102 = {
         this.room.addObject(new Shooter({x: 500, y: 75, drop: 'none'}));
         this.room.addObject(new Shooter({x: 500, y: 525, drop: 'none'}));
         
-        this.leftDoor = new Door({x: 15, y: 250, width: 20, height: 100});
+        this.leftDoor = new Door({x: 15, y: 250, width: 20, height: 100, persistence: 'remove'});
         this.room.addObject(this.leftDoor, {fade: true});
 
-        this.rightDoor = new Door({x: 965, y: 250, width: 20, height: 100});
+        this.rightDoor = new Door({x: 965, y: 250, width: 20, height: 100, persistence: 'remove'});
         this.room.addObject(this.rightDoor, {fade: true});
         
     },

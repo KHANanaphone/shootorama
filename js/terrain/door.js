@@ -13,7 +13,7 @@ function Door(vars){
         this.width = vars.width;
         this.height = vars.height;
         this.pushPriority = 9999;
-        this.persistence = 'persist';
+        this.persistence = vars.persistence ? vars.persistence : 'persist';
         this.type = vars.type ? vars.type : 'normal';
         
         this.hitbox = {
@@ -33,9 +33,11 @@ function Door(vars){
         else if(this.type == 'shootable')
             color = '#F00';
         else if(this.type == 'locked')
+            color = '#CCC'
+        else if(this.type == 'goldLocked')
             color = '#FFD700';
         else
-            color = '#666';
+            color = '#333';
         
         var rect = new createjs.Shape();
         rect.graphics.beginFill(color)

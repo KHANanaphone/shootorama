@@ -2,17 +2,17 @@ function Player() {
     
     this.Container_constructor();
 
-    setupVars.bind(this)();
-    setupComponents.bind(this)();
-    setupEvents.bind(this)();
+    setupVars.call(this);
+    setupComponents.call(this);
+    setupEvents.call(this);
 
     function setupVars() {
 
         this.size = Player.HITBOX_SIZE;
-        this.health = 50;
+        this.health = 70;
         this.maxHealth = this.health;
-        this.keys = 0;
-        this.coins = 5;
+        this.keys = 1;
+        this.coins = 0;
         this.lives = 3;
 
         this.facing = this.rotation;

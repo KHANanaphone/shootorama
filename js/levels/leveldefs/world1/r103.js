@@ -6,8 +6,6 @@ RoomDefs.r103 = {
         makeTiles.call(this);
         makeObjects.call(this);
         
-        this.room.playerSpawnPoint = {x: 400, y: 450};
-        
         function makeTiles(){
             
             var grid = 

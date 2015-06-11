@@ -61,7 +61,7 @@ RoomDefs.r120 = {
                 item: new Key({}),
                 price: 15,
                 vendor: this.vendor,
-                vendorQuote: "Don't get into too much trouble with that key."
+                vendorQuote: "Don't go north unless you're looking for a fight..."
             });
             this.room.addObject(key);
         };
