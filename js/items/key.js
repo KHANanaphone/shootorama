@@ -1,7 +1,13 @@
 function Key(vars){
     
     this.size = 40;    
-    this.spriteName = 'key';    
+    this.type = vars.type ? vars.type : 'metal';
+    
+    if(vars.type == 'gold')
+        this.spriteName = 'goldkey';
+    else
+        this.spriteName = 'key'; 
+    
     this.Item_constructor(vars);
 };
 
@@ -11,7 +17,10 @@ function Key(vars){
     
     prototype.collect = function(obj){
         
-        obj.addKeys(1);
+        if(this.type == 'gold')
+            obj.addKeys('gold');
+        else
+            obj.addKeys(1);
     };
     
     Key = createjs.promote(Key, 'Item');

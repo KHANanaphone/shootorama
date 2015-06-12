@@ -7,7 +7,7 @@ function Health(vars){
         this.spriteName = 'orbhealth';
     }
     if(this.type == 'large'){
-        this.size = 24;
+        this.size = 32;
         this.spriteName = 'orbhealth';
     }
     else if(this.type == 'maxup'){

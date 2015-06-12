@@ -4,10 +4,10 @@ function Checkpoint(vars){
     this.Tile_constructor(vars);
     this.caresAbout = {player : true};
     
-    if(Game.level.isRespawnRoom(vars.room)){        
-        this.sprite.gotoAndStop('activated');
-        this.activated = true;
-    }
+    if(Game.level.isRespawnRoom(vars.room))
+        this.setActive(true);
+    else
+        this.setActive(false);
 };
 
 (function(){
@@ -19,10 +19,21 @@ function Checkpoint(vars){
         if(this.activated)
             return;
         
-        this.activated = true;
         Game.checkpointTriggered();
-        this.sprite.gotoAndStop('activated');
         player.textEffect('Checkpoint');
+        this.setActive(true);
+    };
+    
+    prototype.setActive = function(set){
+        
+        if(set){
+            this.sprite.gotoAndStop('active');
+            this.activated = true;
+        }
+        else{
+            this.sprite.gotoAndStop('inactive');
+            this.activated = false;
+        }
     };
     
     Checkpoint = createjs.promote(Checkpoint, 'Tile');

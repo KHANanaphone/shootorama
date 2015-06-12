@@ -117,12 +117,13 @@ function TileGrid(room){
         for(var i = tileArray.length - 1; i >= 0; i--){
             
             if(tileArray[i].id == tile.id){
-                tileArray.splice(i, 1);
                 
                 if(fade)
                     tile.fadeOut = true;
-                else
+                else{                    
+                    tileArray.splice(i, 1);
                     this.removeChild(tile);
+                }
                 
                 return true;
             }            

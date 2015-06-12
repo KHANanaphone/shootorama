@@ -47,7 +47,7 @@ function Tile(vars){
                 this.fadeOut = false;
                 
                 if(this.parent)
-                    this.parent.removeChild(this);
+                    this.parent.removeTile(this, false);
             };
         };
     };

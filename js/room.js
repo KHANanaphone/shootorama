@@ -61,6 +61,14 @@ function Room (roomdef, x, y) {
             if(c.persistence == 'reset' && c.init)
                 c.init();
         };
+        
+        if(this == Game.level.respawnRoom)
+            return;
+        
+        var cp = this.tileGrid.getTileOfType('Checkpoint');
+        
+        if(cp)
+            cp.setActive(false);
     };    
     
     prototype.leave = function(){
@@ -311,10 +319,12 @@ function Room (roomdef, x, y) {
         var bounds = bitmap.getBounds();        
         
         bitmap.set({
-            x: x - w/2,
-            y: y - h/2,
+            x: x,
+            y: y,
             scaleX: w / bounds.width,
-            scaleY: h / bounds.height
+            scaleY: h / bounds.height,
+            regX: w/2,
+            regY: h/2
         });
         
         this.addChild(bitmap);

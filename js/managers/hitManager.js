@@ -27,7 +27,7 @@ HitManager.prototype.hit = function(source, damage){
     }
     else if(this.currentTicks > 0 && this.currentTicks > this.enemy.hits.combo.window){
         
-        //this.refreshRingEffect(false);
+        this.refreshRingEffect(false);
         type = 'weak';            
         dmg = damage * this.enemy.hits.damageScaling.weak;
     } 

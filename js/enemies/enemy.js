@@ -22,6 +22,7 @@ function Enemy(vars){
         this.initialY = vars.y;
         this.x = vars.x;
         this.y = vars.y;
+        this.ticks = 0;
         this.maxHealth = this.health;
         this.pushPriority = 0;
         this.stunTime = this.stunTime ? this.stunTime : 120;
@@ -120,6 +121,7 @@ function Enemy(vars){
     
     prototype.tick = function(){   
         
+        this.ticks++;
         this.hitManager.tick();
         this.healthMeter.tick();
         manageState.call(this);
@@ -195,6 +197,8 @@ function Enemy(vars){
     
     prototype.move = function(vector, angle){
         
+        if(!vector)
+            vector = {x: 0, y: 0};
         if(!angle)
             angle = this.facing;
         

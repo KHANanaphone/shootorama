@@ -9,9 +9,10 @@ function Player() {
     function setupVars() {
 
         this.size = Player.HITBOX_SIZE;
-        this.health = 70;
+        this.health = 50;
         this.maxHealth = this.health;
         this.keys = 1;
+        this.goldkey = false;
         this.coins = 0;
         this.lives = 3;
 
@@ -174,6 +175,13 @@ function Player() {
                 
         if(amount == 0)
             return;
+        
+        if(amount == 'gold'){
+            this.goldkey = true;
+            this.textEffect('Got the gold key!');
+            this.keys = 99;
+            return;
+        }
         
         this.keys += amount;
         

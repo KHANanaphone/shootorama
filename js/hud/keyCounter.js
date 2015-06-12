@@ -10,12 +10,17 @@ function KeyCounter(vars){
         this.x = vars.x;
         this.y = vars.y;
         this.keys = 0;
+        this.goldkey = false;
     };
     
     function setupComponents(){
         
-        var sprite = SpriteManager.makeSprite('key', true);
-        this.addChild(sprite);
+        this.sprite = SpriteManager.makeSprite('key', true);
+        this.addChild(this.sprite);
+        
+        this.goldsprite = SpriteManager.makeSprite('goldkey', true);
+        this.goldsprite.alpha = 0;
+        this.addChild(this.goldsprite);
 
         var text = new createjs.Text();
         text.x = 60;
@@ -35,10 +40,16 @@ function KeyCounter(vars){
 
     prototype.tick = function(){
         
-        if(Game.player.keys != this.keys){
+        if(Game.player.goldkey != this.goldkey){
+            
+            this.goldkey = Game.player.goldkey;
+            this.goldsprite.alpha = this.goldkey ? 1 : 0;
+            this.sprite.alpha = this.goldkey ? 0 : 1;   
+        }
+        else if(Game.player.keys != this.keys){
             
             this.keys = Game.player.keys;
-            this.text.text = this.keys;
+            this.text.text = this.goldkey ? 'G' : this.keys;
         };
     };
     

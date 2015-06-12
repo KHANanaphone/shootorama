@@ -10,9 +10,11 @@ function Shooter(vars) {
 
     setupVars.call(this);
     setupComponents.call(this);
+        
+    this.facing = this.getFacingAngle(); //set its facing at the start
 
     function setupVars() {
-
+        
         //required
         this.clockwise = false;
         this.defaultState = 'moveAndShoot';
@@ -68,8 +70,8 @@ function Shooter(vars) {
 
             this.hits.combo = this.defaultWindow;
         };
-        
-        if(this.statedef.time % this.shootingFrequency == 15)
+    
+        if(this.statedef.time % this.shootingFrequency == 15 && this.ticks > 90)
             this.shoot();
 
         var playerDist = this.playerDistance();

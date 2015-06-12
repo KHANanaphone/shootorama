@@ -99,17 +99,23 @@ Main.manifest.push(
     "js/levels/leveldefs/world1/r121.js",
     "js/levels/leveldefs/world1/r122.js",
     "js/levels/leveldefs/world1/r123.js",
+    "js/levels/leveldefs/world1/r124.js",
     "js/levels/leveldefs/world1/r130.js",
     "js/levels/leveldefs/world1/r131.js",
     "js/levels/leveldefs/world1/r132.js",
+    "js/levels/leveldefs/world1/r134.js",
     "js/levels/leveldefs/world1/r140.js",
     "js/levels/leveldefs/world1/r141.js",
     "js/levels/leveldefs/world1/r142.js",
+    "js/levels/leveldefs/world1/r144.js",
     "js/levels/leveldefs/level1.js"
 );
 
 //images
 Main.manifest.push(
+    
+    {id: 'bossShooter', src: 'img/bossShooter.png'},
+    {id: 'bossskull', src: 'img/bossskull.png'},
     
     {id: 'checkpoint', src: 'img/checkpoint.png'},
     {id: 'chest', src: 'img/chest.png'},
@@ -123,6 +129,7 @@ Main.manifest.push(
     {id: 'ghostOrange', src: 'img/ghostOrange.png'},
     {id: 'ghostRed', src: 'img/ghostRed.png'},
     {id: 'ghostStatue', src: 'img/ghostStatue.png'},
+    {id: 'goldkey', src: 'img/goldkey.png'},
     
     {id: 'heart', src: 'img/heart.png'},
     {id: 'heartplus', src: 'img/heartplus.png'},

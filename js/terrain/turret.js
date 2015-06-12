@@ -18,7 +18,8 @@ function Turret(vars){
         this.pushPriority = 9999;
         this.ticks = 0;
         this.shotFrequency = 90;
-        this.shotSpeed = 7;
+        this.delay = vars.delay ? vars.delay : 0;
+        this.shotSpeed = vars.shotSpeed ? vars.shotSpeed : 7;
         this.damage = vars.damage ? vars.damage : 5;
         
         this.hitbox = {
@@ -51,6 +52,11 @@ function Turret(vars){
       
     prototype.tick = function(){
     
+        if(this.delay > 0){
+            this.delay--;
+            return;
+        }
+        
         this.ticks++;
         
         if(this.ticks % this.shotFrequency == 0)

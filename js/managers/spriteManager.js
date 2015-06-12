@@ -21,11 +21,18 @@ SpriteManager.makeSprite = function(id, dontCenter){
 
 SpriteManager.spriteData = {
     
+    'bossskull' : {
+        frames : {width: 100, height: 100},
+        animations: {
+            initial: 0
+        }
+    },
+    
     'checkpoint' : {
         frames : {width: 50, height: 50},
         animations: {
-            initial: 0,
-            activated: 1
+            inactive: 0,
+            active: 1
         }
     },
     'chest' : {
@@ -80,6 +87,12 @@ SpriteManager.spriteData = {
     },         
     'ghostStatue' : {
         frames : {width: 48, height: 48},
+        animations: {
+            initial: 0
+        }
+    },  
+    'goldkey' : {
+        frames : {width: 40, height: 40},
         animations: {
             initial: 0
         }
