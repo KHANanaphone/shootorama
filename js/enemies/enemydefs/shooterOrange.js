@@ -35,7 +35,7 @@ function ShooterOrange(vars){
         
         var rads = (this.facing + 90) * Math.PI / 180;
         
-        var angles = [rads - 0.8, rads - 0.4, rads, rads + 0.4, rads + 0.8];
+        var angles = [rads - 0.3, rads - 0.15, rads, rads + 0.15, rads + 0.3];
         var shotPoint = this.shotPoint.localToGlobal(this.shotPoint.x, this.shotPoint.y);
         
         for(var i = 0; i < angles.length; i++){

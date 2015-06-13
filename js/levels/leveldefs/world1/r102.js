@@ -41,6 +41,9 @@ RoomDefs.r102 = {
                 new InvisibleWall({x: 50, y: 100, width: 900, height: 25, stops: ['enemy']}));
             this.room.addObject(
                 new InvisibleWall({x: 50, y: 475, width: 900, height: 25, stops: ['enemy']}));
+            
+            this.room.addObject(new Shooter({x: 500, y: 75, drop: 'none'}));
+            this.room.addObject(new Shooter({x: 500, y: 525, drop: 'none'}));
         };
     },
     
@@ -50,8 +53,6 @@ RoomDefs.r102 = {
             return;
         
         this.enemiesLeft = 0;
-        this.room.addObject(new Shooter({x: 500, y: 75, drop: 'none'}));
-        this.room.addObject(new Shooter({x: 500, y: 525, drop: 'none'}));
         
         this.leftDoor = new Door({x: 15, y: 250, width: 20, height: 100, persistence: 'remove'});
         this.room.addObject(this.leftDoor, {fade: true});

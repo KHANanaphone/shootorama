@@ -20,7 +20,7 @@ function Shooter(vars) {
         this.defaultState = 'moveAndShoot';
         this.touchDamage = 5;
         this.shotDamage = 5;
-        this.shotSpeed = 12;
+        this.shotSpeed = 10;
 
         //default stats        
         this.stunTime = 180;
