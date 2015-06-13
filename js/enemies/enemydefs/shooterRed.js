@@ -23,14 +23,7 @@ function ShooterRed(vars){
     
     prototype.shoot = function(){
         
-        var rads = (this.facing + 90) * Math.PI / 180;
-        
-        var shotPoint = this.shotPoint.localToGlobal(this.shotPoint.x, this.shotPoint.y);
-        
-        var vector = {
-            x: Math.cos(rads) * this.shotSpeed,
-            y: Math.sin(rads) * this.shotSpeed
-        };        
+        var shotPoint = this.shotPoint.localToGlobal(this.shotPoint.x, this.shotPoint.y);  
         
         this.parent.addObject(new ExplosiveProjectile({
             type: 'enemy',
@@ -39,9 +32,9 @@ function ShooterRed(vars){
             x: shotPoint.x,
             y: shotPoint.y,
             size: 16,
-            vector: vector,
+            speed: this.shotSpeed,
             damage: this.shotDamage,
-            explodePoint: {x: Game.player.x, y: Game.player.y}
+            targetPoint: {x: Game.player.x, y: Game.player.y}
         }));
     };
     

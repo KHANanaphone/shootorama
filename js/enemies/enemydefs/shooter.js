@@ -187,7 +187,7 @@ function Shooter(vars) {
         
         var rads = (this.facing + 90) * Math.PI / 180;
         
-        var shotPoint = this.shotPoint.localToGlobal(this.shotPoint.x, this.shotPoint.y);
+        var shotPoint = this.shotPoint.localToGlobal(0, 0);
         
         var vector = {
             x: Math.cos(rads) * this.shotSpeed,

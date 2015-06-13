@@ -45,6 +45,8 @@ Main.manifest.push(
     "js/enemies/enemyHealthMeter.js",
     "js/enemies/statedef.js",
     
+    "js/enemies/enemydefs/bossShooter.js",
+    
     "js/enemies/enemydefs/ghost.js",
     "js/enemies/enemydefs/ghostArmored.js",
     "js/enemies/enemydefs/ghostBig.js",
@@ -103,10 +105,12 @@ Main.manifest.push(
     "js/levels/leveldefs/world1/r130.js",
     "js/levels/leveldefs/world1/r131.js",
     "js/levels/leveldefs/world1/r132.js",
+    "js/levels/leveldefs/world1/r133.js",
     "js/levels/leveldefs/world1/r134.js",
     "js/levels/leveldefs/world1/r140.js",
     "js/levels/leveldefs/world1/r141.js",
     "js/levels/leveldefs/world1/r142.js",
+    "js/levels/leveldefs/world1/r143.js",
     "js/levels/leveldefs/world1/r144.js",
     "js/levels/leveldefs/level1.js"
 );

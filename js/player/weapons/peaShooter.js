@@ -45,7 +45,7 @@ WeaponPeaShooter.prototype.shoot = function(empowered){
             source: this.player,
             x: this.player.x,
             y: this.player.y,
-            size: 8,
+            size: 12,
             vector: vector,
             damage: this.damage
 

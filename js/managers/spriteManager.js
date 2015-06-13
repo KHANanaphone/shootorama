@@ -20,13 +20,22 @@ SpriteManager.makeSprite = function(id, dontCenter){
 }
 
 SpriteManager.spriteData = {
-    
+        
+    'bossShooter' : {
+        frames : {width: 100, height: 100},
+        animations: {
+            green: 0,
+            blue: 1,
+            red: 2,
+            orange: 3
+        }
+    },
     'bossskull' : {
         frames : {width: 100, height: 100},
         animations: {
             initial: 0
         }
-    },
+    },    
     
     'checkpoint' : {
         frames : {width: 50, height: 50},

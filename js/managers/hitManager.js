@@ -66,20 +66,20 @@ HitManager.prototype.textEffect = function(type, damage){
     
     if(type == 'empowered' || type == 'stun'){
         params.color = 'red';
-        params.size = '35px';
+        params.size = '55px';
         params.text += '!';
     }
     else if(type == 'strong'){
         params.color = '#ccac00';
-        params.size = '30px';
+        params.size = '45px';
     }
     else if(type == 'normal'){
         params.color = 'black';
-        params.size = '25px';
+        params.size = '35px';
     }
     else if(type == 'weak'){
         params.color = '#BBB';
-        params.size = '25px';
+        params.size = '35px';
     }    
     
     this.enemy.effectsManager.addEffect(new TextEffect(this.enemy, params));
@@ -96,8 +96,8 @@ HitManager.prototype.refreshRingEffect = function(flash){
         new RingEffect(this.enemy, {
             start: this.enemy.hits.combo.startup,
             window: this.enemy.hits.combo.window,
-            color1: '#AAA',
-            color2: '#8F8'
+            color1: this.enemy.ringColor1,
+            color2: this.enemy.ringColor2
         })
     );
 };

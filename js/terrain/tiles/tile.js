@@ -23,7 +23,7 @@ function Tile(vars){
     }
     
     if(this.color){
-        this.rect.graphics.beginFill(this.color).drawRect(this.width / -2, this.height / -2, 51, 51);
+        this.rect.graphics.beginFill(this.color).drawRect(this.width / -2, this.height / -2, 50, 50);
     }
 };
 

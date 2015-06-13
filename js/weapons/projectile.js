@@ -24,15 +24,14 @@ function Projectile(vars){
         this.hitbox = {
             type: 'projectile',
             collidesWith: collides,
-            width: this.size,
-            height: this.size
+            width: this.size * 0.75,
+            height: this.size * 0.75
         };
     };
     
     function setupComponents(){
 
         this.sprite = SpriteManager.makeSprite(vars.spriteName);        
-        this.sprite.rotation = Math.atan2(this.vector.x, this.vector.y) * -180 / Math.PI;
         
         var bounds = this.sprite.getBounds();        
         this.sprite.set({
@@ -52,6 +51,8 @@ function Projectile(vars){
         
         this.x += this.vector.x;
         this.y += this.vector.y;
+        
+        this.sprite.rotation = Math.atan2(this.vector.x, this.vector.y) * -180 / Math.PI;
     };
     
     prototype.handleCollision = function(obj){

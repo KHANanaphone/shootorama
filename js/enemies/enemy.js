@@ -28,6 +28,9 @@ function Enemy(vars){
         this.stunTime = this.stunTime ? this.stunTime : 120;
         this.facing = vars.facing ? vars.facing : 0;
         
+        this.ringColor1 = vars.ringColor1 ? vars.ringColor1 : '#AAA';
+        this.ringColor2 = vars.ringColor2 ? vars.ringColor2 : '#8F8';
+        
         this.drop = vars.drop ? vars.drop : 'random';
         
         this.scale = this.scale ? this.scale : 1;

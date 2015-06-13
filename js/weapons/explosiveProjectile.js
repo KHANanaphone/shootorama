@@ -7,19 +7,29 @@ function ExplosiveProjectile(vars){
     
     function setupVars(){
         
-        this.explodePoint = vars.explodePoint ? vars.explodePoint : null;
+        this.speed = vars.speed ? vars.speed : 10;
+        this.targetPoint = vars.targetPoint ? vars.targetPoint : null;
+        
+        var xDiff = this.targetPoint.x - this.x;
+        var yDiff = this.targetPoint.y - this.y;
+        var angle = Math.atan2(yDiff, xDiff);
+        
+        this.vector = {
+            x: Math.cos(angle) * this.speed,
+            y: Math.sin(angle) * this.speed
+        };      
     };
     
     function setupComponents(){
         
-        if(this.explodePoint){
+        if(this.targetPoint){
             
             var point = new createjs.Shape();
-            point.x = this.explodePoint.x;
-            point.y = this.explodePoint.y;
+            point.x = this.targetPoint.x;
+            point.y = this.targetPoint.y;
             point.graphics.beginFill('#F00').drawCircle(0, 0, 2);
             Game.currentRoom.addChild(point);
-            this.explodePoint = point;            
+            this.targetPoint = point;            
         }
     };
 };
@@ -32,14 +42,14 @@ function ExplosiveProjectile(vars){
         
         this.Projectile_tick();
         
-        if(this.explodePoint){
+        if(this.targetPoint){
             
             var dist = Math.sqrt(
-                Math.pow(this.x - this.explodePoint.x, 2) + Math.pow(this.y - this.explodePoint.y, 2));
+                Math.pow(this.x - this.targetPoint.x, 2) + Math.pow(this.y - this.targetPoint.y, 2));
             
             if(dist < 15){
-                this.x = this.explodePoint.x;
-                this.y = this.explodePoint.y;
+                this.x = this.targetPoint.x;
+                this.y = this.targetPoint.y;
                 this.explode();
             }
         }
@@ -70,7 +80,7 @@ function ExplosiveProjectile(vars){
             })
         );
         
-        this.explodePoint.parent.removeChild(this.explodePoint);
+        this.targetPoint.parent.removeChild(this.targetPoint);
         this.destroy();
     };
     

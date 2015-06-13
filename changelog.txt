@@ -1,11 +1,8 @@
 About
 -----
+IF THE GAME IS LAGGING AT THE START, TRY REFRESHING IT. I HAVE NOT FIGURED OUT WHY THIS HAPPENS YET.
 
-Move around and shoot stuff. After you hit an enemy, two rings will
-appear around it. If you shoot it too soon, your shots will have little effect.
-If you time it just when the rings match, you will do bonus damage.
-
-Dash right when the enemy dashes at you for a bonus.
+Top-down room-based shooter game with keys and stuff. Still sort of winging it as I go. 
 
 Controls
 --------
@@ -17,6 +14,13 @@ Strafe: Hold P or C
 
 Changelog
 ---------
+
+6/13/2015
+- Completed all the stuff in first level (to some extent)
+- Pallette swaps of shooters!
+- A boss fight!
+- Gold key
+- Blah blah blah
 
 5/31/2015
 - Completely changed a bunch of a stuff to a "tileset", to make it easier for me to actually make levels and stuff
